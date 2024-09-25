@@ -4,6 +4,7 @@
 -cors
 -dotenv
 -express
+-@prisma.client
 
 ## Dev-Dependencies
 -typescript
@@ -13,6 +14,7 @@
 - @types/express
 - @types/node
 - @types/cors
+- prisma
 
 # Steps I followed
 1. npm-init;
@@ -21,3 +23,14 @@
 4. add tsc script and then run 'npm run tsc -- --init'
 5. comment in line 30: module resolutions
 6. set up some app.use in server; app.use(express.json()); app.use(cors());
+7. set up routes.ts file importing Router from express
+8. install prisma and run 'npx prisma' 'npx prisma init' which creates a new directory called prisma that has schema.prisma
+9. setup db 'npx prisma migrate dev --name initial_migration'; install prisma client package and use 'npx prisma generate'
+10. set up inital model of prisma with a simple Accounts in schema.prisma
+11. Then make a model file, and import PrismaClient and const variable = new PrismaClient() to start querying the schema db;
+12. const accountModel object and add methods that query. Export the model.
+13. add a controller for the model and import {Request, Response} from express and import the accountModel.
+14. const accountController object and add methods that use methods from the model but give a status response and such.
+15. in routes file import { Router } from express and set up variable = Router();
+16. import controllers and then set up routes: variable.get('/endpoint', controllermethod);
+17. export router and import router in server.ts. app.use(router);
