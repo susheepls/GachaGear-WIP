@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import AccountCreateType from "../interfaces/accountType";
+import { AccountCreateType } from "../interfaces/accountType";
 
 const prisma = new PrismaClient();
 
@@ -24,6 +24,16 @@ const accountModel = {
     createAccount: async(usernamePass: AccountCreateType) => {
         return await prisma.account.create({
             data: usernamePass
+        })
+    },
+    changeAccountPassword: async(accountId: string, newPassword: string) => {
+        return await prisma.account.update({
+            where: {
+                id: Number(accountId)
+            },
+            data: {
+                password: newPassword
+            }
         })
     }
 }

@@ -39,3 +39,4 @@
 20. add more fields into the schema and then run 'npx prisma migrate dev --name asdfasdf'
 21. after editing schema, have to run 'npx prisma generate' again , but must close server first
 22. edit post request to utilize type safety. just send the data as object itself;
+23. learned new RESTful practices for api so made changes accordingly in changeAccountPassword Controller
