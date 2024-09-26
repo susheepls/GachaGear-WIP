@@ -1,4 +1,4 @@
-import express, {Express} from 'express';
+import express, {Express, NextFunction, Request, Response} from 'express';
 import cors from 'cors';
 import router from './routes';
 
@@ -9,6 +9,10 @@ const port = 3000;
 app.use(express.json());
 app.use(cors());
 app.use(router);
+//error catching middleware
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    res.status(500).json({ message: "Internal Server Error", error: err.message });
+});
 
 app.get('/', (req, res) => {
     res.send('pluh!')

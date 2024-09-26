@@ -34,3 +34,5 @@
 15. in routes file import { Router } from express and set up variable = Router();
 16. import controllers and then set up routes: variable.get('/endpoint', controllermethod);
 17. export router and import router in server.ts. app.use(router);
+18. Create more routes for getting account by id and username
+19. create global middleware for error handling in server.ts
