@@ -36,3 +36,6 @@
 17. export router and import router in server.ts. app.use(router);
 18. Create more routes for getting account by id and username
 19. create global middleware for error handling in server.ts
+20. add more fields into the schema and then run 'npx prisma migrate dev --name asdfasdf'
+21. after editing schema, have to run 'npx prisma generate' again , but must close server first
+22. edit post request to utilize type safety. just send the data as object itself;

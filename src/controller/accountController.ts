@@ -31,6 +31,16 @@ const accountController = {
         }catch(error) {
             next(error);
         }
+    },
+    createAccount: async(req: Request, res: Response, next: NextFunction) => {
+        try {
+            const createAccountData = req.body;
+            const result = await accountModel.createAccount(createAccountData);
+            res.status(200);
+            res.send('Account creation: Success!')
+        }catch(error) {
+            next(error);
+        }
     }
 }
 

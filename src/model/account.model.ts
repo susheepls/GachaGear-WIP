@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import AccountCreateType from "../interfaces/accountType";
 
 const prisma = new PrismaClient();
 
@@ -20,6 +21,11 @@ const accountModel = {
             }
         })
     },
+    createAccount: async(usernamePass: AccountCreateType) => {
+        return await prisma.account.create({
+            data: usernamePass
+        })
+    }
 }
 
 export default accountModel;

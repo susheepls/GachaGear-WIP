@@ -10,5 +10,5 @@ import accountController from './controller/accountController';
 router.get('/accounts', accountController.getAllAccounts);
 router.get('/accounts/:id', accountController.getOneAccount);
 router.get('/accounts/usernames/:username',accountController.getOneAccountByUsername);
-
+router.post('/accounts', accountController.createAccount);
 export default router;
