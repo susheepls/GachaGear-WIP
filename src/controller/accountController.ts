@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
 import accountModel from '../model/account.model';
-import { AccountChangePasswordType } from "../interfaces/accountType";
+import { AccountChangePasswordType, AccountCreateType } from "../interfaces/accountType";
+import bcrypt from "bcrypt";
 
 const accountController = {
     getAllAccounts: async(req: Request, res: Response, next: NextFunction) => {
@@ -33,10 +34,13 @@ const accountController = {
             next(error);
         }
     },
-    createAccount: async(req: Request, res: Response, next: NextFunction) => {
+    createAccount: async(req: Request<{}, {}, AccountCreateType>, res: Response, next: NextFunction) => {
         try {
-            const createAccountData = req.body;
-            await accountModel.createAccount(createAccountData);
+            //bcrypt is an async function
+            // const salt = await bcrypt.genSalt(); //this line is unnecessary cuz the 10 in the next line does the same thing 
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            const createAccountUsername = req.body.username;
+            await accountModel.createAccount(createAccountUsername, hashedPassword);
             res.status(200).json({message:'Account creation: Success!'});
         }catch(error) {
             next(error);

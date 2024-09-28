@@ -14,6 +14,7 @@
 - @types/express
 - @types/node
 - @types/cors
+- @types/bcrypt
 - prisma
 
 # Steps I followed
@@ -40,3 +41,7 @@
 21. after editing schema, have to run 'npx prisma generate' again , but must close server first
 22. edit post request to utilize type safety. just send the data as object itself;
 23. learned new RESTful practices for api so made changes accordingly in changeAccountPassword Controller
+24. install bcrypt for password hashing; import it into account controller
+25. set up a salt for the post request and make varialbe that takes the password and then the salt
+26. change model of the account model for the controller changes
+27. learn how to set type to req.body using Request<{}, {}, TYPE>

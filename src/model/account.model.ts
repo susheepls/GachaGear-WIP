@@ -21,9 +21,12 @@ const accountModel = {
             }
         })
     },
-    createAccount: async(usernamePass: AccountCreateType) => {
+    createAccount: async(username: string, password: string) => {
         return await prisma.account.create({
-            data: usernamePass
+            data: {
+                username: username,
+                password: password,
+            }
         })
     },
     changeAccountPassword: async(accountId: string, newPassword: string) => {
