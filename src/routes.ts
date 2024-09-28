@@ -12,4 +12,6 @@ router.get('/accounts/:id', accountController.getOneAccount);
 router.get('/accounts/usernames/:username',accountController.getOneAccountByUsername);
 router.post('/accounts', accountController.createAccount);
 router.patch('/accounts/:id/password', accountController.changeAccountPassword);
+//login
+router.post('/accounts/login', accountController.accountLogin);
 export default router;

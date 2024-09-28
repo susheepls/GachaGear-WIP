@@ -45,3 +45,5 @@
 25. set up a salt for the post request and make varialbe that takes the password and then the salt
 26. change model of the account model for the controller changes
 27. learn how to set type to req.body using Request<{}, {}, TYPE>
+28. make account model for userlogin that fetches the user based on username
+29. set up controller for user login -> res.status401 = unauthorized -> using invalid credentials to prevent user/password mismatch

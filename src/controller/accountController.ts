@@ -67,6 +67,24 @@ const accountController = {
         }catch(error) {
             next(error);
         }
+    },
+    accountLogin: async(req: Request<{}, {}, AccountCreateType>, res: Response, next: NextFunction) => {
+        try {
+            // const username = req.body.username;
+            // const password = req.body.password;
+            const { username, password } = req.body;
+            const getAccount = await accountModel.accountLogin(username);
+
+            if(!getAccount) return res.status(401).json({message: 'invalid credentials'});
+
+            if(await bcrypt.compare(password, getAccount.password)) {
+                return res.status(200).json({message: "login success"});
+            } else {
+                return res.status(401).json({message: "invalid credentials"});
+            }
+        }catch (error){
+            next(error);
+        }
     }
 }
 

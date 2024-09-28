@@ -38,6 +38,13 @@ const accountModel = {
                 password: newPassword
             }
         })
+    },
+    accountLogin: async(username: string) => {
+        return await prisma.account.findFirst({
+            where: {
+                username: username,
+            }
+        })
     }
 }
 
