@@ -61,4 +61,7 @@ export default tseslint.config({
 10. create an api folder and make login.ts, and add a function called login fetch
 11. usual stuff like headers:{'Content-Type' : 'application/json'} and make the js object im sending to a json string by using JSON.stringify.
 12. make a new type for the data received from the login which would be a {message:string}. result.json() <- got to change it back to readable js object
-
+13. decide it was time to test login by adding some more stuff in the login page. I will set state here in the login page that is the returned message
+14. if the message is login sucess, we would redirect you the index. if not, whatever. I will pass the setstate to the login component
+15. because i am passing props, I had to set types. Dispatch<SetStateAction<string | null>> and React.FC<Props>; dont forget to set interface for that.
+16. whenever the submit form has been pressed, we set the state of the message.

@@ -1,16 +1,21 @@
-import React, { FormEvent, useState } from 'react'
+import React, { Dispatch, FormEvent, SetStateAction, useState } from 'react'
 import { AccountLoginMessageType, AccountLoginType } from '../interface/accountTypes';
 import * as loginApi from '../api/login'
 
-const LoginForm = () => {
+interface Props {
+    setLoginMessage: Dispatch<SetStateAction<string | null>>
+}
+
+const LoginForm: React.FC<Props> = (props) => {
     //useStates
     const [formData, setFormData] = useState<AccountLoginType>({username : '', password: ''})
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        // alert(JSON.stringify(formData));
+       
         const result = await loginApi.loginFetch(formData);
         const loginMessage: AccountLoginMessageType = await result?.json();
+        props.setLoginMessage(loginMessage.message)
 
         //clear state after submission
         setFormData(previousData => ({...previousData, username: '', password: ''}))
