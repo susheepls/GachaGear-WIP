@@ -48,3 +48,11 @@ export default tseslint.config({
   },
 })
 ```
+# Steps Taken
+1. Set up app.tsx and app.css by removing what was there earlier
+2. install react-router-dom to set up routes in app.tsx
+3. clear index.css
+4. setup useNavigate so when button is press, it redirects to '/login' page
+5. create loginForm component where I will be putting the form to login and such
+6. finish simple login component using 'Controlled component' . learned about using setstate to change objects; created a loginType
+
