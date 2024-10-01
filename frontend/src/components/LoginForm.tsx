@@ -1,14 +1,17 @@
 import React, { FormEvent, useState } from 'react'
-import { AccountLoginType } from '../interface/accountTypes';
+import { AccountLoginMessageType, AccountLoginType } from '../interface/accountTypes';
+import * as loginApi from '../api/login'
 
 const LoginForm = () => {
     //useStates
     const [formData, setFormData] = useState<AccountLoginType>({username : '', password: ''})
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        alert(formData);
-        
+        // alert(JSON.stringify(formData));
+        const result = await loginApi.loginFetch(formData);
+        const loginMessage: AccountLoginMessageType = await result?.json();
+
         //clear state after submission
         setFormData(previousData => ({...previousData, username: '', password: ''}))
     }

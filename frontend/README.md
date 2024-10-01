@@ -55,4 +55,10 @@ export default tseslint.config({
 4. setup useNavigate so when button is press, it redirects to '/login' page
 5. create loginForm component where I will be putting the form to login and such
 6. finish simple login component using 'Controlled component' . learned about using setstate to change objects; created a loginType
+7. installed npm i --save-dev @types/node to get process.env to work after downloading the dotenv package
+8. copy and pasted from prideland viteconfig in order to get process.env working... gotta look up whats up with that
+9. turns out for vite... to access env u must do import.meta.env so none of it matter; make sure the env variable is VITE_asdfasdfasdf
+10. create an api folder and make login.ts, and add a function called login fetch
+11. usual stuff like headers:{'Content-Type' : 'application/json'} and make the js object im sending to a json string by using JSON.stringify.
+12. make a new type for the data received from the login which would be a {message:string}. result.json() <- got to change it back to readable js object
 
