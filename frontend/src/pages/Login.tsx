@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const navigate = useNavigate();
   const [loginMessage, setLoginMessage] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
     if(loginMessage === 'login success'){
-      navigate('/');
+      navigate('/', { state: { username : username}});
     }
   }, [loginMessage]);
 
@@ -16,6 +17,7 @@ const Login = () => {
     <>
         <LoginForm
           setLoginMessage = {setLoginMessage}
+          setUsername = {setUsername}
         />
         <div>
           {loginMessage}

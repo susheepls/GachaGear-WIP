@@ -4,6 +4,7 @@ import * as loginApi from '../api/login'
 
 interface Props {
     setLoginMessage: Dispatch<SetStateAction<string | null>>
+    setUsername: Dispatch<SetStateAction<string | null>>
 }
 
 const LoginForm: React.FC<Props> = (props) => {
@@ -15,13 +16,14 @@ const LoginForm: React.FC<Props> = (props) => {
        
         const result = await loginApi.loginFetch(formData);
         const loginMessage: AccountLoginMessageType = await result?.json();
-        props.setLoginMessage(loginMessage.message)
+        props.setLoginMessage(loginMessage.message);
+        props.setUsername(formData.username);
 
         //clear state after submission
         setFormData(previousData => ({...previousData, username: '', password: ''}))
     }
 
-    //setting the useState which is the form data obj. for setstate on objects format is (old => (new)) so {...old, [newdata] : newdatavalue}
+    //setting the useState which is the form data obj. for setstate on objects format is (old => (new)) so {...old, [newdataKeyname] : newdatavalue}
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
         const value = event.target.value;

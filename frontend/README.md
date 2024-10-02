@@ -65,3 +65,8 @@ export default tseslint.config({
 14. if the message is login sucess, we would redirect you the index. if not, whatever. I will pass the setstate to the login component
 15. because i am passing props, I had to set types. Dispatch<SetStateAction<string | null>> and React.FC<Props>; dont forget to set interface for that.
 16. whenever the submit form has been pressed, we set the state of the message.
+17. add username state to login page that will pass that info to the home page after a sucessful login
+18. in order to pass info to another page, use useNavigate('/pathname', {state: {key : value} })
+19. in the home page, useState for the username passed from login, by using variable = useLocation(); variable.state.key
+20. set a ternary operator for the div being displayed, log out button if logged in
+21. log out button sets username to null and localeDtorage.removeItem('authToken') <- for future; navigate back to index
