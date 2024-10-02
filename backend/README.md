@@ -5,6 +5,7 @@
 -dotenv
 -express
 -@prisma.client
+-jsonwebtoken
 
 ## Dev-Dependencies
 -typescript
@@ -15,6 +16,7 @@
 - @types/node
 - @types/cors
 - @types/bcrypt
+- @types/jsonwebtoken
 - prisma
 
 # Steps I followed
@@ -47,3 +49,21 @@
 27. learn how to set type to req.body using Request<{}, {}, TYPE>
 28. make account model for userlogin that fetches the user based on username
 29. set up controller for user login -> res.status401 = unauthorized -> using invalid credentials to prevent user/password mismatch
+30. add package jsonwebtoken
+31. import jwt from jsonwebtoken in account controller.
+32. create env varaibles named ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET.
+33. to create secret key, open node in another terminal and use 'require('crypto').randomBytes(64).toString('hex')'
+34. copy and pasted that into envs; import dotenv and dotenv.config() in server.ts
+35. create token whenever user logs in; refactored bit of login code. if bcrypt.compare is falsy, immediately return 401
+36. const user object that is username and id key; this is the JWT payload
+37. const accesstoken using jwt.sign. takes in user, the secret key in env, an object that has expiresIn and algorithm keys
+38. return json with message key and accessTokenKey
+39. next created a middlewarefile that authenticaates token
+40. function takes in req, res and next. Must create a interface that extends request: user?: string|JWTPayload
+41. const authHeader = req.headers['authorization']; const token = authHeader && authHeader.split(' ')[1]; 
+42. req.headers['authorization'] retrieves the Authorization header from the HTTP request; 
+43. authHeader &&.. extracts the JWT token cuz its usually in a format of Bearer*space*token
+44. if there is no token return a unauthorized status
+45. verify token jwet.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>)...
+46. if there is no err, set req.user, which allows other routes to acces the user data from the req
+47. call next()

@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import accountModel from '../model/account.model';
 import { AccountChangePasswordType, AccountCreateType } from "../interfaces/accountType";
 import bcrypt from "bcrypt";
+import * as jwt from 'jsonwebtoken';
 
 const accountController = {
     getAllAccounts: async(req: Request, res: Response, next: NextFunction) => {
@@ -70,18 +71,28 @@ const accountController = {
     },
     accountLogin: async(req: Request<{}, {}, AccountCreateType>, res: Response, next: NextFunction) => {
         try {
-            // const username = req.body.username;
-            // const password = req.body.password;
             const { username, password } = req.body;
             const getAccount = await accountModel.accountLogin(username);
 
             if(!getAccount) return res.status(401).json({message: 'invalid credentials'});
 
-            if(await bcrypt.compare(password, getAccount.password)) {
-                return res.status(200).json({message: "login success"});
-            } else {
-                return res.status(401).json({message: "invalid credentials"});
-            }
+            //check if password matches hashed password
+            const isPasswordMatch = await bcrypt.compare(password, getAccount.password);
+            if(!isPasswordMatch) return res.status(401).json({message: 'invalid credentials'});
+
+            //create JWT payload
+            const user = { username: getAccount.username, id: getAccount.id};
+
+            //generate JWT token with expiration time (1hr)
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET!, {
+                expiresIn: '1h',
+                algorithm: 'HS256'
+            })
+            
+            return res.status(200).json({
+                message: "login success",
+                accessToken: accessToken
+            });
         }catch (error){
             next(error);
         }
