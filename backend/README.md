@@ -67,3 +67,7 @@
 45. verify token jwet.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>)...
 46. if there is no err, set req.user, which allows other routes to acces the user data from the req
 47. call next()
+48. create a one to many relation addition to the db. one account can have many items (Inventory Table)
+49. in Account model, named the new Inventory as items because its a collection of things (multiple Inventory items)
+50. for Inventory model, its called Inventory because each row is a single inventory item, table represents the concept of inventory as a whole.
+51. add owner Account @relation(fields: [ownerId], references: [id]) <br/> ownerId Int     to inventory model
