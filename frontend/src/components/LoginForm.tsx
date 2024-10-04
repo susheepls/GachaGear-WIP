@@ -18,11 +18,11 @@ const LoginForm: React.FC<Props> = (props) => {
         const result = await loginApi.loginFetch(formData);
         const loginMessage: AccountLoginMessageType = await result?.json();
         props.setLoginMessage(loginMessage.message);
-        props.setUsername(formData.username);
-
+        
         //if login is successful, set cookies
         if(loginMessage.accessToken) {
             Cookies.set('token', loginMessage.accessToken, { secure: true, sameSite: 'strict'} );
+            props.setUsername(formData.username);
         }
 
         //clear state after submission

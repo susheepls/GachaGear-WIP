@@ -81,3 +81,9 @@ export default tseslint.config({
 30. and then do ''await fetch(endpoint + 'profile/', {headers: headers})''; dont forget to await.json() the response
 31. make a new type for the response to know exactly what i am getting
 32. realize that in the home page, if there is a cookie, display a page; but now i cannot log out
+33. need to redirect if someone tries to access path without logged in or having an invalid token
+34. so in order to do that i have to pass the navigate function into the api since the api is not a component
+35. and there i use the navigate back to the home screen if they try to access that part of the website
+36. wanted to add more personality so i changed the route in app.tsx to take in a param called username :username/inventory
+37. change loginform to set username once a valid token is made;
+38. in home page make sure the button navigates to ```navigate(`${username}/inventory`);```

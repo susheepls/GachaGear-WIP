@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import * as inventoryApi from '../api/inventory';
 import { Item } from '../interface/inventoryType';
+import { useNavigate } from 'react-router-dom';
 
 const Inventory = () => {
+    const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
 
     useEffect(() => {
@@ -11,7 +13,7 @@ const Inventory = () => {
 
     //fetch all the items that the account has
     const handleItems = async() => {
-        const result = await inventoryApi.getAccountInventory();
+        const result = await inventoryApi.getAccountInventory(navigate);
         setItems(result!);
     }
 
