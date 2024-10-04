@@ -70,3 +70,14 @@ export default tseslint.config({
 19. in the home page, useState for the username passed from login, by using variable = useLocation(); variable.state.key
 20. set a ternary operator for the div being displayed, log out button if logged in
 21. log out button sets username to null and localeDtorage.removeItem('authToken') <- for future; navigate back to index
+22. npm i js-cookies after adding jwt protected path in the backend; npm i --save-dev @types/js-cookie
+23. dont forget to add the token string type to the accountloginmessage type
+24. add a new route in app.tsx to that is called /inventory and add a button on home page if user is logged in that leads there.
+25. make the inventory component that displays all items as a div
+26. change loginform so if the token exists, set it as a cookie
+27. ``Cookies.set('token', loginMessage.accessToken, { secure: true, sameSite: 'strict'} );``
+28. make a new api folder for inventory; i get the token from the cookie using cookies.get and the key name
+29. i fetch adding this as headers ``const headers = { 'Authorization' : `Bearer ${token}` }``; error handling with redirection
+30. and then do ''await fetch(endpoint + 'profile/', {headers: headers})''; dont forget to await.json() the response
+31. make a new type for the response to know exactly what i am getting
+32. realize that in the home page, if there is a cookie, display a page; but now i cannot log out

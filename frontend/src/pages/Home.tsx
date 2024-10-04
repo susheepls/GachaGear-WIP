@@ -1,10 +1,12 @@
 // import React from 'react'
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie';
 
 const Home = () => {
     const navigate = useNavigate();
     const infoFromLogin = useLocation();
+    const token = Cookies.get('token');
 
     const [username, setUsername] = useState<string | null>(null);
 
@@ -15,7 +17,7 @@ const Home = () => {
     }, [infoFromLogin.state]);
     
     const toLoginPage = () => {
-        navigate('/login')
+        navigate('/login');
     };
 
     const logout = () => {
@@ -24,16 +26,25 @@ const Home = () => {
         navigate('/');
     }
 
+    const toAccountInventory = () => {
+        navigate('/inventory');
+    }
+
     return (
         <div>
-            {!username ? (
-                <div>
-                    <button onClick={() => toLoginPage()}>Click Here to Login!</button>
-                </div>
+            {!token ? (
+                <>
+                    <div>
+                        <button onClick={() => toLoginPage()}>Click Here to Login!</button>
+                    </div>
+                </>
             ) : (
                 <>
                     <div>
                         Welcome back {username}
+                    </div>
+                    <div>
+                        <button onClick={() => toAccountInventory()}>Check Inventory</button>
                     </div>
                     <div>
                         <button onClick={() => logout()}>Log Out</button>

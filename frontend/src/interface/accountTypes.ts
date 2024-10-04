@@ -4,5 +4,6 @@ export interface AccountLoginType {
 }
 
 export interface AccountLoginMessageType {
-    message: string
+    message: string,
+    accessToken: string
 }

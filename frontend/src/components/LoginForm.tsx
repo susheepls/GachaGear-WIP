@@ -1,6 +1,7 @@
 import React, { Dispatch, FormEvent, SetStateAction, useState } from 'react'
 import { AccountLoginMessageType, AccountLoginType } from '../interface/accountTypes';
-import * as loginApi from '../api/login'
+import * as loginApi from '../api/login';
+import Cookies from 'js-cookie';
 
 interface Props {
     setLoginMessage: Dispatch<SetStateAction<string | null>>
@@ -18,6 +19,11 @@ const LoginForm: React.FC<Props> = (props) => {
         const loginMessage: AccountLoginMessageType = await result?.json();
         props.setLoginMessage(loginMessage.message);
         props.setUsername(formData.username);
+
+        //if login is successful, set cookies
+        if(loginMessage.accessToken) {
+            Cookies.set('token', loginMessage.accessToken, { secure: true, sameSite: 'strict'} );
+        }
 
         //clear state after submission
         setFormData(previousData => ({...previousData, username: '', password: ''}))
