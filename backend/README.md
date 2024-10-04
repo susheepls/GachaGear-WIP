@@ -19,6 +19,18 @@
 - @types/jsonwebtoken
 - prisma
 
+## messages sent
+- 200 Account creation: Success!
+- 200 password changed success
+- 200 login success
+- 200 user inventory found
+- 400 Invalid password. Must be at least 8 characters.
+- 400 account not found
+- 401 invalid credentials
+- 403 user not authenticated
+- 403 login again
+- 500 Internal Server Error
+
 # Steps I followed
 1. npm-init;
 2. install dependencies with npm install ___;
