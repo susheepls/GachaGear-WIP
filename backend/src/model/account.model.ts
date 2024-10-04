@@ -45,7 +45,14 @@ const accountModel = {
                 username: username,
             }
         })
-    }
+    },
+    getAccountInventory: async(accountId: number) => {
+        return await prisma.inventory.findMany({
+            where: {
+                ownerId: accountId
+            },
+        })
+    },
 }
 
 export default accountModel;

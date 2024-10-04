@@ -4,6 +4,7 @@ import accountModel from '../model/account.model';
 import { AccountChangePasswordType, AccountCreateType } from "../interfaces/accountType";
 import bcrypt from "bcrypt";
 import * as jwt from 'jsonwebtoken';
+import { AuthenticatedRequest, CustomJwtPayload } from "../interfaces/jwtTypes";
 
 const accountController = {
     getAllAccounts: async(req: Request, res: Response, next: NextFunction) => {
@@ -94,6 +95,18 @@ const accountController = {
                 accessToken: accessToken
             });
         }catch (error){
+            next(error);
+        }
+    },
+    getAccountInventory: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountId = (req.user as CustomJwtPayload).id
+            if(!accountId) return res.status(403).send({message: "user not authenticated"});
+
+            const accountInventory = await accountModel.getAccountInventory(accountId);
+            return res.status(200).send({message: "user inventory found", accountInventory});
+
+        } catch(error){
             next(error);
         }
     }

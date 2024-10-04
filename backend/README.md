@@ -71,3 +71,10 @@
 49. in Account model, named the new Inventory as items because its a collection of things (multiple Inventory items)
 50. for Inventory model, its called Inventory because each row is a single inventory item, table represents the concept of inventory as a whole.
 51. add owner Account @relation(fields: [ownerId], references: [id]) <br/> ownerId Int     to inventory model
+52. add a new query to model that takes account id and returns items (Inventory table where ownderid = id)
+53. add a new controller where request type is a string | JWTPayload which is from the Authenticate token middleware
+54. we treat req.user as a custom type from auth middleware and take the id
+55. we send the usual message object but also send the query data back with the message
+56. i made a new types folder for jwt stuff. authenticatedToken extends request, by having a user key(string|jwtpayload)
+57. and customJwtPayload extends jwtpayload by having an id and username
+58. add new route, add the middleware as 2nd arg. it passes thru there first, then runs the controller function
