@@ -5,3 +5,9 @@ export interface AccountCreateType {
 export interface AccountChangePasswordType {
     newPassword: string,
 }
+
+export interface Items {
+    id: number,
+    name: string,
+    ownerId: number
+}

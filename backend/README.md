@@ -90,3 +90,4 @@
 56. i made a new types folder for jwt stuff. authenticatedToken extends request, by having a user key(string|jwtpayload)
 57. and customJwtPayload extends jwtpayload by having an id and username
 58. add new route, add the middleware as 2nd arg. it passes thru there first, then runs the controller function
+59. create a type for saftey called items, which is involved the route for profile
