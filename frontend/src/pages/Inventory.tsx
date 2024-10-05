@@ -18,20 +18,18 @@ const Inventory = () => {
     }
 
     //return a div for each item
-    const allItemNames = () => {
+    const allItemNamesDiv = () => {
         if(!items) return;
-        for(let item of items) {
-            return (
-                <div>
-                    {item.name}
-                </div>
-            )
-        }
+        return items.map((item) => 
+            <div>
+                {item.name}
+            </div>
+        );
     }
 
     return (
         <div>
-            {allItemNames()}
+            {allItemNamesDiv()}
         </div>
     )
 }

@@ -22,7 +22,7 @@ const Home = () => {
 
     const logout = () => {
         setUsername(null);
-        localStorage.removeItem('authToken');
+        Cookies.remove('token');
         navigate('/');
     }
 
