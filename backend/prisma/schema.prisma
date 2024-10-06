@@ -26,4 +26,22 @@ model Inventory {
   name String
   owner Account @relation(fields: [ownerId], references: [id])
   ownerId Int
+  substats ItemSubstats[]
+}
+
+model ItemSubstats {
+  id Int @id @default(autoincrement())
+  value Float
+
+  item Inventory @relation(fields: [item_id], references: [id])
+  item_id Int @unique
+
+  substatType SubstatTypes @relation(fields: [substatType_name], references: [name])
+  substatType_name String @unique
+}
+
+model SubstatTypes {
+  id Int @id @default(autoincrement())
+  name String @unique
+  itemSubstat ItemSubstats?
 }
