@@ -17,16 +17,27 @@ model Account {
   id Int @id @default(autoincrement())
   username String @unique
   password String @default("password")
+  currency Int @default(100)
   join_date DateTime @db.Date @default(now())
   items Inventory[]
 }
 
 model Inventory {
   id Int @id @default(autoincrement())
-  name String
+  level Int @default(0)
+  name ItemName @relation(fields: [itemNameId], references: [id])
+  itemNameId Int
+
   owner Account @relation(fields: [ownerId], references: [id])
   ownerId Int
+
   substats ItemSubstats[]
+}
+
+model ItemName {
+  id Int @id @default(autoincrement())
+  name String
+  item Inventory[]
 }
 
 model ItemSubstats {
