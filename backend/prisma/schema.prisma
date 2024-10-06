@@ -34,14 +34,16 @@ model ItemSubstats {
   value Float
 
   item Inventory @relation(fields: [item_id], references: [id])
-  item_id Int @unique
+  item_id Int
 
   substatType SubstatTypes @relation(fields: [substatType_name], references: [name])
-  substatType_name String @unique
+  substatType_name String
+
+  @@unique([item_id, substatType_name])
 }
 
 model SubstatTypes {
   id Int @id @default(autoincrement())
   name String @unique
-  itemSubstat ItemSubstats?
+  itemSubstats ItemSubstats[]
 }
