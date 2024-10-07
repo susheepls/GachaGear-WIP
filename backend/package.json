@@ -1,6 +1,9 @@
 {
   "name": "auth-testing",
   "version": "1.0.0",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {

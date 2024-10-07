@@ -91,3 +91,7 @@
 57. and customJwtPayload extends jwtpayload by having an id and username
 58. add new route, add the middleware as 2nd arg. it passes thru there first, then runs the controller function
 59. create a type for saftey called items, which is involved the route for profile
+60. add a bunch of schema changes to account for the items and substats
+61. look into how to create seed data for prisma; create a seed.ts file in prisma folder,
+62. in package.json, add prisma - seed command ``ts-node prisma/seed.ts`` 
+63. run npx prisma db seed to run the seed into the db.

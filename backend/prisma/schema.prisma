@@ -16,7 +16,7 @@ datasource db {
 model Account {
   id Int @id @default(autoincrement())
   username String @unique
-  password String @default("password")
+  password String 
   currency Int @default(100)
   join_date DateTime @db.Date @default(now())
   items Inventory[]
@@ -36,7 +36,7 @@ model Inventory {
 
 model ItemName {
   id Int @id @default(autoincrement())
-  name String
+  name String @unique
   item Inventory[]
 }
 
@@ -47,10 +47,10 @@ model ItemSubstats {
   item Inventory @relation(fields: [item_id], references: [id])
   item_id Int
 
-  substatType SubstatTypes @relation(fields: [substatType_name], references: [name])
-  substatType_name String
+  substatType SubstatTypes @relation(fields: [substatTypeName], references: [name])
+  substatTypeName String
 
-  @@unique([item_id, substatType_name])
+  @@unique([item_id, substatTypeName])
 }
 
 model SubstatTypes {
