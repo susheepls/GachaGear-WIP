@@ -103,7 +103,7 @@ const accountController = {
             const accountId = (req.user as CustomJwtPayload).id
             if(!accountId) return res.status(403).send({message: "user not authenticated"});
 
-            const accountInventory = await accountModel.getAccountInventory(accountId);
+            const accountInventory = await accountModel.getAccountInventoryName(accountId);
             return res.status(200).send({message: "user inventory found", accountInventory});
 
         } catch(error){

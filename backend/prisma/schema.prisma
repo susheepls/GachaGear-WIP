@@ -47,10 +47,10 @@ model ItemSubstats {
   item Inventory @relation(fields: [item_id], references: [id])
   item_id Int
 
-  substatType SubstatTypes @relation(fields: [substatTypeName], references: [name])
-  substatTypeName String
+  substatType SubstatTypes @relation(fields: [substatTypeId], references: [id])
+  substatTypeId Int
 
-  @@unique([item_id, substatTypeName])
+  @@unique([item_id, substatTypeId])
 }
 
 model SubstatTypes {

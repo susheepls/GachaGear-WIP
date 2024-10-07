@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Inventory, PrismaClient } from "@prisma/client";
 import { AccountCreateType } from "../interfaces/accountType";
 
 const prisma = new PrismaClient();
@@ -53,6 +53,34 @@ const accountModel = {
             },
         })
     },
+
+    //new inventory return to get details instead of just id
+    getAccountInventoryName: async(accountId: number) => {
+        return await prisma.inventory.findMany({
+            select: {
+                level: true,
+                name: {
+                    select: {
+                        name: true
+                    }
+                },
+                substats: {
+                    select: {
+                        value: true,
+                        substatType: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                }
+            },
+            where: {
+                ownerId: accountId
+            }
+        })
+        
+    }
 }
 
 export default accountModel;
