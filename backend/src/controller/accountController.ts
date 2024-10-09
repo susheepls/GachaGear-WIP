@@ -100,7 +100,9 @@ const accountController = {
     },
     getAccountInventory: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
         try {
-            const accountId = (req.user as CustomJwtPayload).id
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({message: "invalid credentials"});
+            const accountId = (req.user as CustomJwtPayload).id;
             if(!accountId) return res.status(403).send({message: "user not authenticated"});
 
             const accountInventory = await accountModel.getAccountInventoryName(accountId);

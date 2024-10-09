@@ -101,3 +101,6 @@
 66. now have to update the item created using where { its id } ; and use data: { substats: { set: [substat1,2,3]} }
 67. return the new item using select every time entering a new foreign key object. set what i want to true
 68. make a get item route in the controller that is a protected route.
+69. add some more personality to the user inventory get route; changed the route to /:username/inventory ,
+70. if the endpoint doesnt match the req.params.username from the req.user token, return error.
+71. change the endpoint for getting an item to /gacharoll.

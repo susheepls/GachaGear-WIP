@@ -17,8 +17,8 @@ router.patch('/accounts/:id/password', accountController.changeAccountPassword);
 //login
 router.post('/accounts/login', accountController.accountLogin);
 //inventory protected routes have middleware as 2nd arg;
-router.get('/profile', authenticateToken, accountController.getAccountInventory);
+router.get('/:username/inventory', authenticateToken, accountController.getAccountInventory);
 
 //roll item route (Inventory Routes)
-router.post('/profile/gacharoll', authenticateToken, inventoryController.getItem);
+router.post('/gacharoll', authenticateToken, inventoryController.getItem);
 export default router;
