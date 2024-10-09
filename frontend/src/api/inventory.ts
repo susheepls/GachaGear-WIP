@@ -4,7 +4,7 @@ import { NavigateFunction } from "react-router-dom";
 
 const endpoint = import.meta.env.VITE_endpoint;
 
-export const getAccountInventory = async(navigate: NavigateFunction) => {
+export const getAccountInventory = async(navigate: NavigateFunction, username: string) => {
     try {
         //get the stored token from the cookie
         const token = Cookies.get('token');
@@ -15,7 +15,7 @@ export const getAccountInventory = async(navigate: NavigateFunction) => {
 
         //set the auth header with the jwt token
         const headers = { 'Authorization' : `Bearer ${token}` };
-        const request = await fetch(endpoint + 'profile/', {headers: headers});
+        const request = await fetch(endpoint + `${username}/inventory`, {headers: headers});
 
         //error handling
         if (!request.ok) {
@@ -27,7 +27,7 @@ export const getAccountInventory = async(navigate: NavigateFunction) => {
 
         //im getting a message and the data so just get the data
         const inventory: InventoryType = await request.json();
-        return inventory.accountInventory;
+        return inventory;
 
     } catch(err){
         console.error(err);

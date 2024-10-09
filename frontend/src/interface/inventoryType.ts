@@ -4,7 +4,17 @@ export interface InventoryType {
 }
 
 export interface Item {
-    id: number,
+    level: number,
+    name: ItemNameType,
+    substats: Substats[]
+}
+export interface ItemNameType {
     name: string,
-    ownerId: string
+}
+export interface Substats {
+    substatType: SubstatType,
+    value: number
+}
+export interface SubstatType {
+    name: string,
 }

@@ -27,7 +27,7 @@ const Home = () => {
     }
 
     const toAccountInventory = () => {
-        navigate(`${username}/inventory`);
+        navigate(`${username}/inventory`, { state: { username : username} });
     }
 
     return (

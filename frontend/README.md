@@ -87,3 +87,7 @@ export default tseslint.config({
 36. wanted to add more personality so i changed the route in app.tsx to take in a param called username :username/inventory
 37. change loginform to set username once a valid token is made;
 38. in home page make sure the button navigates to ```navigate(`${username}/inventory`);```
+39. update route and inventory api and inventoryType to reflect the backend changes.
+40. when user logs in to, we pass the username to the inventory (This need to be changed later though)
+41. after using uselocation in Inventory page, we pass the username into the api so it reaches matches the endpoint
+42. the problem, is the token exists, but after closing tab the state is reset, so user is still logged in
