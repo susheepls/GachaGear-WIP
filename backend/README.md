@@ -95,3 +95,9 @@
 61. look into how to create seed data for prisma; create a seed.ts file in prisma folder,
 62. in package.json, add prisma - seed command ``ts-node prisma/seed.ts`` 
 63. run npx prisma db seed to run the seed into the db.
+63. complete inventory model to get a new item,
+64. first, create item in invetory with item name id and owner id.
+65. then create the 3 substats in itemsubstats table.
+66. now have to update the item created using where { its id } ; and use data: { substats: { set: [substat1,2,3]} }
+67. return the new item using select every time entering a new foreign key object. set what i want to true
+68. make a get item route in the controller that is a protected route.

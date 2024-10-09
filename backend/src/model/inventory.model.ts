@@ -48,7 +48,28 @@ const InventoryModel = {
             }
         })
 
-        return addSubstatsToItem;
+        return await prisma.inventory.findFirst({
+            where: {
+                id: createItemTableEntry.id
+            },
+            select: {
+                name: {
+                    select: {
+                        name: true
+                    }
+                },
+                substats: {
+                    select: {
+                        value: true,
+                        substatType: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
     }
 } 
