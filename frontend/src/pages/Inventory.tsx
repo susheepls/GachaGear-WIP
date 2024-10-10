@@ -30,7 +30,7 @@ const Inventory = () => {
                 <div>
                     {item.level}
                 </div>
-                <div id='substats'>
+                <div id='substats' className='hidden'>
                     <div id='substat1'>
                         <div>
                             {item.substats[0].substatType.name}
@@ -56,6 +56,7 @@ const Inventory = () => {
                         </div>
                     </div>
                 </div>
+               
             </>
         );
     }
