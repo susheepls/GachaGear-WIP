@@ -22,8 +22,8 @@ const Inventory = () => {
     //return a div for each item
     const allItemNamesDiv = () => {
         if(!items) return;
-        return items.map((item) => 
-            <>
+        return items.map((item, index) => 
+            <div key={index}>
                 <div>
                     {item.name.name}
                 </div>
@@ -57,7 +57,7 @@ const Inventory = () => {
                     </div>
                 </div>
                
-            </>
+            </div>
         );
     }
 
