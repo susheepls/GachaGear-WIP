@@ -36,3 +36,22 @@ services:
         required: true
     depends_on:
       - db
+    command: >
+      sh -c "npx prisma migrate dev && npx prisma generate && npx prisma db seed && npm run dev"
+  prisma:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    container_name: prisma-studio
+    volumes:
+      - ./backend:/backend
+      - /backend/node_modules
+    ports:
+      - 5555:5555
+    env_file:
+      - path: ./backend/.env
+        required: true
+    depends_on:
+      - backend
+    command: >
+      sh -c "npx prisma studio"
