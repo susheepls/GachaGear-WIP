@@ -1,0 +1,59 @@
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    container_name: gachaGear_frontend
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    env_file:
+      - ./frontend/.env
+    ports:
+      - 5173:5173
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    container_name: gachaGear_backend
+    volumes:
+      - ./backend:/backend
+      - /backend/node_modules
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    command: >
+      sh -c "npx prisma migrate dev && npx prisma generate && npx prisma db seed && npm run dev"
+  postgres:
+    container_name: postgres
+    image: postgres
+    env_file:
+      - path: ./backend/.env
+        required: true
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  prisma:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    container_name: prisma-studio
+    volumes:
+      - ./backend:/backend
+      - /backend/node_modules
+    ports:
+      - 5555:5555
+    env_file:
+      - path: ./backend/.env
+        required: true
+    depends_on:
+      - backend
+    command: >
+      sh -c "npx prisma studio"
+
+volumes:
+  postgres_data:
