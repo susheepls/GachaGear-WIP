@@ -1,4 +1,4 @@
-import { Inventory, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { AccountCreateType } from "../interfaces/accountType";
 
 const prisma = new PrismaClient();

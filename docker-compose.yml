@@ -1,0 +1,38 @@
+services:
+  db:
+    container_name: db
+    image: postgres:16-alpine
+    ports:
+      - '5432:5432'
+    env_file:
+      - path: ./backend/.env
+        required: true
+    volumes:
+      - ./data/db:/var/lib/postgresql/data/
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    container_name: frontend
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    ports: 
+      - 5173:5173
+    depends_on:
+      - backend
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    container_name: backend
+    volumes:
+      - ./backend:/backend
+      - /backend/node_modules
+    ports:
+      - 3000:3000
+    env_file:
+      - path: ./backend/.env
+        required: true
+    depends_on:
+      - db
