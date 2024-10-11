@@ -91,3 +91,9 @@ export default tseslint.config({
 40. when user logs in to, we pass the username to the inventory (This need to be changed later though)
 41. after using uselocation in Inventory page, we pass the username into the api so it reaches matches the endpoint
 42. the problem, is the token exists, but after closing tab the state is reset, so user is still logged in
+43. set up tailwind, by googling vite setup for tailwind.
+44. figure out how to toggle visibility of substats once item is clicked.
+45. give an id(which is the index) to the div that holds the itemname, and onclick we get that id variable
+46. and to the div that holds all the substats we give it the id substats{variable}
+47. create a helper function that onClick, we get the id of the div (number) and we find the element with substats(number)
+48. after that we do div.classlist.toggle('hidden'); which toggles this classname for that div (like light switch)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as inventoryApi from '../api/inventory';
 import { Item } from '../interface/inventoryType';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,15 +8,22 @@ const Inventory = () => {
     const [items, setItems] = useState<Item [] | null>(null);
     const infoFromHome = useLocation();
     const username = infoFromHome.state.username;
-
+    
     useEffect(() => {
         handleItems();
     }, []);
-
+    
     //fetch all the items that the account has
     const handleItems = async() => {
         const result = await inventoryApi.getAccountInventory(navigate, username);
         setItems(result!.accountInventory);
+    }
+    
+    //change visibility
+    const handleVisibility = (event: React.MouseEvent) => {
+        const itemDiv = event.currentTarget.id;
+        const substatDiv = document.getElementById(`substats${itemDiv}`);
+        if(substatDiv) substatDiv.classList.toggle('hidden');
     }
 
     //return a div for each item
@@ -24,13 +31,13 @@ const Inventory = () => {
         if(!items) return;
         return items.map((item, index) => 
             <div key={index}>
-                <div>
+                <div id={`${index}`} onClick={(event) => handleVisibility(event)}>
                     {item.name.name}
                 </div>
                 <div>
                     {item.level}
                 </div>
-                <div id='substats' className='hidden'>
+                <div id={`substats${index}`} className='hidden bg-slate-400'>
                     <div id='substat1'>
                         <div>
                             {item.substats[0].substatType.name}
