@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie';
+import * as LoginApi from '../api/login';
+import { AccountInfoType } from '../interface/accountTypes';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -11,11 +13,16 @@ const Home = () => {
     const [username, setUsername] = useState<string | null>(null);
 
     useEffect(() => {
-        if(infoFromLogin.state?.username){
-            setUsername(infoFromLogin.state.username);
-        }
-    }, [infoFromLogin.state]);
+        if(token){
+            getAccountUsernameFromToken();
+        };
+    }, [token, infoFromLogin.state]);
     
+    const getAccountUsernameFromToken = async() => {
+        const userInfo: AccountInfoType | null = await LoginApi.getAccountFromToken();
+        if(userInfo) setUsername(userInfo.username);
+    }
+
     const toLoginPage = () => {
         navigate('/login');
     };

@@ -7,3 +7,8 @@ export interface AccountLoginMessageType {
     message: string,
     accessToken: string
 }
+
+export interface AccountInfoType {
+    username: string,
+    id: number,
+}

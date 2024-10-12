@@ -16,12 +16,14 @@ const accountController = {
             next(error);
         }
     },
-    getOneAccount: async(req: Request, res: Response, next: NextFunction) => {
+    getOneAccount: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
         try {
-            const accountNumber = Number(req.params.id);
+            const accountNumber = (req.user as CustomJwtPayload).id;
             const result = await accountModel.getOneAccount(accountNumber);
-            res.status(200);
-            res.json(result);
+            if(!result) {
+                return res.status(404).json({ message: 'account not found'});
+            }
+            res.status(200).json({username: result.username, userId: result.id});
         }catch(error) {
             next(error);
         }

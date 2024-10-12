@@ -1,4 +1,5 @@
 import { AccountLoginType } from "../interface/accountTypes";
+import Cookies from "js-cookie";
 
 const endpoint = import.meta.env.VITE_endpoint;
 
@@ -17,3 +18,18 @@ export const loginFetch = async(loginCredentials: AccountLoginType) => {
     }
 }
 
+export const getAccountFromToken = async() => {
+    try{
+        const token = Cookies.get('token');
+        const request = await fetch(endpoint + 'current-user/', {
+            headers: { 'Authorization' : `Bearer ${token}`}
+        });
+        if (!request.ok) {
+            throw new Error('Failed to fetch user info');
+        };
+        const result = await request.json();
+        return result;
+    } catch(error) {
+        console.error('error', error);
+    }
+}
