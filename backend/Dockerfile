@@ -4,10 +4,8 @@ WORKDIR /backend
 
 COPY package*.json .
 
-RUN npm i
+RUN npm ci
 
 COPY . .
 
-RUN npx prisma generate
-
-CMD npm run dev
+CMD ["npm", "run", "dev"]
