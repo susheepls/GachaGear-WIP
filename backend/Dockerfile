@@ -4,7 +4,7 @@ WORKDIR /backend
 
 COPY package*.json .
 
-RUN npm ci
+RUN npm i
 
 COPY . .
 
