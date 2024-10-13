@@ -6,6 +6,7 @@ services:
     container_name: gachaGear_frontend
     volumes:
       - ./frontend:/frontend
+      - frontend_modules:/frontend/node_modules
     env_file:
       - ./frontend/.env
     ports:
@@ -18,6 +19,7 @@ services:
     container_name: gachaGear_backend
     volumes:
       - ./backend:/backend
+      - backend_moduels:/backend/node_modules
     env_file:
       - ./backend/.env
     ports:
@@ -57,3 +59,5 @@ services:
 
 volumes:
   postgres_data:
+  frontend_modules:
+  backend_moduels:
