@@ -19,7 +19,7 @@ const Home = () => {
     }, [token, infoFromLogin.state]);
     
     const getAccountUsernameFromToken = async() => {
-        const userInfo: AccountInfoType | null = await LoginApi.getAccountFromToken();
+        const userInfo: AccountInfoType | null = await LoginApi.getAccountFromToken(navigate);
         if(userInfo) setUsername(userInfo.username);
     }
 
@@ -37,6 +37,10 @@ const Home = () => {
         navigate(`${username}/inventory`, { state: { username : username} });
     }
 
+    const toGachaRoll = () => {
+        navigate('/gacharoll');
+    }
+
     return (
         <div>
             {!token ? (
@@ -52,6 +56,9 @@ const Home = () => {
                     </div>
                     <div>
                         <button onClick={() => toAccountInventory()}>Check Inventory</button>
+                    </div>
+                    <div>
+                        <button onClick={() => toGachaRoll()}>want to gamba?</button>
                     </div>
                     <div>
                         <button onClick={() => logout()}>Log Out</button>
