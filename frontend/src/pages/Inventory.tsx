@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import * as inventoryApi from '../api/inventory';
 import { Item } from '../interface/inventoryType';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { getAccountFromToken } from '../api/login';
+import { AccountInfoType } from '../interface/accountTypes';
 
 const Inventory = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
-    const infoFromHome = useLocation();
-    const username = infoFromHome.state.username;
     
     useEffect(() => {
         handleItems();
@@ -15,7 +15,8 @@ const Inventory = () => {
     
     //fetch all the items that the account has
     const handleItems = async() => {
-        const result = await inventoryApi.getAccountInventory(navigate, username);
+        const user: AccountInfoType = await getAccountFromToken(navigate);
+        const result = await inventoryApi.getAccountInventory(navigate, user.username);
         setItems(result!.accountInventory);
     }
     

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import * as gachaRollApi from '../api/gacharoll'
 import { Item } from '../interface/inventoryType'
+import Cookies from 'js-cookie'
 
 const GachaRoll = () => {
   const [newItem, setNewItem] = useState<Item | null>(null);
-
+  const token = Cookies.get('token');
   const handleRollRequest = async() => {
+    if(!token) alert('You must log in to roll!');
     const rolledItem = await gachaRollApi.rollGacha();
     if(!rolledItem) return;
     setNewItem(rolledItem);
