@@ -27,6 +27,12 @@ const Inventory = () => {
         if(substatDiv) substatDiv.classList.toggle('hidden');
     }
 
+    //collapse all items
+    const hideAll = () => {
+        const substatDivs = document.querySelectorAll('[id*="substats"]');
+        substatDivs.forEach((element) => element.classList.add('hidden'));
+    }
+
     //return a div for each item
     const allItemNamesDiv = () => {
         if(!items) return;
@@ -71,7 +77,14 @@ const Inventory = () => {
 
     return (
         <div>
-            {allItemNamesDiv()}
+            <div>
+                {allItemNamesDiv()}
+            </div>
+            <div>
+                <button onClick={()=>hideAll()}>
+                    Collapse All Items
+                </button>
+            </div>
         </div>
     )
 }
