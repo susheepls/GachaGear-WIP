@@ -21,15 +21,20 @@ const NavBar = () => {
     ];
     
     useEffect(() => {
-        if(!token) setcurrentUserUrl('/login');
+        if(!token) {
+            setcurrentUserUrl('/login');
+            return;
+        }
         getUserInfoFromToken(navigate);
-    }, [currentUserUrl, token]);
+    }, [token]);
 
     const getUserInfoFromToken = async(navigate: NavigateFunction) => {
-        const user: AccountInfoType | null = await getAccountFromToken(navigate);
-        if(!user) return;
-        setcurrentUserUrl(`${user.username}/inventory`);
-    }
+        const userInfo: AccountInfoType | null = await getAccountFromToken(navigate);
+        const expectedUrl = `/${userInfo?.username}/inventory`;
+        if (userInfo && currentUserUrl !== expectedUrl) {
+            setcurrentUserUrl(expectedUrl);
+        }
+    };
 
     return (
         <nav>
