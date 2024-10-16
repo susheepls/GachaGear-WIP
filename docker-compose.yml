@@ -59,5 +59,3 @@ services:
 
 volumes:
   postgres_data:
-  frontend_modules:
-  backend_modules:
