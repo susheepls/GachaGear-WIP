@@ -12,3 +12,7 @@ export interface AccountInfoType {
     username: string,
     id: number,
 }
+
+export interface AccountCreateMessage {
+    message: string
+}

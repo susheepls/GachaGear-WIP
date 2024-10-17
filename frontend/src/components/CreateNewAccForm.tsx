@@ -1,8 +1,13 @@
-import React, { FormEvent, useState } from 'react'
-import { AccountLoginType } from '../interface/accountTypes'
+import React, { FormEvent, SetStateAction, useState } from 'react'
+import { AccountCreateMessage, AccountLoginType } from '../interface/accountTypes'
 import { createAccRequest } from '../api/createAcc';
 
-const CreateNewAccForm = () => {
+interface Props {
+    setLoginMessage: React.Dispatch<SetStateAction<string | null>>,
+    setIsCreatingAcc: React.Dispatch<SetStateAction<boolean>>
+}
+
+const CreateNewAccForm: React.FC<Props> = (props) => {
 
     const [formData, setFormData] = useState<AccountLoginType>({ username: '', password: '' });
 
@@ -12,8 +17,10 @@ const CreateNewAccForm = () => {
             alert('username must be longer than 3 characters and password must be longer than 8 characters');
             return;
         }
-        const request = await createAccRequest(formData);
-        console.log(request);
+        const result = await createAccRequest(formData);
+        const message: AccountCreateMessage = await result?.json();
+        props.setIsCreatingAcc(false);
+        props.setLoginMessage(message.message);
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
