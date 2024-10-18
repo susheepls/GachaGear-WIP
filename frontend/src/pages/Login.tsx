@@ -28,7 +28,7 @@ const Login = () => {
           <div>
             {loginMessage}
           </div>
-          <div>
+          <div className='p-1'>
             <button onClick={() => setIsCreatingAcc(true)}>
               Create New Account
             </button>

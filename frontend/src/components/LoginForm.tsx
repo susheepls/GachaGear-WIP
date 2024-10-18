@@ -39,17 +39,17 @@ const LoginForm: React.FC<Props> = (props) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label>
+                <label className='p-1'>
                     Username:
                     <input name='username' type='text' value={formData.username} onChange={handleChange} required/>
                 </label> 
                 <br/>
-                <label>
+                <label className='p-1'>
                     Password:
                     <input name='password' type='password' value={formData.password} onChange={handleChange} required/>
                 </label>
                 <br/>
-                <button type='submit'>submit</button>
+                <button className='p-1' type='submit'>submit</button>
             </form>
         </div>
     )

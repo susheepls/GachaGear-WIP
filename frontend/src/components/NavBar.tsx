@@ -41,6 +41,7 @@ const NavBar = () => {
             <div>
                {pages.map((page) => (
                     <a
+                        className="p-1"
                         key={page.key}
                         href={page.href}
                     >   

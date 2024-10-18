@@ -45,7 +45,7 @@ const Home = () => {
         <div>
             {!token ? (
                 <>
-                    <div>
+                    <div className='p-1'>
                         <button onClick={() => toLoginPage()}>Click Here to Login!</button>
                     </div>
                 </>
