@@ -44,11 +44,11 @@ const Home = () => {
     return (
         <div>
             {!token ? (
-                <>
-                    <div className='p-1'>
+                <div className='flex'>
+                    <div className='p-1 m-auto'>
                         <button onClick={() => toLoginPage()}>Click Here to Login!</button>
                     </div>
-                </>
+                </div>
             ) : (
                 <>
                     <div>

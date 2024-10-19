@@ -17,6 +17,12 @@ const Login = () => {
     }
   }, [loginMessage]);
 
+  useEffect(() => {
+    if(loginMessage === 'Internal Server Error'){
+      setLoginMessage('Username already taken')
+    }
+  }, [loginMessage]);
+
   return (
     <>
       { !isCreatingAcc ? (
@@ -25,10 +31,10 @@ const Login = () => {
             setLoginMessage = {setLoginMessage}
             setUsername = {setUsername}
           />
-          <div>
+          <div className='text-center'>
             {loginMessage}
           </div>
-          <div className='p-1'>
+          <div className='p-1 text-center'>
             <button onClick={() => setIsCreatingAcc(true)}>
               Create New Account
             </button>

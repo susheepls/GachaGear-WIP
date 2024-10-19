@@ -14,7 +14,7 @@ const GachaRoll = () => {
   }
 
   return (
-    <div>
+    <div className='flex-col'>
       {!newItem ? (
         <div>
             <div>
