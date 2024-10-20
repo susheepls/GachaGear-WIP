@@ -16,14 +16,14 @@ const GachaRoll = () => {
   return (
     <div className='flex-col'>
       {!newItem ? (
-        <div>
+        <div className='flex justify-center'>
             <div>
               <button onClick={() => handleRollRequest()}>Roll!</button>
             </div>
         </div>
       ) : (
-        <div>
-          <div id='newItem'>
+        <div className='flex-col'>
+          <div id='newItem' className='align-middle'>
             <div>
               {String(newItem.name.name)}
             </div>
