@@ -4,6 +4,7 @@ import Login from "./pages/Login"
 import Inventory from "./pages/Inventory"
 import GachaRoll from "./pages/GachaRoll"
 import Layout from "./components/Layout"
+import UpgradeItem from "./pages/UpgradeItem"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<Home/>} />
           <Route path="login" element={<Login/>} />
           <Route path=":username/inventory" element={<Inventory/>} />
+          <Route path=":username/inventory/:id" element={<UpgradeItem/>} />
           <Route path="gacharoll" element={<GachaRoll/>} />
         </Route>
       </Routes>

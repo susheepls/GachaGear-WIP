@@ -8,7 +8,7 @@ import { AccountInfoType } from '../interface/accountTypes';
 const Inventory = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
-    
+
     useEffect(() => {
         handleItems();
     }, []);
@@ -31,13 +31,13 @@ const Inventory = () => {
             substatDiv.classList.add('text-center');
         }
     }
-
+    
     //collapse all items
     const hideAll = () => {
         const substatDivs = document.querySelectorAll('[id*="substats"]');
         substatDivs.forEach((element) => element.classList.add('hidden'));
     }
-
+    
     //Reveal all items
     const showAll = () => {
         const substatDivs = document.querySelectorAll('[id*="substats"]');
@@ -45,6 +45,12 @@ const Inventory = () => {
         substatDivs.forEach((element) => element.classList.add('flex'));
         substatDivs.forEach((element) => element.classList.add('flex-col'));
         substatDivs.forEach((element) => element.classList.add('text-center'));
+    }
+
+    //Navigate to enhance page
+    const navigateToSpecificItem = async(itemId: number) => {
+        const user: AccountInfoType = await getAccountFromToken(navigate);
+        navigate(`/${user.username}/inventory/${itemId}`);
     }
 
     //return a div for each item
@@ -84,7 +90,7 @@ const Inventory = () => {
                         </div>
                     </div>
                     <div>
-                        <button>Enhance!</button>
+                        <button onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
                     </div>
                 </div>
                

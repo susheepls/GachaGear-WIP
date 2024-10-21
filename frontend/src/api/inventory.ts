@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { InventoryType } from "../interface/inventoryType";
+import { EnhanceOneItemType, InventoryType } from "../interface/inventoryType";
 import { NavigateFunction } from "react-router-dom";
 
 const endpoint = import.meta.env.VITE_endpoint;
@@ -31,5 +31,20 @@ export const getAccountInventory = async(navigate: NavigateFunction, username: s
 
     } catch(err){
         console.error(err);
+    }
+}
+
+export const getOneItem = async(username: string, itemId: number) => {
+    try {
+        const token = Cookies.get('token');
+
+        const headers = { 'Authorization' : `Bearer ${token}` };
+        const request = await fetch(endpoint + `${username}/inventory/enhance/${itemId}`, {headers: headers});
+
+        const item: EnhanceOneItemType = await request.json();
+        return item;
+
+    } catch(error) {
+        console.error(error);
     }
 }

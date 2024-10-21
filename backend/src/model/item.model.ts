@@ -7,6 +7,25 @@ const itemModel = {
         return await prisma.inventory.findFirst({
             where: {
                 id: itemId
+            },
+            select: {
+                id: true,
+                exp: true,
+                name: {
+                    select: {
+                        name: true
+                    }
+                },
+                substats: {
+                    select: {
+                        value: true,
+                        substatType: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                }
             }
         })
     },

@@ -18,7 +18,7 @@ const itemController = {
             //if invalid item
             if(!result) return res.status(404).json({ message: 'Item Not Found'});
 
-            return res.status(200).json(result);
+            return res.status(200).send({message: 'item found', result});
 
         } catch(error) {
             next(error);

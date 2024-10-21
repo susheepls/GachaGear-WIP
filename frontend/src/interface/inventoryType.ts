@@ -19,3 +19,8 @@ export interface Substats {
 export interface SubstatType {
     name: string,
 }
+
+export interface EnhanceOneItemType {
+    message: string,
+    result: Item
+}
