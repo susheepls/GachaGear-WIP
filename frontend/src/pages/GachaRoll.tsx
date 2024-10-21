@@ -22,8 +22,8 @@ const GachaRoll = () => {
             </div>
         </div>
       ) : (
-        <div className='flex-col'>
-          <div id='newItem' className='align-middle'>
+        <div>
+          <div id='newItem' className='flex flex-col text-center'>
             <div>
               {String(newItem.name.name)}
             </div>

@@ -37,6 +37,9 @@ const Inventory = () => {
     const showAll = () => {
         const substatDivs = document.querySelectorAll('[id*="substats"]');
         substatDivs.forEach((element) => element.classList.remove('hidden'));
+        substatDivs.forEach((element) => element.classList.add('flex'));
+        substatDivs.forEach((element) => element.classList.add('flex-col'));
+        substatDivs.forEach((element) => element.classList.add('text-center'));
     }
 
     //return a div for each item
@@ -44,10 +47,10 @@ const Inventory = () => {
         if(!items) return;
         return items.map((item, index) => 
             <div key={index}>
-                <div id={`${index}`} onClick={(event) => handleVisibility(event)}>
+                <div id={`${index}`} className='px-1' onClick={(event) => handleVisibility(event)}>
                     {item.name.name}
                 </div>
-                <div>
+                <div className='px-1'>
                     {item.level}
                 </div>
                 <div id={`substats${index}`} className='hidden bg-slate-400'>
@@ -82,16 +85,16 @@ const Inventory = () => {
     }
 
     return (
-        <div>
+        <div className='flex flex-col'>
             <div>
                 {allItemNamesDiv()}
             </div>
-            <div>
+            <div className='text-center'>
                 <button onClick={()=>hideAll()}>
                     Collapse All Items
                 </button>
             </div>
-            <div>
+            <div className='text-center'>
                 <button onClick={()=>showAll()}>
                     Reveal All Items
                 </button>
