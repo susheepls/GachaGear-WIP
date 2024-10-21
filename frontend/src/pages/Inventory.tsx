@@ -24,7 +24,12 @@ const Inventory = () => {
     const handleVisibility = (event: React.MouseEvent) => {
         const itemDiv = event.currentTarget.id;
         const substatDiv = document.getElementById(`substats${itemDiv}`);
-        if(substatDiv) substatDiv.classList.toggle('hidden');
+        if(substatDiv) {
+            substatDiv.classList.toggle('hidden');
+            substatDiv.classList.add('flex');
+            substatDiv.classList.add('flex-col');
+            substatDiv.classList.add('text-center');
+        }
     }
 
     //collapse all items
@@ -77,6 +82,9 @@ const Inventory = () => {
                         <div>
                             {item.substats[2].value}
                         </div>
+                    </div>
+                    <div>
+                        <button>Enhance!</button>
                     </div>
                 </div>
                
