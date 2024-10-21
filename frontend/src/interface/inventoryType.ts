@@ -4,7 +4,8 @@ export interface InventoryType {
 }
 
 export interface Item {
-    level: number,
+    id: number,
+    exp: number,
     name: ItemNameType,
     substats: Substats[]
 }

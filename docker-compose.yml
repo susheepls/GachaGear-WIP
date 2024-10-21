@@ -27,7 +27,7 @@ services:
     depends_on:
       - postgres
     command: >
-      sh -c "npx prisma migrate dev && npx prisma generate && npx prisma db seed && npm run dev"
+      sh -c "npx prisma migrate deploy && npx prisma generate && npx prisma db seed && npm run dev"
 
   postgres:
     container_name: postgres

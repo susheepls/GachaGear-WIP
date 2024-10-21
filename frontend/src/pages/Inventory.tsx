@@ -56,7 +56,7 @@ const Inventory = () => {
                     {item.name.name}
                 </div>
                 <div className='px-1'>
-                    {item.level}
+                    {item.exp}
                 </div>
                 <div id={`substats${index}`} className='hidden bg-slate-400'>
                     <div id='substat1'>

@@ -57,7 +57,8 @@ const accountModel = {
     getAccountInventoryName: async(accountId: number) => {
         return await prisma.inventory.findMany({
             select: {
-                level: true,
+                id: true,
+                exp: true,
                 name: {
                     select: {
                         name: true

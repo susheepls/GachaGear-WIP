@@ -6,6 +6,7 @@ const router = Router();
 import accountController from './controller/accountController';
 import { authenticateToken } from "./middleware/auth";
 import inventoryController from "./controller/inventoryController";
+import itemController from "./controller/itemController";
 
 //set up routes
 //accounts
@@ -21,4 +22,7 @@ router.get('/:username/inventory', authenticateToken, accountController.getAccou
 
 //roll item route (Inventory Routes)
 router.post('/gacharoll', authenticateToken, inventoryController.getItem);
+
+//item route
+router.get('/:username/inventory/enhance/:id', authenticateToken, itemController.getOneItem);
 export default router;

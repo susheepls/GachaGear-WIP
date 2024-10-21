@@ -24,7 +24,7 @@ model Account {
 
 model Inventory {
   id Int @id @default(autoincrement())
-  level Int @default(0)
+  exp Int @default(0)
   name ItemName @relation(fields: [itemNameId], references: [id])
   itemNameId Int
 
