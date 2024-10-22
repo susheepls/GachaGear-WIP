@@ -5,12 +5,18 @@ import { useParams } from 'react-router-dom';
 
 const UpgradeItem = () => {
     const [currentItem, setCurrentItem] = useState<EnhanceOneItemType | null>(null);
+    const [currentItemLvl, setCurrentItemLvl] = useState<number | string | null>(null);
 
     const { username, id } = useParams();
 
     useEffect(() => {
-        fetchItemData()
+        fetchItemData();
     }, []);
+
+    //convert exp to level on load
+    useEffect(() => {
+        expToLevel();
+    }, [currentItem]);
 
     //Fetch Data for one item
     const fetchItemData = async() => {
@@ -20,11 +26,22 @@ const UpgradeItem = () => {
         setCurrentItem(item);
     }
 
+    //handle item level
+    const expToLevel = () => {
+        if(currentItem && currentItem.result) {
+            if(currentItem.result.exp < 10) setCurrentItemLvl(0);
+            else if(currentItem.result.exp >= 10 && currentItem.result.exp < 30) setCurrentItemLvl(1);
+            else if(currentItem.result.exp >= 30 && currentItem.result.exp < 60) setCurrentItemLvl(2);
+            else if(currentItem.result.exp >= 60 && currentItem.result.exp < 100) setCurrentItemLvl(3);
+            else setCurrentItemLvl('MAX');
+        } else return;
+    }
+
     return (
         <div>
             {!currentItem || !currentItem.result ? (
                 <div>
-                    Error Accessing Item Info
+                    Loading....
                 </div>
             ) : (
                 <div id='item-stats'>
@@ -32,7 +49,7 @@ const UpgradeItem = () => {
                         {currentItem.result.name.name}
                     </div>
                     <div className='px-1'>
-                        {currentItem.result.exp}
+                        Item Level: {currentItemLvl}
                     </div>
                     <div id='item-substats'>
                         <div id='substat1'>
