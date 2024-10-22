@@ -41,6 +41,14 @@ export const getOneItem = async(username: string, itemId: number) => {
         const headers = { 'Authorization' : `Bearer ${token}` };
         const request = await fetch(endpoint + `${username}/inventory/enhance/${itemId}`, {headers: headers});
 
+        //if request is not ok
+        if(!request.ok) {
+            if(request.status === 403 || request.status === 404) {
+                return { message: 'Invalid URL', result: null };
+            }
+            throw new Error(`Failed with status ${request.status}`);
+        }
+        
         const item: EnhanceOneItemType = await request.json();
         return item;
 

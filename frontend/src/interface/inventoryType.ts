@@ -22,5 +22,5 @@ export interface SubstatType {
 
 export interface EnhanceOneItemType {
     message: string,
-    result: Item
+    result: Item | null,
 }
