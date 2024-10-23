@@ -29,6 +29,18 @@ const itemModel = {
             }
         })
     },
+    enhanceItem: async(itemId:number, currencyInput: number) => {
+        return await prisma.inventory.update({
+            where: {
+                id: itemId
+            },
+            data: {
+                exp: {
+                    increment: currencyInput
+                }
+            }
+        })
+    },
 }
 
 export default itemModel;
