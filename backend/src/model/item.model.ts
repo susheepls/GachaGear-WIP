@@ -38,6 +38,25 @@ const itemModel = {
                 exp: {
                     increment: currencyInput
                 }
+            },
+            select: {
+                id: true,
+                exp: true,
+                name: {
+                    select: {
+                        name: true
+                    }
+                },
+                substats: {
+                    select: {
+                        value: true,
+                        substatType: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                }
             }
         })
     },

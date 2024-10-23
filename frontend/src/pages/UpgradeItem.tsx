@@ -2,6 +2,7 @@ import { useEffect, useState} from 'react'
 import { EnhanceOneItemType } from '../interface/inventoryType'
 import * as inventoryApi from '../api/inventory'
 import { useParams } from 'react-router-dom';
+import EnhanceForm from '../components/EnhanceForm';
 
 const UpgradeItem = () => {
     const [currentItem, setCurrentItem] = useState<EnhanceOneItemType | null>(null);
@@ -12,7 +13,7 @@ const UpgradeItem = () => {
 
     useEffect(() => {
         fetchItemData();
-    }, []);
+    }, [currentItem]);
 
     //convert exp to level on load
     useEffect(() => {
@@ -112,6 +113,13 @@ const UpgradeItem = () => {
                             EXP for next substat upgrade = {remainingExp}
                         </div>
                     </div>
+                    <EnhanceForm
+                        remainingExp = {remainingExp}
+                        username = {username}
+                        itemId = {id}
+                        setCurrentItem = {setCurrentItem}
+                        currentItem = {currentItem}
+                    />
                 </div>
             )}
         </div>
