@@ -103,7 +103,7 @@ const itemModel = {
             }
         });
 
-        if(substatType?.id === 1){
+        if(substatType?.substatTypeId === 1){
             const increaseValue = weightedAtkSubtatIncreaseValues();
             const updateRecord = await prisma.itemSubstats.update({
                 where: {
@@ -125,7 +125,7 @@ const itemModel = {
             })
             return { ...updateRecord, increaseValue }
         };
-        if(substatType?.id === 2){
+        if(substatType?.substatTypeId === 2){
             const increaseValue = weightedDefSubstatIncreaseValues()
             const updateRecord = await prisma.itemSubstats.update({
                 where: {
@@ -147,7 +147,7 @@ const itemModel = {
             });
             return { ...updateRecord, increaseValue }
         };
-        if(substatType?.id === 3){
+        if(substatType?.substatTypeId === 3){
             const increaseValue = weightedHpSubstatIncreaseValues()
             const updateRecord = await prisma.itemSubstats.update({
                 where: {

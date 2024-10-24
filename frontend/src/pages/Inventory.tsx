@@ -17,6 +17,16 @@ const Inventory = () => {
     const handleItems = async() => {
         const user: AccountInfoType = await getAccountFromToken(navigate);
         const result = await inventoryApi.getAccountInventory(navigate, user.username);
+
+        //sort items in order
+        result?.accountInventory.sort((a, b) => a.id - b.id);
+
+        //sort the order of substats in each item
+        const substatOrder = ['atk', 'hp', 'def'];
+        result?.accountInventory.forEach((item) => {
+            item.substats.sort((a,b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name));
+        });
+
         setItems(result!.accountInventory);
     }
     
@@ -53,6 +63,15 @@ const Inventory = () => {
         navigate(`/${user.username}/inventory/${itemId}`);
     }
 
+    //convert exp to level to display
+    const expToLevelConverter = (exp: number) => {
+        if (exp < 10) return 0;
+        if (exp < 30) return 1;
+        if (exp < 60) return 2;
+        if (exp < 100) return 3;
+        return 'MAX';
+    };
+
     //return a div for each item
     const allItemNamesDiv = () => {
         if(!items) return;
@@ -62,7 +81,7 @@ const Inventory = () => {
                     {item.name.name}
                 </div>
                 <div className='px-1'>
-                    {item.exp}
+                    Level: {expToLevelConverter(item.exp)}
                 </div>
                 <div id={`substats${index}`} className='hidden bg-slate-400'>
                     <div id='substat1'>

@@ -32,6 +32,10 @@ const UpgradeItem = () => {
         if(!username || !id) return;
         const item = await inventoryApi.getOneItem(username, Number(id));
         if(!item) return;
+
+        //sort substats in consistent order
+        const substatOrder = ['atk', 'hp', 'def'];
+        item.result?.substats.sort((a, b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name));
         setCurrentItem(item);
     }
 
