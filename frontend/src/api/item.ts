@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { EnhanceItemExp } from "../interface/itemType";
+import { EnhanceItemExp, ItemSubstatIncrease } from "../interface/itemType";
 const endpoint = import.meta.env.VITE_endpoint;
 
 export const enhanceItem = async(username: string, itemId: string, expAmount: EnhanceItemExp) => {
@@ -32,4 +32,17 @@ export const enhanceItem = async(username: string, itemId: string, expAmount: En
     } catch(error) {
         console.error(error);
     }
+}
+export const enhanceSubstat = async(username: string, itemId: string) => {
+    const token = Cookies.get('token');
+
+    const getItem = await fetch(endpoint + `${username}/inventory/enhance/substats/${itemId}`, {
+        method: 'PATCH',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    
+    const upgradedSubstat: ItemSubstatIncrease = await getItem.json();
+    return upgradedSubstat;
 }

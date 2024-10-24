@@ -1,5 +1,5 @@
 import React, { FormEvent, SetStateAction, useEffect, useState } from 'react'
-import { EnhanceItemExp } from '../interface/itemType'
+import { EnhanceItemExp, ItemSubstatIncrease } from '../interface/itemType'
 import * as ItemApi from '../api/item';
 import { EnhanceOneItemType } from '../interface/inventoryType';
 
@@ -8,6 +8,7 @@ interface Props{
     username: string | undefined,
     itemId: string | undefined,
     setCurrentItem: React.Dispatch<SetStateAction<EnhanceOneItemType | null>>
+    setIncreaseSubstatObject: React.Dispatch<SetStateAction<ItemSubstatIncrease | null>>
     currentItem: EnhanceOneItemType | null
 }
 
@@ -24,8 +25,17 @@ const EnhanceForm: React.FC<Props> = (props) => {
         const username = props.username;
         const itemId = props.itemId;
 
-        const result = await ItemApi.enhanceItem(username!, itemId!, expAmount)
+        //enhance substat fetch whenever itemlvl state changes
+        if(expAmount.expIncrease === props.remainingExp) {
+            const enhanceSubstat = async() => {
+                const itemSubstatIncrease = await ItemApi.enhanceSubstat(username!, itemId!);
+                if(itemSubstatIncrease) props.setIncreaseSubstatObject(itemSubstatIncrease); 
+            };
+            enhanceSubstat();
+        }
+        const result = await ItemApi.enhanceItem(username!, itemId!, expAmount);
         props.setCurrentItem(result);
+        setExpAmount({ expIncrease: 0 });
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

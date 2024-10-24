@@ -3,11 +3,13 @@ import { EnhanceOneItemType } from '../interface/inventoryType'
 import * as inventoryApi from '../api/inventory'
 import { useParams } from 'react-router-dom';
 import EnhanceForm from '../components/EnhanceForm';
+import { ItemSubstatIncrease } from '../interface/itemType';
 
 const UpgradeItem = () => {
     const [currentItem, setCurrentItem] = useState<EnhanceOneItemType | null>(null);
     const [currentItemLvl, setCurrentItemLvl] = useState<number | string | null>(null);
     const [remainingExp, setRemainingExp] = useState<number | string | null>(null);
+    const [increaseSubstatObject, setIncreaseSubstatObject] = useState<ItemSubstatIncrease | null>(null);
 
     const { username, id } = useParams();
 
@@ -18,12 +20,12 @@ const UpgradeItem = () => {
     //convert exp to level on load
     useEffect(() => {
         expToLevel();
-    }, [currentItem]);
+    }, [remainingExp]);
 
     //display how much exp til next lvl
     useEffect(() => {
-        remainingExpDisplay()
-    }, [currentItem])
+        remainingExpDisplay();
+    }, [currentItem]);
 
     //Fetch Data for one item
     const fetchItemData = async() => {
@@ -119,6 +121,7 @@ const UpgradeItem = () => {
                         itemId = {id}
                         setCurrentItem = {setCurrentItem}
                         currentItem = {currentItem}
+                        setIncreaseSubstatObject = {setIncreaseSubstatObject}
                     />
                 </div>
             )}
