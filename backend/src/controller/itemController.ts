@@ -42,6 +42,23 @@ const itemController = {
             const result = await itemModel.enhanceItem(itemNumber, expIncrease)
 
             res.status(200).send({ message: 'Enhance Success', result: result});
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    increaseSubstatValues: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+
+            //if the username is not equal to the url inputted
+            if(accountUsername !== req.params.username) return res.status(403).json({ message: 'User Not Authorized'});
+
+            const itemNumber = Number(req.params.id);
+            const result = await itemModel.increaseSubstat(itemNumber);
+
+            res.status(200).send({ message: 'Substat Increased!', result: result });
+
         } catch(error) {
             next(error);
         }

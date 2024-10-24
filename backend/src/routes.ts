@@ -27,4 +27,5 @@ router.post('/gacharoll', authenticateToken, inventoryController.getItem);
 router.get('/:username/inventory/enhance/:id', authenticateToken, itemController.getOneItem);
 //enhance item
 router.patch('/:username/inventory/enhance/:id', authenticateToken, itemController.enhanceItem);
+router.patch('/:username/inventory/enhance/substats/:id', authenticateToken, itemController.increaseSubstatValues);
 export default router;
