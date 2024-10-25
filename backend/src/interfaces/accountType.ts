@@ -11,3 +11,11 @@ export interface Items {
     name: string,
     ownerId: number
 }
+
+export interface DecreaseAmount {
+    decreaseAmount: number,
+}
+
+export interface IncreaseAmount {
+    increaseAmount: number,
+}

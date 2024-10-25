@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import accountModel from '../model/account.model';
-import { AccountChangePasswordType, AccountCreateType, Items } from "../interfaces/accountType";
+import { AccountChangePasswordType, AccountCreateType, DecreaseAmount, IncreaseAmount, Items } from "../interfaces/accountType";
 import bcrypt from "bcrypt";
 import * as jwt from 'jsonwebtoken';
 import { AuthenticatedRequest, CustomJwtPayload } from "../interfaces/jwtTypes";
@@ -111,6 +111,60 @@ const accountController = {
             return res.status(200).send({message: "user inventory found", accountInventory});
 
         } catch(error){
+            next(error);
+        }
+    },
+    getAccountCurrency: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const accountCurrency = await accountModel.getAccountCurrency(accountId);
+            return res.status(200).json(accountCurrency);
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    decreaseAccountCurrency: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const getAccountCurrency = await accountModel.getAccountCurrency(accountId);
+            const decreaseAmount = req.body as DecreaseAmount;
+
+            if(getAccountCurrency && getAccountCurrency.currency > decreaseAmount.decreaseAmount) {
+                const accountCurrencyDecrease = await accountModel.decreaseAccountCurrency(accountId, decreaseAmount.decreaseAmount);
+                return res.status(200).json({ message: 'Currency Decreased', result: accountCurrencyDecrease });
+            } else {
+                return res.status(406).json({ message: 'Not Enough Currency' }); 
+            }
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    increaseAccountCurrency: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const increaseAmount = req.body as IncreaseAmount;
+            const accountCurrencyIncrease = await accountModel.increaseAccountCurrency(accountId, increaseAmount.increaseAmount);
+
+            return res.status(200).json({ message: 'Currency Increased', result: accountCurrencyIncrease });
+
+        } catch(error) {
             next(error);
         }
     }

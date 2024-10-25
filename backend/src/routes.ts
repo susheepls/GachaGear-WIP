@@ -28,4 +28,10 @@ router.get('/:username/inventory/enhance/:id', authenticateToken, itemController
 //enhance item
 router.patch('/:username/inventory/enhance/:id', authenticateToken, itemController.enhanceItem);
 router.patch('/:username/inventory/enhance/substats/:id', authenticateToken, itemController.increaseSubstatValues);
+
+//currency endpoints
+router.get('/:username/currency', authenticateToken, accountController.getAccountCurrency);
+//can return message: "Currency Decreased" or "Not Enough Currency"
+router.patch('/:username/currency/decrease', authenticateToken, accountController.decreaseAccountCurrency);
+router.patch('/:username/currency/increase', authenticateToken, accountController.increaseAccountCurrency);
 export default router;

@@ -80,7 +80,53 @@ const accountModel = {
             }
         })
         
-    }
+    },
+
+    //get account currency only
+    getAccountCurrency: async(accountId: number) => {
+        return await prisma.account.findFirst({
+            where: {
+                id: accountId
+            },
+            select: {
+                currency: true
+            }
+        })
+    },
+
+    //subtract account currency
+    decreaseAccountCurrency: async(accountId: number, decreaseAmount: number) => {
+        return await prisma.account.update({
+            where: {
+                id: accountId
+            },
+            data: {
+                currency: {
+                    decrement: decreaseAmount
+                }
+            },
+            select: {
+                currency: true
+            }
+        });
+    },
+
+    //increase account currency
+    increaseAccountCurrency: async(accountId: number, increaseAmount: number) => {
+        return await prisma.account.update({
+            where: {
+                id: accountId
+            },
+            data: {
+                currency: {
+                    increment: increaseAmount
+                }
+            },
+            select: {
+                currency: true
+            }
+        })
+    },
 }
 
 export default accountModel;
