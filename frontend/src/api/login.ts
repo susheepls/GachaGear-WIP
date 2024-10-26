@@ -19,14 +19,14 @@ export const loginFetch = async(loginCredentials: AccountLoginType) => {
     }
 }
 
-export const getAccountFromToken = async(navigate: NavigateFunction) => {
+export const getAccountFromToken = async(navigate?: NavigateFunction) => {
     try{
         const token = Cookies.get('token');
         if(!token) return;
         const request = await fetch(endpoint + 'current-user/', {
             headers: { 'Authorization' : `Bearer ${token}`}
         });
-        if (!request.ok) {
+        if (!request.ok && navigate) {
             if(request.status === 401 || request.status === 403) navigate('/login');
             alert('please log in again');
             throw new Error('Failed to fetch user info');
