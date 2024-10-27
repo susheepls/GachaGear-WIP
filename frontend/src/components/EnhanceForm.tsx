@@ -10,6 +10,8 @@ interface Props{
     setCurrentItem: React.Dispatch<SetStateAction<EnhanceOneItemType | null>>
     setIncreaseSubstatObject: React.Dispatch<SetStateAction<ItemSubstatIncrease | null>>
     currentItem: EnhanceOneItemType | null
+    currentCurrency: number | null
+    setCurrentCurrency: React.Dispatch<SetStateAction<number | null>>
 }
 
 const EnhanceForm: React.FC<Props> = (props) => {

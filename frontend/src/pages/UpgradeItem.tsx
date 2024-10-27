@@ -4,12 +4,14 @@ import * as inventoryApi from '../api/inventory'
 import { useParams } from 'react-router-dom';
 import EnhanceForm from '../components/EnhanceForm';
 import { ItemSubstatIncrease } from '../interface/itemType';
+import * as CurrencyApi from '../api/currency';
 
 const UpgradeItem = () => {
     const [currentItem, setCurrentItem] = useState<EnhanceOneItemType | null>(null);
     const [currentItemLvl, setCurrentItemLvl] = useState<number | string | null>(null);
     const [remainingExp, setRemainingExp] = useState<number | string | null>(null);
     const [increaseSubstatObject, setIncreaseSubstatObject] = useState<ItemSubstatIncrease | null>(null);
+    const [currentCurrency, setCurrentCurrency] = useState<number | null>(null);
 
     const { username, id } = useParams();
 
@@ -26,6 +28,11 @@ const UpgradeItem = () => {
     useEffect(() => {
         remainingExpDisplay();
     }, [currentItem]);
+
+    //fetch and set account currency
+    useEffect(() => {
+        fetchAccountCurrency();
+    }, [currentCurrency]);
 
     //Fetch Data for one item
     const fetchItemData = async() => {
@@ -67,6 +74,15 @@ const UpgradeItem = () => {
 
         if(currentItem && currentItem.result) setRemainingExp(remainingExpConverter(currentItem.result.exp))
         else return;
+    }
+
+    //fetch account currency
+    const fetchAccountCurrency = async() => {
+        if(!username) return;
+        const fetchAccountCurrency = await CurrencyApi.getAccountCurrency(username);
+
+        if(!fetchAccountCurrency) return;
+        setCurrentCurrency(fetchAccountCurrency); 
     }
 
     return (
@@ -126,6 +142,8 @@ const UpgradeItem = () => {
                         setCurrentItem = {setCurrentItem}
                         currentItem = {currentItem}
                         setIncreaseSubstatObject = {setIncreaseSubstatObject}
+                        currentCurrency = {currentCurrency}
+                        setCurrentCurrency = {setCurrentCurrency}
                     />
                 </div>
             )}
