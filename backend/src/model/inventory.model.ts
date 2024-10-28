@@ -110,6 +110,23 @@ const InventoryModel = {
             }
         });
 
+    },
+
+     //delete item from accountInventory
+     deleteFromInventory: async(itemId: number) => {
+        return await prisma.inventory.delete({
+            where: {
+                id: itemId,
+            },
+            select: {
+                id: true,
+                name: {
+                    select: {
+                        name: true
+                    }
+                },
+            }
+        })
     }
 } 
 

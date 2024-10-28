@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import * as inventoryApi from '../api/inventory';
 import { Item } from '../interface/inventoryType';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAccountFromToken } from '../api/login';
 import { AccountInfoType } from '../interface/accountTypes';
+import * as CurrencyApi from '../api/currency';
+import { CurrencyIncreaseResponse } from '../interface/currencyTypes';
 
 const Inventory = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
+    const [sellAmount, setSellAmount] = useState<number | null>(null);
 
     useEffect(() => {
         handleItems();
@@ -72,6 +75,16 @@ const Inventory = () => {
         return 'MAX';
     };
 
+    //sell items for currency
+    const sellItemsForCurrency = async(sellAmount: number) => {
+        if (sellAmount === 0) return;
+        const { username } = useParams();
+        if(!username) return;
+        const increaseAmountRequest = { increaseAmount: sellAmount};
+        const sellItemRequest: CurrencyIncreaseResponse = await CurrencyApi.increaseAccountCurrency(username, increaseAmountRequest);
+        setSellAmount(sellItemRequest.result.currency);
+    }
+
     //return a div for each item
     const allItemNamesDiv = () => {
         if(!items) return;
@@ -108,8 +121,13 @@ const Inventory = () => {
                             {item.substats[2].value}
                         </div>
                     </div>
-                    <div>
-                        <button onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
+                    <div className='flex justify-evenly'>
+                        <div id='enhance-button'>
+                            <button onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
+                        </div>
+                        <div id='sell-button'>
+                            <button onClick={() => sellItemsForCurrency( Math.floor(item.exp/2) )}>Sell for {Math.floor(item.exp/2)} Currency</button>
+                        </div>
                     </div>
                 </div>
                

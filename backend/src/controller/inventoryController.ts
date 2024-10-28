@@ -11,6 +11,22 @@ const inventoryController = {
         }catch(err) {
             next(err);
         }
+    },
+    deleteItem: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const itemId = Number(req.params.itemId);
+            const deleteItem = await InventoryModel.deleteFromInventory(itemId);
+            
+            res.status(200).json({ message: 'Item Sold!', result: deleteItem });
+        } catch(error) {
+            next(error);
+        }
     }
 }
 

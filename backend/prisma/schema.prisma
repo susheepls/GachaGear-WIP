@@ -25,11 +25,11 @@ model Account {
 model Inventory {
   id Int @id @default(autoincrement())
   exp Int @default(0)
-  name ItemName @relation(fields: [itemNameId], references: [id])
-  itemNameId Int
+  name ItemName? @relation(fields: [itemNameId], references: [id])
+  itemNameId Int?
 
-  owner Account @relation(fields: [ownerId], references: [id])
-  ownerId Int
+  owner Account? @relation(fields: [ownerId], references: [id])
+  ownerId Int?
 
   substats ItemSubstats[]
 }
@@ -44,11 +44,11 @@ model ItemSubstats {
   id Int @id @default(autoincrement())
   value Float
 
-  item Inventory @relation(fields: [item_id], references: [id])
-  item_id Int
+  item Inventory? @relation(fields: [item_id], references: [id])
+  item_id Int?
 
-  substatType SubstatTypes @relation(fields: [substatTypeId], references: [id])
-  substatTypeId Int
+  substatType SubstatTypes? @relation(fields: [substatTypeId], references: [id])
+  substatTypeId Int?
 
   @@unique([item_id, substatTypeId])
 }

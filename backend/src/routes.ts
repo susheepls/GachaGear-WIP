@@ -29,6 +29,9 @@ router.get('/:username/inventory/enhance/:id', authenticateToken, itemController
 router.patch('/:username/inventory/enhance/:id', authenticateToken, itemController.enhanceItem);
 router.patch('/:username/inventory/enhance/substats/:id', authenticateToken, itemController.increaseSubstatValues);
 
+//deleteitem
+router.delete('/:username/inventory/sell/:itemId', authenticateToken, inventoryController.deleteItem);
+
 //currency endpoints
 router.get('/:username/currency', authenticateToken, accountController.getAccountCurrency);
 //can return message: "Currency Decreased" or "Not Enough Currency"
