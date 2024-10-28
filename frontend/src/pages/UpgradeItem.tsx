@@ -31,8 +31,8 @@ const UpgradeItem = () => {
 
     //fetch and set account currency
     useEffect(() => {
-        fetchAccountCurrency();
-    }, [currentCurrency]);
+        fetchAccountCurrency()
+    }, [currentItem]);
 
     //Fetch Data for one item
     const fetchItemData = async() => {
@@ -80,8 +80,7 @@ const UpgradeItem = () => {
     const fetchAccountCurrency = async() => {
         if(!username) return;
         const fetchAccountCurrency = await CurrencyApi.getAccountCurrency(username);
-
-        if(!fetchAccountCurrency) return;
+        if(fetchAccountCurrency === null || fetchAccountCurrency === undefined) return;
         setCurrentCurrency(fetchAccountCurrency); 
     }
 
@@ -145,6 +144,9 @@ const UpgradeItem = () => {
                         currentCurrency = {currentCurrency}
                         setCurrentCurrency = {setCurrentCurrency}
                     />
+                    <div className='p-1'>
+                        EXP Currency: {currentCurrency ?? 0}
+                    </div>
                 </div>
             )}
         </div>

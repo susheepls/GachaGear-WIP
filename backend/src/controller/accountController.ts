@@ -140,7 +140,7 @@ const accountController = {
             const getAccountCurrency = await accountModel.getAccountCurrency(accountId);
             const decreaseAmount = req.body as DecreaseAmount;
 
-            if(getAccountCurrency && getAccountCurrency.currency > decreaseAmount.decreaseAmount) {
+            if(getAccountCurrency && getAccountCurrency.currency >= decreaseAmount.decreaseAmount) {
                 const accountCurrencyDecrease = await accountModel.decreaseAccountCurrency(accountId, decreaseAmount.decreaseAmount);
                 return res.status(200).json({ message: 'Currency Decreased', result: accountCurrencyDecrease });
             } else {

@@ -1,3 +1,6 @@
+export interface Currency {
+    currency: number
+}
 export interface CurrencyDecreaseResponse {
     message: string,
     result: {

@@ -1,7 +1,9 @@
 import React, { FormEvent, SetStateAction, useEffect, useState } from 'react'
 import { EnhanceItemExp, ItemSubstatIncrease } from '../interface/itemType'
 import * as ItemApi from '../api/item';
+import * as CurrencyApi from '../api/currency'
 import { EnhanceOneItemType } from '../interface/inventoryType';
+import { CurrencyDecreaseRequest, CurrencyDecreaseResponse } from '../interface/currencyTypes';
 
 interface Props{
     remainingExp: number | string | null
@@ -16,6 +18,7 @@ interface Props{
 
 const EnhanceForm: React.FC<Props> = (props) => {
     const [expAmount, setExpAmount] = useState<EnhanceItemExp>({ expIncrease: 0 })
+    const [decreaseCurrencyAmount, setDecreaseCurrencyAmount] = useState<CurrencyDecreaseRequest>({ decreaseAmount: 0 })
 
     //use effect to change max scroll input amount
     useEffect(() => {
@@ -26,7 +29,22 @@ const EnhanceForm: React.FC<Props> = (props) => {
         event.preventDefault();
         const username = props.username;
         const itemId = props.itemId;
-
+        
+        //check if account has enough currency then enhance
+        if(props.currentCurrency && expAmount.expIncrease !== 0 && expAmount.expIncrease <= props.currentCurrency){
+            const result = await ItemApi.enhanceItem(username!, itemId!, expAmount);
+            const decreaseCurrencyFetch: CurrencyDecreaseResponse = await CurrencyApi.decreaseAccountCurrency(username!, decreaseCurrencyAmount);
+            props.setCurrentCurrency(decreaseCurrencyFetch.result.currency);
+            props.setCurrentItem(result);
+            setExpAmount({ expIncrease: 0 });
+            setDecreaseCurrencyAmount({ decreaseAmount: 0 });
+        } else if(expAmount.expIncrease === 0){
+            return;
+        } else {
+            alert('Not Enough Currency');
+            return;
+        }
+        
         //enhance substat fetch whenever itemlvl state changes
         if(expAmount.expIncrease === props.remainingExp) {
             const enhanceSubstat = async() => {
@@ -35,9 +53,6 @@ const EnhanceForm: React.FC<Props> = (props) => {
             };
             enhanceSubstat();
         }
-        const result = await ItemApi.enhanceItem(username!, itemId!, expAmount);
-        props.setCurrentItem(result);
-        setExpAmount({ expIncrease: 0 });
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +62,10 @@ const EnhanceForm: React.FC<Props> = (props) => {
         setExpAmount( previousData => (
             {...previousData, [name]: Number(value)}
         ));
+        //make sure the decrease amount object is also changed
+        setDecreaseCurrencyAmount( previousData => (
+            {...previousData, decreaseAmount: Number(value)}
+        ))
     };
 
     //max value for the scroll wheel input
@@ -65,7 +84,7 @@ const EnhanceForm: React.FC<Props> = (props) => {
                     <label>
                         Enhance EXP Amount: {expAmount.expIncrease}
                     </label>
-                    <input type='range' name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
+                    <input id='exp-input' type='range' name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
                 </div>
                 <div id='submit-button' className='flex flex-col justify-center'>
                     <button type='submit' onClick={handleSubmit}>Enhance!</button>

@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
-import { currency } from "../components/NavBar";
-import { CurrencyDecreaseRequest, CurrencyIncreaseRequest } from "../interface/currencyTypes";
+import { Currency, CurrencyDecreaseRequest, CurrencyIncreaseRequest } from "../interface/currencyTypes";
 const endpoint = import.meta.env.VITE_endpoint;
 
 export const getAccountCurrency = async(username: string) => {
@@ -9,7 +8,7 @@ export const getAccountCurrency = async(username: string) => {
         const fetchCurrency = await fetch(endpoint + `${username}/currency`, {
             headers: { 'Authorization' : `Bearer ${token}`},
         });
-        const accountCurrency: currency = await fetchCurrency.json();
+        const accountCurrency: Currency = await fetchCurrency.json();
         return accountCurrency.currency;
         
     } catch (error) {
