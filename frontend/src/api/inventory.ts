@@ -56,3 +56,20 @@ export const getOneItem = async(username: string, itemId: number) => {
         console.error(error);
     }
 }
+
+export const deleteItem = async(username: string, itemId: number) => {
+    try {
+        const token = Cookies.get('token');
+
+        const deleteRequest = await fetch(endpoint + `${username}/inventory/sell/${itemId}`, {
+            method:'DELETE',
+            headers: { 'Authorization' : `Bearer ${token}` }
+        });
+
+        const deletedItem = await deleteRequest.json();
+        return deletedItem;
+
+    } catch(error) {
+        console.error(error);
+    }
+}

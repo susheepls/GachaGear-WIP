@@ -14,7 +14,7 @@ const Inventory = () => {
 
     useEffect(() => {
         handleItems();
-    }, []);
+    }, [items]);
     
     //fetch all the items that the account has
     const handleItems = async() => {
@@ -76,13 +76,20 @@ const Inventory = () => {
     };
 
     //sell items for currency
-    const sellItemsForCurrency = async(sellAmount: number) => {
+    const { username } = useParams();
+    const sellItemsForCurrency = async(itemId: number, sellAmount: number) => {
         if (sellAmount === 0) return;
-        const { username } = useParams();
         if(!username) return;
+
+        //delete the item from inventory
+        const deleteRequest = await inventoryApi.deleteItem(username, itemId);
+        if(!deleteRequest) return;
+
+        //increase currency after selling
         const increaseAmountRequest = { increaseAmount: sellAmount};
         const sellItemRequest: CurrencyIncreaseResponse = await CurrencyApi.increaseAccountCurrency(username, increaseAmountRequest);
         setSellAmount(sellItemRequest.result.currency);
+
     }
 
     //return a div for each item
@@ -126,7 +133,7 @@ const Inventory = () => {
                             <button onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
                         </div>
                         <div id='sell-button'>
-                            <button onClick={() => sellItemsForCurrency( Math.floor(item.exp/2) )}>Sell for {Math.floor(item.exp/2)} Currency</button>
+                            <button onClick={ () => sellItemsForCurrency(item.id, (Math.floor(item.exp/2)) ) }>Sell for {Math.floor(item.exp/2)} Currency</button>
                         </div>
                     </div>
                 </div>
@@ -140,6 +147,12 @@ const Inventory = () => {
             <div>
                 {allItemNamesDiv()}
             </div>
+
+            { sellAmount && 
+            <div className='text-center'>
+                Sold! Now you have {sellAmount} currency!
+            </div> }
+
             <div className='text-center'>
                 <button onClick={()=>hideAll()}>
                     Collapse All Items
