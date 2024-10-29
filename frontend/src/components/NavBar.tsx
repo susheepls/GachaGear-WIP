@@ -18,7 +18,8 @@ const NavBar = () => {
     const pages: page[] = [
         {name: 'Home', href: '/', key: 'home'},
         {name: 'Inventory', href: `${currentUserUrl}`, key: 'inventory'},
-        {name: 'Roll Now!', href: '/gacharoll', key: 'gacharoll'}
+        {name: 'Get Currency', href: '/currencyBox', key: 'currencybox'},
+        {name: 'Roll Now!', href: '/gacharoll', key: 'gacharoll'},
     ];
     
     useEffect(() => {

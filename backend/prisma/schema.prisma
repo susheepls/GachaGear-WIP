@@ -19,6 +19,7 @@ model Account {
   password String 
   currency Int @default(100)
   join_date DateTime @db.Date @default(now())
+  last_box_open DateTime? @db.Timestamp(0)
   items Inventory[]
 }
 

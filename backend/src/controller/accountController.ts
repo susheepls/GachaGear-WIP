@@ -167,6 +167,39 @@ const accountController = {
         } catch(error) {
             next(error);
         }
+    },
+    getLastFreeBoxTime: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const accountLastOpenFetch = await accountModel.getLastFreeCurrencyBox(accountId);
+
+            res.status(200).json({ message: 'Last Box Date Found', result: accountLastOpenFetch });
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    updateLastFreeBoxTime: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const currentTime = new Date();
+            const updateTimeReq = await accountModel.updateLastFreeCurrencyBox(accountId, currentTime);
+
+            return res.status(200).json({ message: 'Box Opened', result: updateTimeReq });
+
+        } catch(error) {
+            next(error);
+        }
     }
 }
 

@@ -127,6 +127,31 @@ const accountModel = {
             }
         })
     },
+
+    //get account box last opended date
+    getLastFreeCurrencyBox: async(accountId: number) => {
+        return await prisma.account.findFirst({
+            where: {
+                id: accountId
+            },
+            select: {
+                last_box_open: true
+            }
+        })
+    },
+    
+    //update account last opened date
+    updateLastFreeCurrencyBox: async(accountId: number, date: Date) => {
+        const upsertAccountLastOpenTime = await prisma.account.update({
+            where: {
+                id: accountId
+            },
+            data: {
+                last_box_open: date
+            }
+        });
+        return upsertAccountLastOpenTime.last_box_open;
+    }
 }
 
 export default accountModel;

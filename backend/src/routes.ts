@@ -37,4 +37,7 @@ router.get('/:username/currency', authenticateToken, accountController.getAccoun
 //can return message: "Currency Decreased" or "Not Enough Currency"
 router.patch('/:username/currency/decrease', authenticateToken, accountController.decreaseAccountCurrency);
 router.patch('/:username/currency/increase', authenticateToken, accountController.increaseAccountCurrency);
+//update the last box openned time
+router.get('/:username/lastbox', authenticateToken, accountController.getLastFreeBoxTime);
+router.patch('/:username/lastbox', authenticateToken, accountController.updateLastFreeBoxTime);
 export default router;
