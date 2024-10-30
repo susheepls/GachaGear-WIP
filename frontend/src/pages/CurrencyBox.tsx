@@ -58,7 +58,7 @@ const CurrencyBox = () => {
     }
 
     const checkIfCanOpen = () => {
-        if(timerComplete === false) console.log('not yet')
+        if(timerComplete === false) return;
             else updateLastFreeBoxTime();
     }
 
