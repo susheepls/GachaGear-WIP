@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { AccountInfoType } from '../interface/accountTypes';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { getAccountFromToken } from '../api/login';
 import * as BoxApi from '../api/boxTime';
+import Timer from '../components/Timer';
 
 const CurrencyBox = () => {
     const [lastFreeBoxTime, setLastFreeBoxTime] = useState<Date | null>(null);
     const [username, setUsername] = useState<string | null>(null);
+    const [timerComplete, setTimerComplete] = useState<boolean>(false);
 
     const token = Cookies.get('token');
     const navigate = useNavigate();
@@ -19,6 +21,10 @@ const CurrencyBox = () => {
     useEffect(() => {
         fetchLastFreeBoxTime();
     }, [username]);
+
+    useEffect(() => {
+        enableFreeDailyBoxButton();
+    }, [timerComplete])
 
     const getUserInfoFromToken = async(navigate: NavigateFunction) => {
         const userInfo: AccountInfoType | null = await getAccountFromToken(navigate);
@@ -52,22 +58,35 @@ const CurrencyBox = () => {
     }
 
     const checkIfCanOpen = () => {
-        const date = new Date();
-        if(lastFreeBoxTime && (date - lastFreeBoxTime)/60000 >= 1){
-            updateLastFreeBoxTime();
-            console.log('success');
+        if(timerComplete === false) console.log('not yet')
+            else updateLastFreeBoxTime();
+    }
+
+    //enable button if ready
+    const enableFreeDailyBoxButton = () => {
+        const button =  document.getElementById('free-daily-box-button') as HTMLButtonElement;
+        if(timerComplete === false){
+            button.disabled = true;
         } else {
-            console.log((date - lastFreeBoxTime)/60000)
-            console.log('not yet')
+            button.disabled = false;
         }
     }
 
 
     return (
         <div>
-           <div>
-                <button onClick={() => checkIfCanOpen()}>Daily Free Currency!</button>
-           </div>
+            <Timer 
+                lastOpenTime={lastFreeBoxTime}
+                setTimerComplete={setTimerComplete}
+                timerComplete={timerComplete}
+            />
+            <div>
+                <button id='free-daily-box-button' onClick={() => checkIfCanOpen()}
+                    className=' disabled:line-through'
+                    >
+                        Daily Free Currency!
+                </button>
+            </div>
         </div>
     )
 }
