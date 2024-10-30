@@ -13,10 +13,12 @@ const Timer: React.FC<Props> = (props) => {
     const [seconds, setSeconds] = useState(0);
     const [deadline, setDeadline] = useState<Date | null>(null);
     
+    //use effect to determine deadline after we fetch if we can open the box
     useEffect(() => {
         determineDeadline()
     }, [props.lastOpenTime]);
 
+    //use effect to enable the count down timer
     useEffect(() => {
         if(props.timerComplete === false){
             const interval = setInterval(() => getTime(deadline), 1000);
@@ -26,7 +28,7 @@ const Timer: React.FC<Props> = (props) => {
         }
     }, [deadline, props.timerComplete])
 
-
+    //determine the deadline which would be one day from the date last opened
     const determineDeadline = () => {
         if(props.lastOpenTime && ((props.lastOpenTime.getTime() + (60000 * 60 * 24)) - Date.now()) > 0 ){
             props.setTimerComplete(false);
@@ -37,6 +39,7 @@ const Timer: React.FC<Props> = (props) => {
         }
     }
     
+    //the actually timer function to determine the days,hours, etc
     const getTime = (deadline: Date | null) => {
         if(deadline){
             const time = deadline.getTime() - Date.now();
