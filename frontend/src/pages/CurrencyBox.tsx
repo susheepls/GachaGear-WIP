@@ -5,11 +5,13 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { getAccountFromToken } from '../api/login';
 import * as BoxApi from '../api/boxTime';
 import Timer from '../components/Timer';
+import CaseOpeningAnimation from '../components/CaseOpeningAnimation';
 
 const CurrencyBox = () => {
     const [lastFreeBoxTime, setLastFreeBoxTime] = useState<Date | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [timerComplete, setTimerComplete] = useState<boolean>(false);
+    const [isOpeningCase, setIsOpeningCase] = useState<boolean>(false);
 
     const token = Cookies.get('token');
     const navigate = useNavigate();
@@ -58,8 +60,14 @@ const CurrencyBox = () => {
     }
 
     const checkIfCanOpen = () => {
-        if(timerComplete === false) return;
-            else updateLastFreeBoxTime();
+        if(timerComplete) {
+            updateLastFreeBoxTime();
+            setIsOpeningCase(true);
+        }
+    }
+
+    const testAnimation = () => {
+        !isOpeningCase ? setIsOpeningCase(true) : setIsOpeningCase(false)
     }
 
     //enable button if ready
@@ -71,7 +79,6 @@ const CurrencyBox = () => {
             button.disabled = false;
         }
     }
-
 
     return (
         <div>
@@ -86,7 +93,9 @@ const CurrencyBox = () => {
                     >
                         Daily Free Currency!
                 </button>
+                <button onClick={() => testAnimation()}>Test animation</button>
             </div>
+            {isOpeningCase && <CaseOpeningAnimation/>}
         </div>
     )
 }
