@@ -1,17 +1,22 @@
-import { useEffect, useRef } from 'react';
+import { SetStateAction, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
-const CaseOpeningAnimation = () => {
+interface Props {
+    setWinningAmount: React.Dispatch<SetStateAction<string | null>>
+}
+
+const items = [
+    '20 Currency', '20 Currency', '30 Currency', '30 Currency', '50 Currency', 
+    '60 Currency', '70 Currency', '70 Currency', '100 Currency', '150 Currency',
+];
+
+const CaseOpeningAnimation: React.FC<Props> = (props) => {
     const itemsContainerRef = useRef(null);
-
-    const items = [
-        'Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 
-        'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10',
-    ];
-
-    const displayItems = [...items, ...items];
+    const [displayItems, setDisplayItems] = useState<string[]>([]);
 
     useEffect(() => {
+        setDisplayItems(shuffleArray([...items, ...items]));
+
         const container = itemsContainerRef.current;
         const itemWidth = 96; // Width of each item
         const gap = 28
@@ -36,8 +41,19 @@ const CaseOpeningAnimation = () => {
             });
         }, 4000);
 
+        const determineWinningAmount = setTimeout(() => {
+            const winner = document.getElementById('roulette');
+            if(!winner) return;
+            const winningAmount = winner?.children[8].id.split(' ')[0];
+            props.setWinningAmount(previousWinAmount => {
+                //adding a space if to make sure it knows winnin 2x same is considered
+                return previousWinAmount === winningAmount ? `${winningAmount} ` : winningAmount; 
+            });
+        }, 7000);
+
         return () => {
             clearTimeout(stopTimeout);
+            clearTimeout(determineWinningAmount);
             tl.kill();
         }
     }, []);
@@ -50,14 +66,14 @@ const CaseOpeningAnimation = () => {
             array[j] = temp;
         }
         return array;
-    }
+    };
 
     return (
-        <div className="relative overflow-hidden w-[300px] h-[100px] border">
-            <div className="absolute left-1/2 top-0 transform -translate-x-1/2 w-2 h-full bg-red-500 z-10"></div>
-            <div ref={itemsContainerRef} className="flex gap-7">
-                {shuffleArray(displayItems).map((item, index) => (
-                    <div key={index} className="w-24 h-[100px] bg-gray-200 flex items-center justify-center flex-shrink-0">
+        <div className="relative w-[300px] h-[100px] border">
+            <div id='prize-line' className="absolute left-1/2 top-0 transform -translate-x-1/2 w-2 h-full bg-red-500 z-10"></div>
+            <div id='roulette' ref={itemsContainerRef} className="flex gap-7">
+                {displayItems.map((item, index) => (
+                    <div id={item} key={index} className="w-24 h-[100px] bg-gray-200 flex items-center justify-center flex-shrink-0">
                         {item}
                     </div>
                 ))}

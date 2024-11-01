@@ -6,12 +6,16 @@ import { getAccountFromToken } from '../api/login';
 import * as BoxApi from '../api/boxTime';
 import Timer from '../components/Timer';
 import CaseOpeningAnimation from '../components/CaseOpeningAnimation';
+import * as CurrencyApi from '../api/currency';
+import { CurrencyIncreaseResponse } from '../interface/currencyTypes';
 
 const CurrencyBox = () => {
     const [lastFreeBoxTime, setLastFreeBoxTime] = useState<Date | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [timerComplete, setTimerComplete] = useState<boolean>(false);
     const [isOpeningCase, setIsOpeningCase] = useState<boolean>(false);
+    const [winningAmount, setWinningAmount] = useState<string | null>(null);
+    const [newCurrentCurrency, setNewCurrentCurrency] = useState<number | null>(null);
 
     const token = Cookies.get('token');
     const navigate = useNavigate();
@@ -26,7 +30,12 @@ const CurrencyBox = () => {
 
     useEffect(() => {
         enableFreeDailyBoxButton();
-    }, [timerComplete])
+    }, [timerComplete]);
+
+    //add currency after the win
+    useEffect(() => {
+        addCurrencyAfterWin();
+    }, [winningAmount]);
 
     const getUserInfoFromToken = async(navigate: NavigateFunction) => {
         const userInfo: AccountInfoType | null = await getAccountFromToken(navigate);
@@ -80,6 +89,15 @@ const CurrencyBox = () => {
         }
     }
 
+    //add currency after winning
+    const addCurrencyAfterWin = async() => {
+        if(!winningAmount || !username) return;
+        const currencyAmount = Number(winningAmount);
+        const winningAmountObj = { increaseAmount: currencyAmount };
+        const accountCurrencyChange: CurrencyIncreaseResponse = await CurrencyApi.increaseAccountCurrency(username, winningAmountObj);
+        setNewCurrentCurrency(accountCurrencyChange.result.currency);
+    }  
+
     return (
         <div>
             <Timer 
@@ -93,9 +111,23 @@ const CurrencyBox = () => {
                     >
                         Daily Free Currency!
                 </button>
-                <button onClick={() => testAnimation()}>Test animation</button>
+                <button onClick={() => checkIfCanOpen()}>Test animation</button>
             </div>
-            {isOpeningCase && <CaseOpeningAnimation/>}
+            {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} />}
+            <div className='text-center'>
+                {winningAmount && 
+                    <div>
+                        You won {winningAmount};
+                    </div>
+                }
+            </div>
+            <div>
+                {isOpeningCase && newCurrentCurrency &&
+                    <div>
+                        you now have {newCurrentCurrency}
+                    </div>
+                }
+            </div>
         </div>
     )
 }
