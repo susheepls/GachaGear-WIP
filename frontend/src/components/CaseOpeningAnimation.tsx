@@ -3,6 +3,7 @@ import gsap from 'gsap';
 
 interface Props {
     setWinningAmount: React.Dispatch<SetStateAction<string | null>>
+    setIsOpeningCase: React.Dispatch<SetStateAction<boolean>>
 }
 
 const items = [
@@ -51,9 +52,19 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
             });
         }, 7000);
 
+        const exitTheCaseScreen = setTimeout(() => {
+            gsap.to(container, {
+                scale: 0,
+                duration: 2.5,
+                ease: 'power1.inOut',
+                onComplete: () => props.setIsOpeningCase(false),
+            })
+        }, 11000);
+
         return () => {
             clearTimeout(stopTimeout);
             clearTimeout(determineWinningAmount);
+            clearTimeout(exitTheCaseScreen);
             tl.kill();
         }
     }, []);
@@ -69,7 +80,7 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
     };
 
     return (
-        <div className="relative w-[300px] h-[100px] border">
+        <div id='animation' className="relative w-[300px] h-[100px] border">
             <div id='prize-line' className="absolute left-1/2 top-0 transform -translate-x-1/2 w-2 h-full bg-red-500 z-10"></div>
             <div id='roulette' ref={itemsContainerRef} className="flex gap-7">
                 {displayItems.map((item, index) => (

@@ -37,6 +37,12 @@ const CurrencyBox = () => {
         addCurrencyAfterWin();
     }, [winningAmount]);
 
+    //reset winning amount new current currency after rolling is done
+    useEffect(() => {
+        setNewCurrentCurrency(null);
+        setWinningAmount(null);
+    }, [isOpeningCase]);
+
     const getUserInfoFromToken = async(navigate: NavigateFunction) => {
         const userInfo: AccountInfoType | null = await getAccountFromToken(navigate);
 
@@ -111,9 +117,9 @@ const CurrencyBox = () => {
                     >
                         Daily Free Currency!
                 </button>
-                <button onClick={() => checkIfCanOpen()}>Test animation</button>
+                <button onClick={() => testAnimation()}>Test animation</button>
             </div>
-            {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} />}
+            {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
             <div className='text-center'>
                 {winningAmount && 
                     <div>
