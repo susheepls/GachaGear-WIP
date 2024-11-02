@@ -13,7 +13,7 @@ const items = [
 
 const CaseOpeningAnimation: React.FC<Props> = (props) => {
     const itemsContainerRef = useRef(null);
-    const displayItems = useMemo(() => shuffleArray([...items,...items]), []);
+    const displayItems = useMemo(() => shuffleArray([...items,...items,...items]), []);
     
     useEffect(() => {
         const container = itemsContainerRef.current;
@@ -22,13 +22,13 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
         const itemWidth = 96; // Width of each item
         const gap = 28
         const totalItemWidth = itemWidth + gap;
-        const totalWidth = items.length * totalItemWidth
+        const totalWidth = displayItems.length * totalItemWidth
 
-        const tl = gsap.timeline({ repeat: -1 });
+        const tl = gsap.timeline();
 
         tl.to(container, {
-            x: `-=${totalWidth}`,
-            duration: 1.8,
+            x: `-${totalWidth}`,
+            duration: 5,
             ease: 'linear',
             
         });
@@ -36,7 +36,7 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
         const stopTimeout = setTimeout(() => {
             tl.pause();
             gsap.to(container, {
-                x: `-=${totalWidth / 2}`, // Adjust to make it slow down to half width further
+                x: `-=${totalWidth / 9}`, // Adjust to make it slow down to half width further
                 duration: 4 , // Longer duration for a smooth stop
                 ease: 'power3.out', // Ease out for a gradual stop
             });
@@ -45,7 +45,7 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
         const determineWinningAmount = setTimeout(() => {
             const winner = document.getElementById('roulette');
             if(!winner) return;
-            const winningAmount = (winner?.children[8] as HTMLElement).dataset.item?.split(' ')[0];
+            const winningAmount = (winner?.children[28] as HTMLElement).dataset.item?.split(' ')[0];
             props.setWinningAmount(previousWinAmount => {
                 if(!winningAmount) return null;
                 //adding a space if to make sure it knows winnin 2x same is considered
