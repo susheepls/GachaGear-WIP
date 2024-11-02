@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useRef, useState } from 'react';
+import { SetStateAction, useEffect, useMemo, useRef } from 'react';
 import gsap from 'gsap';
 
 interface Props {
@@ -13,12 +13,12 @@ const items = [
 
 const CaseOpeningAnimation: React.FC<Props> = (props) => {
     const itemsContainerRef = useRef(null);
-    const [displayItems, setDisplayItems] = useState<string[]>([]);
-
+    const displayItems = useMemo(() => shuffleArray([...items,...items]), []);
+    
     useEffect(() => {
-        setDisplayItems(shuffleArray([...items, ...items]));
-
         const container = itemsContainerRef.current;
+        if(!container) return;
+
         const itemWidth = 96; // Width of each item
         const gap = 28
         const totalItemWidth = itemWidth + gap;
@@ -45,8 +45,9 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
         const determineWinningAmount = setTimeout(() => {
             const winner = document.getElementById('roulette');
             if(!winner) return;
-            const winningAmount = winner?.children[8].id.split(' ')[0];
+            const winningAmount = (winner?.children[8] as HTMLElement).dataset.item?.split(' ')[0];
             props.setWinningAmount(previousWinAmount => {
+                if(!winningAmount) return null;
                 //adding a space if to make sure it knows winnin 2x same is considered
                 return previousWinAmount === winningAmount ? `${winningAmount} ` : winningAmount; 
             });
@@ -57,7 +58,9 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
                 scale: 0,
                 duration: 2.5,
                 ease: 'power1.inOut',
-                onComplete: () => props.setIsOpeningCase(false),
+                onComplete: () => {
+                    props.setIsOpeningCase(false);
+                }
             })
         }, 11000);
 
@@ -79,15 +82,28 @@ const CaseOpeningAnimation: React.FC<Props> = (props) => {
         return array;
     };
 
+    function rarityFromcolor(currencyAmount: string) {
+        const rarityColors: { [key:string]: string } = {
+            '20 Currency': 'bg-green-200',
+            '30 Currency': 'bg-green-200',
+            '50 Currency': 'bg-blue-200',
+            '60 Currency': 'bg-purple-600',
+            '70 Currency': 'bg-purple-600'
+        };
+        return rarityColors[currencyAmount] || 'bg-yellow-400'
+    }
+
+    const itemspluh = displayItems.map((item, index) => 
+        <div data-item={item} key={index} className={`w-24 h-[100px] ${rarityFromcolor(item)} flex items-center justify-center flex-shrink-0`}>
+            {item}
+        </div>
+    )
+
     return (
         <div id='animation' className="relative w-[300px] h-[100px] border">
             <div id='prize-line' className="absolute left-1/2 top-0 transform -translate-x-1/2 w-2 h-full bg-red-500 z-10"></div>
-            <div id='roulette' ref={itemsContainerRef} className="flex gap-7">
-                {displayItems.map((item, index) => (
-                    <div id={item} key={index} className="w-24 h-[100px] bg-gray-200 flex items-center justify-center flex-shrink-0">
-                        {item}
-                    </div>
-                ))}
+            <div id='roulette' ref={itemsContainerRef} className="flex gap-7 will-change-transform">
+                {itemspluh}
             </div>
         </div>
     );
