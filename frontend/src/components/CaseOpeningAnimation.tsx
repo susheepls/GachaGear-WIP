@@ -8,7 +8,7 @@ interface Props {
 
 const items = [
     '20 Currency', '20 Currency', '30 Currency', '30 Currency', '50 Currency', 
-    '60 Currency', '70 Currency', '70 Currency', '100 Currency', '150 Currency',
+    '60 Currency', '70 Currency', '70 Currency', '50 Currency', '150 Currency',
 ];
 
 const CaseOpeningAnimation: React.FC<Props> = (props) => {
