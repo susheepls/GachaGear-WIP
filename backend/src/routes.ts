@@ -7,6 +7,7 @@ import accountController from './controller/accountController';
 import { authenticateToken } from "./middleware/auth";
 import inventoryController from "./controller/inventoryController";
 import itemController from "./controller/itemController";
+import characterController from "./controller/characterController";
 
 //set up routes
 //accounts
@@ -40,4 +41,7 @@ router.patch('/:username/currency/increase', authenticateToken, accountControlle
 //update the last box openned time
 router.get('/:username/lastbox', authenticateToken, accountController.getLastFreeBoxTime);
 router.patch('/:username/lastbox', authenticateToken, accountController.updateLastFreeBoxTime);
+
+//character endpoints
+router.get('/:username/characters', authenticateToken, characterController.getAllAccountCharacters);
 export default router;
