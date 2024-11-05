@@ -2,24 +2,35 @@ import React, { useEffect, useState } from 'react';
 import * as inventoryApi from '../api/inventory';
 import { Item } from '../interface/inventoryType';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAccountFromToken } from '../api/login';
-import { AccountInfoType } from '../interface/accountTypes';
 import * as CurrencyApi from '../api/currency';
 import { CurrencyIncreaseResponse } from '../interface/currencyTypes';
+import { useUser } from '../middleware/UserContext';
+import Cookies from 'js-cookie';
 
 const Inventory = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
     const [sellAmount, setSellAmount] = useState<number | null>(null);
 
+    const { userInfo, fetchUserInfo } = useUser();
+
+    const token = Cookies.get('token');
+
+    useEffect(() => {
+        // Fetch user info only if there's a token and userInfo hasn't been set yet
+        if(!userInfo && token) {
+            fetchUserInfo(navigate);
+        }
+    }, [userInfo, fetchUserInfo, navigate, token]);
+
     useEffect(() => {
         handleItems();
-    }, [items]);
+    }, [items, userInfo]);
     
     //fetch all the items that the account has
     const handleItems = async() => {
-        const user: AccountInfoType = await getAccountFromToken(navigate);
-        const result = await inventoryApi.getAccountInventory(navigate, user.username);
+        if(!userInfo) return;
+        const result = await inventoryApi.getAccountInventory(navigate, userInfo!.username);
 
         //sort items in order
         result?.accountInventory.sort((a, b) => a.id - b.id);
@@ -62,8 +73,8 @@ const Inventory = () => {
 
     //Navigate to enhance page
     const navigateToSpecificItem = async(itemId: number) => {
-        const user: AccountInfoType = await getAccountFromToken(navigate);
-        navigate(`/${user.username}/inventory/${itemId}`);
+        if(!userInfo) return;
+        navigate(`/${userInfo.username}/inventory/${itemId}`);
     }
 
     //convert exp to level to display

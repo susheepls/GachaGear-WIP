@@ -1,40 +1,34 @@
 // import React from 'react'
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie';
-import * as LoginApi from '../api/login';
-import { AccountInfoType } from '../interface/accountTypes';
+import { useUser } from '../middleware/UserContext';
 
 const Home = () => {
     const navigate = useNavigate();
-    const infoFromLogin = useLocation();
+   
     const token = Cookies.get('token');
 
-    const [username, setUsername] = useState<string | null>(null);
+    const { userInfo, fetchUserInfo } = useUser();
 
     useEffect(() => {
-        if(token){
-            getAccountUsernameFromToken();
-        };
-    }, [token, infoFromLogin.state]);
-    
-    const getAccountUsernameFromToken = async() => {
-        const userInfo: AccountInfoType | null = await LoginApi.getAccountFromToken(navigate);
-        if(userInfo) setUsername(userInfo.username);
-    }
+        // Fetch user info only if there's a token and userInfo hasn't been set yet
+        if(!userInfo && token) {
+            fetchUserInfo(navigate);
+        }
+    }, [userInfo, fetchUserInfo, navigate, token]);
 
     const toLoginPage = () => {
         navigate('/login');
     };
 
     const logout = () => {
-        setUsername(null);
         Cookies.remove('token');
         navigate('/');
     }
 
     const toAccountInventory = () => {
-        navigate(`${username}/inventory`, { state: { username : username} });
+        navigate(`${userInfo?.username}/inventory`, { state: { username : userInfo?.username} });
     }
 
     const toGachaRoll = () => {
@@ -52,7 +46,7 @@ const Home = () => {
             ) : (
                 <>
                     <div>
-                        Welcome back {username}
+                        Welcome back {userInfo ? userInfo.username : ''}
                     </div>
                     <div>
                         <button onClick={() => toAccountInventory()}>Check Inventory</button>

@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { AccountInfoType } from '../interface/accountTypes';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { getAccountFromToken } from '../api/login';
+import { useNavigate } from 'react-router-dom';
 import * as BoxApi from '../api/boxTime';
 import Timer from '../components/Timer';
 import CaseOpeningAnimation from '../components/CaseOpeningAnimation';
 import * as CurrencyApi from '../api/currency';
 import { CurrencyDecreaseResponse, CurrencyIncreaseResponse } from '../interface/currencyTypes';
+import { useUser } from '../middleware/UserContext';
 
 const CurrencyBox = () => {
     const [lastFreeBoxTime, setLastFreeBoxTime] = useState<Date | null>(null);
@@ -17,13 +16,38 @@ const CurrencyBox = () => {
     const [winningAmount, setWinningAmount] = useState<string | null>(null);
     const [currency, setCurrency] = useState<number | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const token = Cookies.get('token');
     const navigate = useNavigate();
+    const { userInfo, fetchUserInfo } = useUser();
 
     useEffect(() => {
-        getUserInfoFromToken(navigate);
-    }, [token]);
+        // Fetch user info only if there's a token and userInfo hasn't been set yet
+        if(!userInfo && token) {
+            fetchUserInfo(navigate);
+        }
+    }, [userInfo, fetchUserInfo, navigate, token]);
+
+    useEffect(() => {
+        const getUserInfoFromContext = async() => {
+            if(userInfo) {
+                setUsername(userInfo.username);
+                setIsLoading(false);
+            } else {
+                await fetchUserInfo(navigate);
+                setIsLoading(false);
+            }
+        };
+        getUserInfoFromContext();
+    }, [userInfo, fetchUserInfo, navigate]);
+
+    // If loading is complete and userInfo is still null, navigate to login
+    useEffect(() => {
+        if (!isLoading && !userInfo) {
+            navigate('/login');
+        }
+    }, [isLoading, userInfo, navigate]);
 
     useEffect(() => {
         fetchLastFreeBoxTime();
@@ -47,13 +71,6 @@ const CurrencyBox = () => {
     useEffect(() => {
         fetchUserCurrency();
     }, [username, isOpeningCase]);
-
-    const getUserInfoFromToken = async(navigate: NavigateFunction) => {
-        const userInfo: AccountInfoType | null = await getAccountFromToken(navigate);
-
-        if(!userInfo) return;
-        setUsername(userInfo.username);
-    };
 
     const fetchLastFreeBoxTime = async() => {
         if(!username) return;

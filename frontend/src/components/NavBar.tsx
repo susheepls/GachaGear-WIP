@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { AccountInfoType } from "../interface/accountTypes";
-import { getAccountFromToken } from "../api/login";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useUser } from "../middleware/UserContext";
 
 interface page {
     name: string,
@@ -11,34 +10,24 @@ interface page {
 };
 
 const NavBar = () => {
-    const [currentUserUrl, setcurrentUserUrl] = useState<string>('/login');
-   
+    const { userInfo, fetchUserInfo } = useUser();
+    
     const token = Cookies.get('token');
     const navigate = useNavigate();
     const pages: page[] = [
         {name: 'Home', href: '/', key: 'home'},
-        {name: 'Inventory', href: `${currentUserUrl}`, key: 'inventory'},
+        {name: 'Inventory', href: userInfo ? `/${userInfo.username}/inventory` : '/login', key: 'inventory'},
         {name: 'Characters', href: '/characters', key: 'characters'},
         {name: 'Get Currency', href: '/currencyBox', key: 'currencybox'},
         {name: 'Roll Now!', href: '/gacharoll', key: 'gacharoll'},
     ];
-    
+
     useEffect(() => {
-        if(!token) {
-            setcurrentUserUrl('/login');
-            return;
+        // Fetch user info only if there's a token and userInfo hasn't been set yet
+        if(!userInfo && token) {
+            fetchUserInfo(navigate);
         }
-        getUserInfoFromToken(navigate);
-    }, [token]);
-
-    const getUserInfoFromToken = async(navigate: NavigateFunction) => {
-        const userInfo: AccountInfoType | null = await getAccountFromToken(navigate);
-        const expectedUrl = `/${userInfo?.username}/inventory`;
-
-        if (userInfo && currentUserUrl !== expectedUrl) {
-            setcurrentUserUrl(expectedUrl);
-        }
-    };
+    }, [userInfo, fetchUserInfo, navigate, token]);
 
     return (
         <nav>
