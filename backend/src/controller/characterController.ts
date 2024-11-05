@@ -56,18 +56,19 @@ const characterController = {
     addGearToCharacter: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
         try {
             const accountUsername = (req.user as CustomJwtPayload).username;
-            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+            if(accountUsername !== req.params.username) return res.status(403).json({ message: 'Unauthorized' });
             
             const accountId = (req.user as CustomJwtPayload).id;
             if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
 
             const itemToAdd = (req.body as addGearToCharacterReq).itemId;
             const targetCharacter = (req.body as addGearToCharacterReq).characterId;
+            const swapItemId = (req.body as addGearToCharacterReq).swapItemId;
 
             //if theres a mismatch in character id
             if(req.params.id !== String(targetCharacter)) return res.status(404).json({ message: 'Unauthorized' });
 
-            const addGearToCharacterReq = await characterModel.addGearToCharacter(accountId, targetCharacter, itemToAdd);
+            const addGearToCharacterReq = await characterModel.addGearToCharacter(accountId, targetCharacter, itemToAdd, swapItemId);
             res.status(200).json({ message: 'Success', result: addGearToCharacterReq });
         
         } catch(error) {

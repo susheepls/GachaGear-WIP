@@ -82,16 +82,45 @@ const characterModel = {
             },
         })
     },
-    addGearToCharacter: async(accountId: number, characterId: number, equipmentId: number) => {
-        return await prisma.inventory.update({
+    addGearToCharacter: async(accountId: number, characterId: number, equipmentId: number, swapOutItemId: number | null) => {
+        if(swapOutItemId !== null) {
+            const swapOutItem = await prisma.inventory.update({
+                where: {
+                    ownerId: accountId,
+                    id: swapOutItemId
+                }, 
+                data: {
+                    characterId: null
+                }
+            });
+            if(!swapOutItem) throw new Error('SwapOut Item Not Found');
+            await prisma.inventory.update({
+                where:{
+                    ownerId: accountId,
+                    id: swapOutItem.id
+                },
+                data: {
+                    characterId: null
+                }
+            })
+        };
+        const equipItemExists = await prisma.inventory.findUnique({
             where:{
                 ownerId: accountId,
                 id: equipmentId
+            },
+        });
+        if(!equipItemExists) throw new Error('Item Not Found');
+        const equipItem = await prisma.inventory.update({
+            where: {
+                id: equipItemExists.id,
+                ownerId: accountId
             },
             data: {
                 characterId: characterId
             }
         })
+        return equipItem;
     },
     removeGearFromCharacter: async(accountId: number, characterId: number, equipmentId: number) => {
         const unequipItem =  await prisma.inventory.findFirst({

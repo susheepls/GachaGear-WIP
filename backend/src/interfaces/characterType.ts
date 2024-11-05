@@ -5,6 +5,7 @@ export interface CharacterCreate {
 export interface addGearToCharacterReq {
     characterId: number,
     itemId: number,
+    swapItemId: number,
 }
 
 export interface removeGearFromCharacterReq {
