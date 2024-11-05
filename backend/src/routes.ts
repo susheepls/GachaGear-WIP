@@ -44,4 +44,13 @@ router.patch('/:username/lastbox', authenticateToken, accountController.updateLa
 
 //character endpoints
 router.get('/:username/characters', authenticateToken, characterController.getAllAccountCharacters);
+router.get('/:username/characters/:id', authenticateToken, characterController.getOneCharacter);
+//create new character
+router.post('/:username/characters', authenticateToken, characterController.createNewCharacter);
+//rename character
+router.patch('/:username/characters/:id', authenticateToken, characterController.updateCharacterName);
+//add gear to character
+router.patch('/:username/characters/equip/:id', authenticateToken, characterController.addGearToCharacter);
+//remove gear from character
+router.patch('/:username/characters/unequip/:id', authenticateToken, characterController.removeGearFromCharacter);
 export default router;
