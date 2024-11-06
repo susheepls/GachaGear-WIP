@@ -5,6 +5,11 @@ export interface AccountCharacters {
     result: CharacterData[]
 }
 
+export interface OneCharacter {
+    message: string,
+    result: Character
+}
+
 export interface CharacterData {
     characters: Character[]
 }
