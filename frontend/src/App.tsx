@@ -8,6 +8,7 @@ import UpgradeItem from "./pages/UpgradeItem"
 import CurrencyBox from "./pages/CurrencyBox"
 import Characters from "./pages/Characters"
 import { UserProvider } from "./middleware/UserContext"
+import OneCharacter from "./pages/OneCharacter"
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="gacharoll" element={<GachaRoll/>} />
             <Route path="currencyBox" element={<CurrencyBox/>} />
             <Route path="characters" element={<Characters/>} />
+            <Route path=":username/characters/:id" element={<OneCharacter/>} />
           </Route>
         </Routes>
       </BrowserRouter>
