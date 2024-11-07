@@ -96,7 +96,7 @@ const OneCharacter = () => {
     }
 
     return (
-        <div>
+        <div className='flex flex-col py-3 h-screen'>
             <div className='text-center'>
                 {characterData?.characterName}
             </div>
@@ -105,27 +105,51 @@ const OneCharacter = () => {
                     Hat
                 </div>
                 {characterItems && itemStatDivMaker(characterItems[0])}
-                <div>
-                    <button>Equip</button>
-                </div>
+
+                {characterItems && !characterItems[0] ? (
+                    <div>
+                        <button>Equip</button>
+                    </div> 
+                ) : (
+                    <div className='flex flex-col'>
+                        <button>Swap</button>
+                        <button>Remove</button>
+                    </div>
+                )}
             </div>
             <div id='armor' className='flex justify-between'>
                 <div>
                     Armor
                 </div>
                 {characterItems && itemStatDivMaker(characterItems[1])}
-                <div>
-                    <button>Equip</button>
-                </div>
+                
+                {characterItems && !characterItems[1] ? (
+                    <div>
+                        <button>Equip</button>
+                    </div> 
+                ) : (
+                    <div className='flex flex-col'>
+                        <button>Swap</button>
+                        <button>Remove</button>
+                    </div>
+                )}
             </div>
             <div id='sword'className='flex justify-between'>
                 <div>
                     Sword
                 </div>
                 {characterItems && itemStatDivMaker(characterItems[2])}
-                <div>
-                    <button>Equip</button>
-                </div>
+                
+                {characterItems && !characterItems[2] ? (
+                    <div>
+                        <button>Equip</button>
+                    </div> 
+                ) : (
+                    <div className='flex flex-col'>
+                        <button>Swap</button>
+                        <button>Remove</button>
+                    </div>
+                )}
             </div>
             <div id='character-totals'>
                 <div>
