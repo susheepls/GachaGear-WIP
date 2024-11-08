@@ -127,6 +127,36 @@ const InventoryModel = {
                 },
             }
         })
+    },
+    getItemFromType: async(accountId: number, itemType: string) => {
+        return await prisma.inventory.findMany({
+            where: {
+                ownerId: accountId,
+                name: {
+                    name: itemType
+                }
+            },
+            select: {
+                id: true,
+                exp: true,
+                name: {
+                    select: {
+                        name:true,
+                    }
+                },
+                substats: {
+                    select: {
+                        value: true,
+                        substatType: {
+                            select: {
+                                name: true,
+                            }
+                        }
+                    }
+                },
+                characterId: true,
+            }
+        })
     }
 } 
 

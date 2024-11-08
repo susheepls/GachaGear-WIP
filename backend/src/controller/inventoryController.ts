@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthenticatedRequest, CustomJwtPayload } from "../interfaces/jwtTypes";
 import InventoryModel from "../model/inventory.model";
+import { GetItemByTypeReq } from "../interfaces/itemType";
+import itemController from "./itemController";
 
 const inventoryController = {
     getItem: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -24,6 +26,23 @@ const inventoryController = {
             const deleteItem = await InventoryModel.deleteFromInventory(itemId);
             
             res.status(200).json({ message: 'Item Sold!', result: deleteItem });
+        } catch(error) {
+            next(error);
+        }
+    },
+    getItemByType: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const itemType = (req.body as GetItemByTypeReq).itemType;
+
+            const accountItemsByType = await InventoryModel.getItemFromType(accountId, itemType);
+            res.status(200).json({ message: 'Items that match type', result: accountItemsByType });
+
         } catch(error) {
             next(error);
         }

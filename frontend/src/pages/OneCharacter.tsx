@@ -118,7 +118,7 @@ const OneCharacter = () => {
 
                         {characterItems && !characterItems[index] ? (
                             <div>
-                                <button>Equip</button>
+                                <button onClick={() => toggleForm(itemType)}>Equip</button>
                             </div>
                         ) : (
                             <div className="flex flex-col">
@@ -127,7 +127,7 @@ const OneCharacter = () => {
                             </div>
                         )}
                     </div>
-                    {activeForm === itemType && <SwapEquipForm />}
+                    {activeForm === itemType && <SwapEquipForm itemType={itemType} itemData={characterItems ? characterItems[index] : null}/>}
                 </div>
             ))}
             <div id='character-totals'>
