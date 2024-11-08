@@ -4,11 +4,15 @@ import * as CharacterApi from '../api/character';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUser } from '../middleware/UserContext';
 import { Item } from '../interface/inventoryType';
+import SwapEquipForm from '../components/SwapEquipForm';
 
 const OneCharacter = () => {
     const [characterData, setCharacterData] = useState<Character | null>(null);
     const [characterItems, setCharacterItems] = useState<Item[] | null>(null);
+    const [activeForm, setActiveForm] = useState<string | null>(null);
+
     const { userInfo, fetchUserInfo } = useUser();
+
     const navigate = useNavigate();
 
     //character id from url params
@@ -58,6 +62,10 @@ const OneCharacter = () => {
         return substatTotal;
     };
 
+    const toggleForm = (itemType: string) => {
+        setActiveForm((prev) => (prev === itemType ? null : itemType));
+    };
+
     const itemStatDivMaker = (item: Item) => {
         if(!item) return;
         return (
@@ -100,57 +108,28 @@ const OneCharacter = () => {
             <div className='text-center'>
                 {characterData?.characterName}
             </div>
-            <div id='hat' className='flex justify-between'>
-                <div>
-                    Hat
-                </div>
-                {characterItems && itemStatDivMaker(characterItems[0])}
+            {["hat", "armor", "sword"].map((itemType, index) => (
+                <div key={itemType} className="flex flex-col">
+                    <div id={itemType} className="flex justify-between">
+                        <div>
+                            {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
+                        </div>
+                        {characterItems && itemStatDivMaker(characterItems[index])}
 
-                {characterItems && !characterItems[0] ? (
-                    <div>
-                        <button>Equip</button>
-                    </div> 
-                ) : (
-                    <div className='flex flex-col'>
-                        <button>Swap</button>
-                        <button>Remove</button>
+                        {characterItems && !characterItems[index] ? (
+                            <div>
+                                <button>Equip</button>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col">
+                                <button onClick={() => toggleForm(itemType)}>Swap</button>
+                                <button>Remove</button>
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
-            <div id='armor' className='flex justify-between'>
-                <div>
-                    Armor
+                    {activeForm === itemType && <SwapEquipForm />}
                 </div>
-                {characterItems && itemStatDivMaker(characterItems[1])}
-                
-                {characterItems && !characterItems[1] ? (
-                    <div>
-                        <button>Equip</button>
-                    </div> 
-                ) : (
-                    <div className='flex flex-col'>
-                        <button>Swap</button>
-                        <button>Remove</button>
-                    </div>
-                )}
-            </div>
-            <div id='sword'className='flex justify-between'>
-                <div>
-                    Sword
-                </div>
-                {characterItems && itemStatDivMaker(characterItems[2])}
-                
-                {characterItems && !characterItems[2] ? (
-                    <div>
-                        <button>Equip</button>
-                    </div> 
-                ) : (
-                    <div className='flex flex-col'>
-                        <button>Swap</button>
-                        <button>Remove</button>
-                    </div>
-                )}
-            </div>
+            ))}
             <div id='character-totals'>
                 <div>
                     Total atk {characterItems ? totalSubstatCalculator(characterItems, 'atk') : 0}
