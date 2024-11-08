@@ -38,7 +38,7 @@ const inventoryController = {
             const accountId = Number((req.user as CustomJwtPayload).id);
             if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
 
-            const itemType = (req.body as GetItemByTypeReq).itemType;
+            const itemType = req.params.itemtype;
 
             const accountItemsByType = await InventoryModel.getItemFromType(accountId, itemType);
             res.status(200).json({ message: 'Items that match type', result: accountItemsByType });

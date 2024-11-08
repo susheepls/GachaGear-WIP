@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { EnhanceOneItemType, InventoryType } from "../interface/inventoryType";
+import { EnhanceOneItemType, GetOneItemTypeReq, GetOneItemTypeRes, InventoryType } from "../interface/inventoryType";
 import { NavigateFunction } from "react-router-dom";
 
 const endpoint = import.meta.env.VITE_endpoint;
@@ -68,6 +68,24 @@ export const deleteItem = async(username: string, itemId: number) => {
 
         const deletedItem = await deleteRequest.json();
         return deletedItem;
+
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+export const getAccountItemsByType = async(username: string, itemType: string) => {
+    try {
+        const token = Cookies.get('token');
+
+        const getItemsByTypeReq = await fetch(endpoint + `${username}/inventory/types/${itemType}`, {
+            method: 'GET',
+            headers: { 'Authorization' : `Bearer ${token}` },
+        });
+
+        const accountItemsByType: GetOneItemTypeRes = await getItemsByTypeReq.json();
+        if(!accountItemsByType) return
+        return accountItemsByType.result;
 
     } catch(error) {
         console.error(error);

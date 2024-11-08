@@ -127,7 +127,12 @@ const OneCharacter = () => {
                             </div>
                         )}
                     </div>
-                    {activeForm === itemType && <SwapEquipForm itemType={itemType} itemData={characterItems ? characterItems[index] : null}/>}
+                    {activeForm === itemType && <SwapEquipForm 
+                        username={userInfo && userInfo.username } 
+                        itemType={itemType} 
+                        itemData={characterItems ? characterItems[index] : null}
+                        />
+                    }
                 </div>
             ))}
             <div id='character-totals'>

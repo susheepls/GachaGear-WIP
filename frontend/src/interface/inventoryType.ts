@@ -24,3 +24,12 @@ export interface EnhanceOneItemType {
     message: string,
     result: Item | null,
 }
+
+export interface GetOneItemTypeReq {
+    itemType: string
+}
+
+export interface GetOneItemTypeRes {
+    message: string,
+    result: Item[]
+}

@@ -21,7 +21,7 @@ router.post('/accounts/login', accountController.accountLogin);
 //inventory protected routes have middleware as 2nd arg;
 router.get('/:username/inventory', authenticateToken, accountController.getAccountInventory);
 //get account items by type
-router.get('/:username/inventory/types', authenticateToken, inventoryController.getItemByType);
+router.get('/:username/inventory/types/:itemtype', authenticateToken, inventoryController.getItemByType);
 
 //roll item route (Inventory Routes)
 router.post('/gacharoll', authenticateToken, inventoryController.getItem);
