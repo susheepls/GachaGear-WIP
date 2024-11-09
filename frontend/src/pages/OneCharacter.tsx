@@ -8,7 +8,7 @@ import SwapEquipForm from '../components/SwapEquipForm';
 
 const OneCharacter = () => {
     const [characterData, setCharacterData] = useState<Character | null>(null);
-    const [characterItems, setCharacterItems] = useState<Item[] | null>(null);
+    const [characterItems, setCharacterItems] = useState<(Item | null)[]>([null, null, null]);
     const [activeForm, setActiveForm] = useState<string | null>(null);
 
     const { userInfo, fetchUserInfo } = useUser();
@@ -36,10 +36,17 @@ const OneCharacter = () => {
 
         //sort the order of equipment for character
         const itemTypeOrder = ['hat', 'armor', 'sword'];
+        const orderedItems: (Item|null)[] = [null, null, null];
+
         const characterItems = character.equipment;
         if(!characterItems) return;
-        characterItems.sort((a,b) => itemTypeOrder.indexOf(a.name.name) - itemTypeOrder.indexOf(b.name.name));
-        setCharacterItems(characterItems);
+        characterItems.forEach((item) => {
+            const index = itemTypeOrder.indexOf(item.name.name);
+            if (index !== -1) {
+                orderedItems[index] = item;
+            }
+        });
+        setCharacterItems(orderedItems);
     }
 
     const expToLevelConverter = (exp: number) => {
@@ -50,15 +57,18 @@ const OneCharacter = () => {
         return 'MAX';
     };
 
-    const totalSubstatCalculator = (characterItems: Item[], substatType: string) => {
+    const totalSubstatCalculator = (characterItems: (Item|null)[] , substatType: string) => {
         let substatTotal = 0;
-        characterItems.forEach((item) => 
-            item.substats.forEach((substat) => {
-                if(substat.substatType.name === substatType) {
-                    substatTotal += substat.value;
-                }
-            })
-        )
+
+        characterItems.forEach((item) => {
+            if(item) {
+                item.substats.forEach((substat) => {
+                    if(substat.substatType.name === substatType) {
+                        substatTotal += substat.value;
+                    }
+                })
+            } 
+        })
         return substatTotal;
     };
 
@@ -114,23 +124,23 @@ const OneCharacter = () => {
                         <div>
                             {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
                         </div>
-                        {characterItems && itemStatDivMaker(characterItems[index])}
-
-                        {characterItems && !characterItems[index] ? (
+                        {characterItems && characterItems[index] ?
+                            itemStatDivMaker(characterItems[index])
+                            :
                             <div>
                                 <button onClick={() => toggleForm(itemType)}>Equip</button>
                             </div>
-                        ) : (
-                            <div className="flex flex-col">
+                        }
+                        {characterItems && characterItems[index] && (
+                            <div>
                                 <button onClick={() => toggleForm(itemType)}>Swap</button>
-                                <button>Remove</button>
                             </div>
                         )}
                     </div>
                     {activeForm === itemType && <SwapEquipForm 
                         username={userInfo && userInfo.username } 
                         itemType={itemType} 
-                        itemData={characterItems && characterItems[index] ? characterItems[index] : null}
+                        itemData={characterItems[index]}
                         characterId={id ? Number(id) : null}
                         />
                     }

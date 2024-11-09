@@ -37,12 +37,21 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         await CharacterApi.swapEquipItemOnCharacter(username, props.characterId, swapEquipForm);
     }
 
+    const removeItemFromCharacterSubmit = async(itemId: number) => {
+        if(!props.username) return;
+        if(!props.characterId) return;
+
+        const removeItemBody = { characterId: props.characterId, itemId: itemId };
+
+        await CharacterApi.removeItemFromCharacter(props.username, props.characterId, removeItemBody);
+    }
+
     const makeDivForAccountItems = () => {
         if(!itemTypes) return;
 
         return (
             itemTypes.map((item, index) => (
-                <div key={index}>
+                <div key={index} className='p-2'>
                     <div>
                         {item.name.name}
                     </div>
@@ -63,8 +72,8 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                     </div>
                     <div>
                         { _.isEqual(item, props.itemData) ? 
-                            <button>
-                                Equipped
+                            <button onClick={() => removeItemFromCharacterSubmit(item.id)}>
+                                Remove
                             </button> 
                             : 
                             <button onClick={() => swapItemEquippedSubmit(props.username!, item.id, props.itemData?.id) }>
@@ -78,7 +87,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
     }
 
     return (
-        <div className='flex justify-between'>
+        <div className='flex justify-center'>
             {makeDivForAccountItems()}
         </div>
     )

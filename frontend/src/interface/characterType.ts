@@ -25,3 +25,8 @@ export interface AddGearToCharacterReq {
     itemId: number,
     swapItemId: number | null,
 }
+
+export interface RemoveGearFromCharacterReq {
+    characterId: number,
+    itemId: number,
+}
