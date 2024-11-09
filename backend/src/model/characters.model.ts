@@ -68,7 +68,8 @@ const characterModel = {
                                     }
                                 }
                             }
-                        }
+                        },
+                        characterId: true,
                     }
                 }
             }

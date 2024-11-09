@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { EnhanceOneItemType, GetOneItemTypeReq, GetOneItemTypeRes, InventoryType } from "../interface/inventoryType";
+import { EnhanceOneItemType, GetOneItemTypeRes, InventoryType } from "../interface/inventoryType";
 import { NavigateFunction } from "react-router-dom";
 
 const endpoint = import.meta.env.VITE_endpoint;

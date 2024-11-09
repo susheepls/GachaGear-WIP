@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Item } from '../interface/inventoryType'
 import * as InventoryApi from '../api/inventory'
+import _ from 'lodash';
+import * as CharacterApi from '../api/character'
+
 interface Props {
     itemType: string,
     itemData: Item | null,
     username: string | null,
+    characterId: number | null
 }
 
 const SwapEquipForm: React.FC<Props> = (props) => {
@@ -26,8 +30,57 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         setItemTypes(itemsByType);
     }
 
+    const swapItemEquippedSubmit = async(username: string, itemId: number, swapItemId?: number) => {
+        if(!props.characterId) return;
+        const swapEquipForm = { characterId: props.characterId, itemId: itemId, swapItemId: (swapItemId ? swapItemId : null) };
+        
+        await CharacterApi.swapEquipItemOnCharacter(username, props.characterId, swapEquipForm);
+    }
+
+    const makeDivForAccountItems = () => {
+        if(!itemTypes) return;
+
+        return (
+            itemTypes.map((item, index) => (
+                <div key={index}>
+                    <div>
+                        {item.name.name}
+                    </div>
+                    <div>
+                        Level: {item.exp}
+                    </div>
+                    <div>
+                        Substats
+                        <div>
+                            {item.substats[0].substatType.name}: {item.substats[0].value}
+                        </div>
+                        <div>
+                            {item.substats[1].substatType.name}: {item.substats[1].value}
+                        </div>
+                        <div>
+                            {item.substats[2].substatType.name}: {item.substats[2].value}
+                        </div>
+                    </div>
+                    <div>
+                        { _.isEqual(item, props.itemData) ? 
+                            <button>
+                                Equipped
+                            </button> 
+                            : 
+                            <button onClick={() => swapItemEquippedSubmit(props.username!, item.id, props.itemData?.id) }>
+                                Equip
+                            </button> 
+                        }
+                    </div>
+                </div>
+            ))
+        )
+    }
+
     return (
-        <div>{props.itemData ? props.itemData.id : 'pluh'}</div>
+        <div className='flex justify-between'>
+            {makeDivForAccountItems()}
+        </div>
     )
 }
 

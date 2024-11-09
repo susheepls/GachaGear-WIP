@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUser } from '../middleware/UserContext'
 import { useNavigate } from 'react-router-dom';
 import * as CharacterApi from '../api/character';

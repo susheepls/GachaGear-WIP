@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { AccountCharacters, OneCharacter } from "../interface/characterType";
+import { AccountCharacters, AddGearToCharacterReq, OneCharacter } from "../interface/characterType";
 const endpoint = import.meta.env.VITE_endpoint;
 
 export const fetchAccountCharacters = async(username: string) => {
@@ -32,6 +32,27 @@ export const fetchOneCharacter = async(username: string, characterId: string) =>
         });
         const characterData: OneCharacter = await request.json();
         return characterData.result;
+
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+export const swapEquipItemOnCharacter = async(username: string, characterId: number, addGearToCharacter: AddGearToCharacterReq) => {
+    try{
+        const backendURL = endpoint + `${username}/characters/equip/${characterId}`;
+        const token = Cookies.get('token');
+        const request = await fetch(backendURL, {
+            method: 'PATCH',
+            headers: { 
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(addGearToCharacter)
+        });
+
+        const addGearToCharacterRes = await request.json();
+        return addGearToCharacterRes;
 
     } catch(error) {
         console.error(error);

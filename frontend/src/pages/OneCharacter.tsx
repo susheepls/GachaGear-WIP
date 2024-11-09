@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Character } from '../interface/characterType';
 import * as CharacterApi from '../api/character';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -130,7 +130,8 @@ const OneCharacter = () => {
                     {activeForm === itemType && <SwapEquipForm 
                         username={userInfo && userInfo.username } 
                         itemType={itemType} 
-                        itemData={characterItems ? characterItems[index] : null}
+                        itemData={characterItems && characterItems[index] ? characterItems[index] : null}
+                        characterId={id ? Number(id) : null}
                         />
                     }
                 </div>

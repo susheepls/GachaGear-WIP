@@ -19,3 +19,9 @@ export interface Character {
     characterName: string,
     equipment: Item[]
 }
+
+export interface AddGearToCharacterReq {
+    characterId: number,
+    itemId: number,
+    swapItemId: number | null,
+}
