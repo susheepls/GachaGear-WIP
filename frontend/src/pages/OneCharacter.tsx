@@ -119,7 +119,7 @@ const OneCharacter = () => {
                 {characterData?.characterName}
             </div>
             {["hat", "armor", "sword"].map((itemType, index) => (
-                <div key={itemType} className="flex flex-col">
+                <div key={itemType} className="flex flex-col relative">
                     <div id={itemType} className="flex justify-between">
                         <div>
                             {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
@@ -137,13 +137,21 @@ const OneCharacter = () => {
                             </div>
                         )}
                     </div>
-                    {activeForm === itemType && <SwapEquipForm 
-                        username={userInfo && userInfo.username } 
-                        itemType={itemType} 
-                        itemData={characterItems[index]}
-                        characterId={id ? Number(id) : null}
-                        />
-                    }
+                    {activeForm === itemType && ( 
+                        <div className='absolute inset-0 inset-y-28 flex items-center justify-center z-50 bg-black bg-opacity-50'>
+                            <div className='bg-white p-6 rounded shadow-lg'>
+                                <SwapEquipForm 
+                                    username={userInfo && userInfo.username } 
+                                    itemType={itemType} 
+                                    itemData={characterItems[index]}
+                                    characterId={id ? Number(id) : null}
+                                />
+                                <div>
+                                    <button onClick={() => toggleForm(itemType)}>Exit</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             ))}
             <div id='character-totals'>

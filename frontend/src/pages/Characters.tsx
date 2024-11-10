@@ -46,7 +46,7 @@ const Characters = () => {
     return (
         <div>
             <div>{userInfo ? `` : 'loading..'}</div>
-            <div>
+            <div className='flex flex-col text-center'>
                 {accountCharacters && allCharactersDiv()}
             </div>
         </div>
