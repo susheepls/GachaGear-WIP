@@ -114,7 +114,7 @@ const OneCharacter = () => {
     }
 
     return (
-        <div className='flex flex-col py-3 h-screen'>
+        <div className='flex flex-col py-3 h-full'>
             <div className='text-center'>
                 {characterData?.characterName}
             </div>
@@ -136,22 +136,22 @@ const OneCharacter = () => {
                                 <button onClick={() => toggleForm(itemType)}>Swap</button>
                             </div>
                         )}
-                    </div>
                     {activeForm === itemType && ( 
-                        <div className='absolute inset-0 inset-y-28 flex items-center justify-center z-50 bg-black bg-opacity-50'>
-                            <div className='bg-white p-6 rounded shadow-lg'>
+                        <div className='fixed top-0 left-0 flex justify-center z-50 bg-blue-600 bg-opacity-70 w-full max-h-full h-full'>
+                            <div className='bg-white p-6 mt-2 mb-2 mx-2 rounded shadow-lg w-full'>
                                 <SwapEquipForm 
                                     username={userInfo && userInfo.username } 
                                     itemType={itemType} 
                                     itemData={characterItems[index]}
                                     characterId={id ? Number(id) : null}
                                 />
-                                <div>
+                                <div className='fixed bottom-2 left-3'>
                                     <button onClick={() => toggleForm(itemType)}>Exit</button>
                                 </div>
                             </div>
                         </div>
                     )}
+                    </div>
                 </div>
             ))}
             <div id='character-totals'>

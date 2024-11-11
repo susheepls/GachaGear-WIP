@@ -27,6 +27,9 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         const itemsByType = await InventoryApi.getAccountItemsByType(username, itemType);
 
         if(!itemsByType) return;
+        itemsByType.sort((a,b) => a.id - b.id);
+
+        if(!itemsByType) return;
         setItemTypes(itemsByType);
     }
 
@@ -87,7 +90,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
     }
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center flex-wrap overflow-scroll max-h-full'>
             {makeDivForAccountItems()}
         </div>
     )

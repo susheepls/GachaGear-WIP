@@ -72,6 +72,18 @@ const CurrencyBox = () => {
         fetchUserCurrency();
     }, [username, isOpeningCase]);
 
+    //disable pay-box-button if animation is playing
+    useEffect(() => {
+        const paidBoxButton = document.getElementById('pay-box-button');
+        
+        if(!paidBoxButton) return;
+        if(isOpeningCase) {
+            paidBoxButton.toggleAttribute('disabled');
+        } else {
+            paidBoxButton.toggleAttribute('disabled');
+        }
+    }, [isOpeningCase]);
+
     const fetchLastFreeBoxTime = async() => {
         if(!username) return;
         const lastFreeBoxDate = await BoxApi.getLastOpenedDate(username);
@@ -160,7 +172,7 @@ const CurrencyBox = () => {
                     >
                         Daily Free Currency!
                 </button>
-                <button className='p-1' onClick={() => openGambleCase()}>Gamble for Currency (50)</button>
+                <button id='pay-box-button' className='p-1' onClick={() => openGambleCase()}>Gamble for Currency (50)</button>
             </div>
             <div>
                 {errorMessage &&
