@@ -11,7 +11,6 @@ const Inventory = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
     const [sellAmount, setSellAmount] = useState<number | null>(null);
-    const [isItemSelected, setIsItemSelected] = useState<boolean>(false);
 
     const { userInfo, fetchUserInfo } = useUser();
 
@@ -47,7 +46,6 @@ const Inventory = () => {
     
     //change visibility
     const handleVisibility = (event: React.MouseEvent) => {
-        setIsItemSelected(true);
         const itemDiv = event.currentTarget.id;
     
         const substatDivPopup = document.getElementById(`substats-window-${itemDiv}`);
@@ -120,7 +118,6 @@ const Inventory = () => {
                     Level: {expToLevelConverter(item.exp)}
                 </div>
                 <div id={`substats${index}`} className=' bg-slate-400'>
-                   
                     <div id={`substats-window-${index}`} className='hidden fixed top-0 left-0 justify-center z-50 bg-blue-600 bg-opacity-70 w-full max-h-full h-full'>
                         <div className='bg-white p-6 mt-auto mb-auto mx-2 rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center'>
                             <div>
@@ -168,8 +165,6 @@ const Inventory = () => {
                             </div>
                         </div>
                     </div>
-                              
-
                 </div>
 
             </div>
