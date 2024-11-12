@@ -28,7 +28,6 @@ export const getAccountFromToken = async(navigate?: NavigateFunction) => {
         });
         if (!request.ok && navigate) {
             if(request.status === 401 || request.status === 403) navigate('/login');
-            alert('please log in again');
             throw new Error('Failed to fetch user info');
         };
         const result = await request.json();
