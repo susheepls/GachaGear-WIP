@@ -11,6 +11,7 @@ const Inventory = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
     const [sellAmount, setSellAmount] = useState<number | null>(null);
+    const [isItemSelected, setIsItemSelected] = useState<boolean>(false);
 
     const { userInfo, fetchUserInfo } = useUser();
 
@@ -46,14 +47,12 @@ const Inventory = () => {
     
     //change visibility
     const handleVisibility = (event: React.MouseEvent) => {
+        setIsItemSelected(true);
         const itemDiv = event.currentTarget.id;
-        const substatDiv = document.getElementById(`substats${itemDiv}`);
-        if(substatDiv) {
-            substatDiv.classList.toggle('hidden');
-            substatDiv.classList.add('flex');
-            substatDiv.classList.add('flex-col');
-            substatDiv.classList.add('text-center');
-        }
+    
+        const substatDivPopup = document.getElementById(`substats-window-${itemDiv}`);
+        substatDivPopup?.classList.replace('hidden', 'flex');
+        
     }
     
     //collapse all items
@@ -103,59 +102,83 @@ const Inventory = () => {
 
     }
 
+    //close substat window
+    const closeSubstatWindow = (substatIndex: number) => {
+        const substatDivPopup = document.getElementById(`substats-window-${substatIndex}`);
+        substatDivPopup?.classList.replace('flex', 'hidden');
+    }
+
     //return a div for each item
     const allItemNamesDiv = () => {
         if(!items) return;
         return items.map((item, index) => 
-            <div key={index}>
+            <div key={index} className='w-24 py-2'>
                 <div id={`${index}`} className='px-1' onClick={(event) => handleVisibility(event)}>
                     {item.name.name}
                 </div>
                 <div className='px-1'>
                     Level: {expToLevelConverter(item.exp)}
                 </div>
-                <div id={`substats${index}`} className='hidden bg-slate-400'>
-                    <div id='substat1'>
-                        <div>
-                            {item.substats[0].substatType.name}
-                        </div>
-                        <div>
-                            {item.substats[0].value}
+                <div id={`substats${index}`} className=' bg-slate-400'>
+                   
+                    <div id={`substats-window-${index}`} className='hidden fixed top-0 left-0 justify-center z-50 bg-blue-600 bg-opacity-70 w-full max-h-full h-full'>
+                        <div className='bg-white p-6 mt-auto mb-auto mx-2 rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center'>
+                            <div>
+                                {item.name.name}
+                            </div>
+                            <div>
+                                Level: {expToLevelConverter(item.exp)}
+                            </div>
+                            <div id={`substats-for-item${index}`}>
+                                <div id='substat1'>
+                                    <div>
+                                        {item.substats[0].substatType.name}
+                                    </div>
+                                    <div>
+                                        {item.substats[0].value}
+                                    </div>
+                                </div>
+                                <div id='substat2'>
+                                    <div>
+                                        {item.substats[1].substatType.name}
+                                    </div>
+                                    <div>
+                                        {item.substats[1].value}
+                                    </div>
+                                </div>
+                                <div id='substat3'>
+                                    <div>
+                                        {item.substats[2].substatType.name}
+                                    </div>
+                                    <div>
+                                        {item.substats[2].value}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex justify-evenly w-full'>
+                                <div id='enhance-button' className='w-36'>
+                                    <button onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
+                                </div>
+                                <div id='sell-button' className='w-36'>
+                                    <button onClick={() => sellItemsForCurrency(item.id, (Math.floor(item.exp/2)) ) }>Sell for {Math.floor(item.exp/2)} Currency</button>
+                                </div>
+                            </div>
+                            <div>
+                                <button onClick={() => closeSubstatWindow(index)}>Exit</button>
+                            </div>
                         </div>
                     </div>
-                    <div id='substat2'>
-                        <div>
-                            {item.substats[1].substatType.name}
-                        </div>
-                        <div>
-                            {item.substats[1].value}
-                        </div>
-                    </div>
-                    <div id='substat3'>
-                        <div>
-                            {item.substats[2].substatType.name}
-                        </div>
-                        <div>
-                            {item.substats[2].value}
-                        </div>
-                    </div>
-                    <div className='flex justify-evenly'>
-                        <div id='enhance-button'>
-                            <button onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
-                        </div>
-                        <div id='sell-button'>
-                            <button onClick={ () => sellItemsForCurrency(item.id, (Math.floor(item.exp/2)) ) }>Sell for {Math.floor(item.exp/2)} Currency</button>
-                        </div>
-                    </div>
+                              
+
                 </div>
-               
+
             </div>
         );
     }
 
     return (
         <div className='flex flex-col'>
-            <div>
+            <div className='flex flex-wrap justify-evenly py-2'>
                 {allItemNamesDiv()}
             </div>
 
