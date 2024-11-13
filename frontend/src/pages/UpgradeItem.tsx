@@ -104,7 +104,8 @@ const UpgradeItem = () => {
         gsap.fromTo(substatIncreaseDiv, 
             { 
                 textContent: 0, 
-                opacity: 1
+                opacity: 1,
+                y: 0
             },
             { 
                 textContent: increaseSubstatObject.result.increaseValue,
@@ -115,7 +116,8 @@ const UpgradeItem = () => {
         gsap.to(substatIncreaseDiv, {
             opacity: 0,
             duration: 1.5,
-            delay: 1.5
+            delay: 1.5,
+            y: -50,
         })
         
         
