@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import EnhanceForm from '../components/EnhanceForm';
 import { ItemSubstatIncrease } from '../interface/itemType';
 import * as CurrencyApi from '../api/currency';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 const UpgradeItem = () => {
     const [currentItem, setCurrentItem] = useState<EnhanceOneItemType | null>(null);
@@ -17,7 +19,7 @@ const UpgradeItem = () => {
 
     useEffect(() => {
         fetchItemData();
-    }, [currentItem]);
+    }, [username, id, increaseSubstatObject]);
 
     //convert exp to level on load
     useEffect(() => {
@@ -41,8 +43,12 @@ const UpgradeItem = () => {
         if(!item) return;
 
         //sort substats in consistent order
-        const substatOrder = ['atk', 'hp', 'def'];
-        item.result?.substats.sort((a, b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name));
+        if (item.result?.substats) {
+            const substatOrder = ['atk', 'hp', 'def'];
+            item.result.substats = [...item.result.substats].sort(
+                (a, b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name)
+            );
+        }
         setCurrentItem(item);
     }
 
@@ -84,6 +90,37 @@ const UpgradeItem = () => {
         setCurrentCurrency(fetchAccountCurrency); 
     }
 
+    //animation to show the increase in substat value
+    useGSAP(()=> {
+        if(!increaseSubstatObject) return;
+
+        const substatType = increaseSubstatObject.result.substatType.name;
+        const substatIncreaseDiv = document.getElementById(`substat-increase-${substatType}`);
+
+        if(!substatIncreaseDiv) return;
+
+        gsap.killTweensOf(substatIncreaseDiv);
+
+        gsap.fromTo(substatIncreaseDiv, 
+            { 
+                textContent: 0, 
+                opacity: 1
+            },
+            { 
+                textContent: increaseSubstatObject.result.increaseValue,
+                duration: 1.5,
+                snap: { textContent: 1 }
+            }
+        );
+        gsap.to(substatIncreaseDiv, {
+            opacity: 0,
+            duration: 1.5,
+            delay: 1.5
+        })
+        
+        
+    }, [increaseSubstatObject])
+
     return (
         <div>
             {!currentItem || !currentItem.result ? (
@@ -92,7 +129,7 @@ const UpgradeItem = () => {
                 </div>
             ) : (
                 <div>
-                    <div id='item-stats'>
+                    <div id='item-stats' className='flex flex-col text-center'>
                         <div className='px-1'>
                             {currentItem.result.name.name}
                         </div>
@@ -100,28 +137,49 @@ const UpgradeItem = () => {
                             Item Level: {currentItemLvl}
                         </div>
                         <div id='item-substats'>
-                            <div id='substat1'>
-                                <div>
+                            <div id='substat1' className='flex justify-center'>
+                                <div className='w-28'>
                                     {currentItem.result.substats[0].substatType.name}
                                 </div>
-                                <div>
-                                    {currentItem.result.substats[0].value}
+                                <div className='flex pl-2 w-28'>
+                                    <div>
+                                        {currentItem.result.substats[0].value}
+                                    </div>
+                                    <div id='substat-increase-atk' className='pl-2'>
+                                        { increaseSubstatObject && 
+                                        increaseSubstatObject.result.substatType.name === 'atk' && 
+                                        increaseSubstatObject.result.increaseValue }
+                                    </div>
                                 </div>
                             </div>
-                            <div id='substat2'>
-                                <div>
+                            <div id='substat2' className='flex justify-center'>
+                                <div className='w-28'>
                                     {currentItem.result.substats[1].substatType.name}
                                 </div>
-                                <div>
-                                    {currentItem.result.substats[1].value}
+                                <div className='flex pl-2 w-28'>
+                                    <div>
+                                        {currentItem.result.substats[1].value}
+                                    </div>
+                                    <div id='substat-increase-hp' className='pl-2'>
+                                        { increaseSubstatObject && 
+                                            increaseSubstatObject.result.substatType.name === 'hp' && 
+                                            increaseSubstatObject.result.increaseValue }
+                                    </div>
                                 </div>
                             </div>
-                            <div id='substat3'>
-                                <div>
+                            <div id='substat3' className='flex justify-center'>
+                                <div className='w-28'>
                                     {currentItem.result.substats[2].substatType.name}
                                 </div>
-                                <div>
-                                    {currentItem.result.substats[2].value}
+                                <div className='flex pl-2 w-28'>
+                                    <div>
+                                        {currentItem.result.substats[2].value}
+                                    </div>
+                                    <div id='substat-increase-def' className='pl-2'>
+                                        { increaseSubstatObject && 
+                                            increaseSubstatObject.result.substatType.name === 'def' && 
+                                            increaseSubstatObject.result.increaseValue }
+                                    </div>
                                 </div>
                             </div>
                         </div>

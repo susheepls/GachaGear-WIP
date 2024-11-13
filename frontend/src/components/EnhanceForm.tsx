@@ -34,6 +34,15 @@ const EnhanceForm: React.FC<Props> = (props) => {
         if(props.currentCurrency && expAmount.expIncrease !== 0 && expAmount.expIncrease <= props.currentCurrency){
             const result = await ItemApi.enhanceItem(username!, itemId!, expAmount);
             const decreaseCurrencyFetch: CurrencyDecreaseResponse = await CurrencyApi.decreaseAccountCurrency(username!, decreaseCurrencyAmount);
+
+            //make sure to sort the result
+            if (result.result?.substats) {
+                const substatOrder = ['atk', 'hp', 'def'];
+                result.result.substats = [...result.result.substats].sort(
+                    (a, b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name)
+                );
+            };
+            
             props.setCurrentCurrency(decreaseCurrencyFetch.result.currency);
             props.setCurrentItem(result);
             setExpAmount({ expIncrease: 0 });
