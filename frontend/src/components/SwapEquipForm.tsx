@@ -27,7 +27,12 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         const itemsByType = await InventoryApi.getAccountItemsByType(username, itemType);
 
         if(!itemsByType) return;
+        //sorting of result
         itemsByType.sort((a,b) => a.id - b.id);
+        const orderType = ['atk', 'hp', 'def'];
+        itemsByType.forEach((item) => {
+            item.substats.sort((a , b) => orderType.indexOf(a.substatType.name) - orderType.indexOf(b.substatType.name) );
+        })
 
         if(!itemsByType) return;
         setItemTypes(itemsByType);
@@ -54,7 +59,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
 
         return (
             itemTypes.map((item, index) => (
-                <div key={index} className='p-2'>
+                <div key={index} className='p-2 w-24'>
                     <div>
                         {item.name.name}
                     </div>
@@ -90,7 +95,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
     }
 
     return (
-        <div className='flex justify-center flex-wrap overflow-scroll max-h-full'>
+        <div className='flex justify-evenly flex-wrap overflow-scroll max-h-full'>
             {makeDivForAccountItems()}
         </div>
     )
