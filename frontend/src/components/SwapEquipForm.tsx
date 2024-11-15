@@ -8,7 +8,8 @@ interface Props {
     itemType: string,
     itemData: Item | null,
     username: string | null,
-    characterId: number | null
+    characterId: number | null,
+    expToLvlConverter: (exp: number) => number | string;
 }
 
 const SwapEquipForm: React.FC<Props> = (props) => {
@@ -64,7 +65,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                         {item.name.name}
                     </div>
                     <div>
-                        Level: {item.exp}
+                        Level: {props.expToLvlConverter(item.exp)}
                     </div>
                     <div>
                         Substats

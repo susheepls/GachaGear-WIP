@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { AccountCharacters, AddGearToCharacterReq, OneCharacter, RemoveGearFromCharacterReq } from "../interface/characterType";
+import { AccountCharacters, AddGearToCharacterReq, CreateCharacterReq, OneCharacter, RemoveGearFromCharacterReq } from "../interface/characterType";
 const endpoint = import.meta.env.VITE_endpoint;
 
 export const fetchAccountCharacters = async(username: string) => {
@@ -78,4 +78,19 @@ export const removeItemFromCharacter = async(username: string, characterId: numb
     } catch(error) {
         console.error(error);
     }
+}
+
+export const createCharacter = async(username: string, characterCreateForm: CreateCharacterReq) => {
+    const backendURL = endpoint + `${username}/characters`;
+    const token = Cookies.get('token');
+    const request = await fetch(backendURL, {
+        method: 'POST',
+        headers: {
+            'Authorization' : `Bearer ${token}`,
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(characterCreateForm)
+    });
+
+    return request.json();
 }

@@ -40,6 +40,13 @@ const OneCharacter = () => {
 
         const characterItems = character.equipment;
         if(!characterItems) return;
+        
+        //sort the substats of each equipment
+        const substatOrder = ['atk', 'hp', 'def'];
+        characterItems.forEach((item) => {
+            item.substats.sort((a,b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name));
+        });
+
         characterItems.forEach((item) => {
             const index = itemTypeOrder.indexOf(item.name.name);
             if (index !== -1) {
@@ -144,6 +151,7 @@ const OneCharacter = () => {
                                     itemType={itemType} 
                                     itemData={characterItems[index]}
                                     characterId={id ? Number(id) : null}
+                                    expToLvlConverter={expToLevelConverter}
                                 />
                                 <div className='fixed bottom-2 left-3'>
                                     <button onClick={() => toggleForm(itemType)}>Exit</button>

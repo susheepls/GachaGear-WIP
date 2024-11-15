@@ -30,3 +30,7 @@ export interface RemoveGearFromCharacterReq {
     characterId: number,
     itemId: number,
 }
+
+export interface CreateCharacterReq {
+    characterName: string,
+}
