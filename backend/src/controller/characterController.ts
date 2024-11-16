@@ -1,7 +1,7 @@
 import { Request ,Response, NextFunction } from "express";
 import { AuthenticatedRequest, CustomJwtPayload } from "../interfaces/jwtTypes";
 import characterModel from "../model/characters.model";
-import { addGearToCharacterReq, CharacterCreate, removeGearFromCharacterReq, RenameCharacterReq } from "../interfaces/characterType";
+import { addGearToCharacterReq, CharacterCreate, DeleteCharacterReq, removeGearFromCharacterReq, RenameCharacterReq } from "../interfaces/characterType";
 
 const characterController = {
     getAllAccountCharacters: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -116,6 +116,28 @@ const characterController = {
             const renameCharacterReq = await characterModel.renameCharacter(accountId, targetCharacter, newCharacterName);
 
             res.status(200).json({ message: 'Success', result: renameCharacterReq });
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    deleteCharacter: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+            
+            const accountId = (req.user as CustomJwtPayload).id;
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const deleteCharacterId = (req.body as DeleteCharacterReq).characterId;
+
+            //if theres a mismatch in character id
+            if(req.params.id !== String(deleteCharacterId)) return res.status(404).json({ message: 'Unauthorized' });
+
+            const deleteCharacterReq = await characterModel.deleteCharacter(accountId, deleteCharacterId);
+
+            res.status(200).json({ message: 'Character Deletion Success', result: deleteCharacterReq });
+
 
         } catch(error) {
             next(error);

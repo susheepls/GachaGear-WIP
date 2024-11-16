@@ -17,3 +17,7 @@ export interface RenameCharacterReq {
     characterId: number,
     characterName: string
 }
+
+export interface DeleteCharacterReq {
+    characterId: number,
+}

@@ -75,6 +75,8 @@ const Characters = () => {
                     Create
                 </button>
             </div>
+            
+            {/* div that shows when creating a character */}
             <div id='create-character-overlay'>
                 {isCreatingCharacter && (
                     <div className='fixed flex justify-center left-0 top-0 w-full h-full bg-blue-500 z-50 bg-opacity-70'>

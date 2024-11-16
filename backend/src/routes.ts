@@ -50,6 +50,8 @@ router.get('/:username/characters/:id', authenticateToken, characterController.g
 router.post('/:username/characters', authenticateToken, characterController.createNewCharacter);
 //rename character
 router.patch('/:username/characters/:id', authenticateToken, characterController.updateCharacterName);
+//delete character
+router.delete('/:username/characters/:id', authenticateToken, characterController.deleteCharacter);
 //add gear to character
 router.patch('/:username/characters/equip/:id', authenticateToken, characterController.addGearToCharacter);
 //remove gear from character

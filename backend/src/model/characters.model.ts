@@ -158,6 +158,31 @@ const characterModel = {
             }
         })
     },
+    deleteCharacter: async(accountId: number, characterId: number) => {
+        const character = await prisma.character.findFirst({
+            where: {
+                id: characterId,
+                ownerId: accountId,
+            }
+        });
+
+        if(!character) return;
+        const unequipGearFromCharacter = await prisma.inventory.updateMany({
+            where: {
+                characterId: character.id
+            },
+            data: {
+                characterId: null,
+            }
+        });
+
+        return await prisma.character.delete({
+            where: {
+                id: characterId,
+                ownerId: accountId,
+            }
+        });
+    }
 
 }
 
