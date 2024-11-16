@@ -94,3 +94,25 @@ export const createCharacter = async(username: string, characterCreateForm: Crea
 
     return request.json();
 }
+
+export const deleteCharacter = async(username: string, characterId: number) => {
+    try {
+        const backendURL = endpoint + `${username}/characters/${characterId}`;
+        const token = Cookies.get('token');
+        const request = await fetch(backendURL, {
+            method:'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                characterId: characterId
+            })
+        });
+
+        return request.json();
+        
+    } catch(error) {
+        console.error(error);
+    } 
+}
