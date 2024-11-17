@@ -172,25 +172,26 @@ const Inventory = () => {
     }
 
     return (
-        <div className='flex flex-col'>
-            <div className='flex flex-wrap justify-evenly py-2'>
+        // height is wonky because i had to subtract the navbar height; full screen h - navbar height
+        <div className='flex flex-col h-[calc(100vh-32px)]'>
+            <div className='flex flex-wrap justify-evenly overflow-y-scroll py-2 max-h-[83%]'>
                 {allItemNamesDiv()}
             </div>
-
             { sellAmount && 
             <div className='text-center'>
                 Sold! Now you have {sellAmount} currency!
             </div> }
-
-            <div className='text-center'>
-                <button onClick={()=>hideAll()}>
-                    Collapse All Items
-                </button>
-            </div>
-            <div className='text-center'>
-                <button onClick={()=>showAll()}>
-                    Reveal All Items
-                </button>
+            <div className='bg-slate-600 sticky bottom-0 mt-auto'>
+                <div className='text-center'>
+                    <button onClick={()=>hideAll()}>
+                        Collapse All Items
+                    </button>
+                </div>
+                <div className='text-center'>
+                    <button onClick={()=>showAll()}>
+                        Reveal All Items
+                    </button>
+                </div>
             </div>
         </div>
     )
