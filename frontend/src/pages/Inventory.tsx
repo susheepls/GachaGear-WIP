@@ -10,7 +10,9 @@ import Cookies from 'js-cookie';
 const Inventory = () => {
     const navigate = useNavigate();
     const [items, setItems] = useState<Item [] | null>(null);
+    const [displayItems, setDisplayItems] = useState<Item [] | null>(null);
     const [sellAmount, setSellAmount] = useState<number | null>(null);
+    const [sortType, setSortType] = useState<string>('default');
 
     const { userInfo, fetchUserInfo } = useUser();
 
@@ -24,16 +26,15 @@ const Inventory = () => {
     }, [userInfo, fetchUserInfo, navigate, token]);
 
     useEffect(() => {
+        console.log('im fetching agian')
         handleItems();
-    }, [items, userInfo]);
+    }, [userInfo]);
     
     //fetch all the items that the account has
     const handleItems = async() => {
         if(!userInfo) return;
         const result = await inventoryApi.getAccountInventory(navigate, userInfo!.username);
-
-        //sort items in order
-        result?.accountInventory.sort((a, b) => a.id - b.id);
+        if(!result) return;
 
         //sort the order of substats in each item
         const substatOrder = ['atk', 'hp', 'def'];
@@ -41,7 +42,8 @@ const Inventory = () => {
             item.substats.sort((a,b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name));
         });
 
-        setItems(result!.accountInventory);
+        setItems(result.accountInventory);
+        setDisplayItems(result.accountInventory);
     }
     
     //change visibility
@@ -53,19 +55,47 @@ const Inventory = () => {
         
     }
     
-    //collapse all items
-    const hideAll = () => {
-        const substatDivs = document.querySelectorAll('[id*="substats"]');
-        substatDivs.forEach((element) => element.classList.add('hidden'));
+    //sorting functions switch case
+    const sortItems = (sortType: string) => {
+        setSortType(sortType);
+        if(!items) return;
+
+        //use a copy of the original fetched items
+        const sortedItems = [...items];
+        
+        switch(sortType) {
+            case 'idAsc':
+                sortedItems.sort((a, b) => a.id - b.id);
+                break;
+            case 'idDes':
+                sortedItems.sort((a, b) => b.id- a.id);
+                break;
+            case 'sortByHat':
+                const hatOrder = ['hat', 'armor', 'sword'];
+                sortedItems.sort((a, b) => b.exp - a.exp);
+                sortedItems.sort((a, b) => hatOrder.indexOf(a.name.name) - hatOrder.indexOf((b.name.name)) );
+                break;
+            case 'sortByArmor':
+                const armorOrder = ['armor', 'hat', 'sword'];
+                sortedItems.sort((a, b) => b.exp - a.exp);
+                sortedItems.sort((a, b) => armorOrder.indexOf(a.name.name) - armorOrder.indexOf((b.name.name)) );
+                break;
+            case 'sortBySword':
+                const swordOrder = ['sword', 'hat', 'armor'];
+                sortedItems.sort((a, b) => b.exp - a.exp);
+                sortedItems.sort((a, b) => swordOrder.indexOf(a.name.name) - swordOrder.indexOf(b.name.name) );
+                break;
+            default : 
+                sortedItems.sort((a, b) => a.id - b.id);
+                break;
+        }
+
+        setDisplayItems(sortedItems);
     }
-    
-    //Reveal all items
-    const showAll = () => {
-        const substatDivs = document.querySelectorAll('[id*="substats"]');
-        substatDivs.forEach((element) => element.classList.remove('hidden'));
-        substatDivs.forEach((element) => element.classList.add('flex'));
-        substatDivs.forEach((element) => element.classList.add('flex-col'));
-        substatDivs.forEach((element) => element.classList.add('text-center'));
+
+    //button press that changes sort type
+    const handleSortButtonClick = (sortType: string) => {
+        sortItems(sortType);
     }
 
     //Navigate to enhance page
@@ -85,19 +115,26 @@ const Inventory = () => {
 
     //sell items for currency
     const { username } = useParams();
-    const sellItemsForCurrency = async(itemId: number, sellAmount: number) => {
+    const sellItemsForCurrency = async(itemId: number, sellAmount: number, index: number) => {
+        
         if (sellAmount === 0) return;
         if(!username) return;
-
+        
         //delete the item from inventory
         const deleteRequest = await inventoryApi.deleteItem(username, itemId);
         if(!deleteRequest) return;
-
+        
         //increase currency after selling
         const increaseAmountRequest = { increaseAmount: sellAmount};
         const sellItemRequest: CurrencyIncreaseResponse = await CurrencyApi.increaseAccountCurrency(username, increaseAmountRequest);
         setSellAmount(sellItemRequest.result.currency);
+        
+        handleItems();
 
+        // hide the div after selling the item
+        const substatDivPopup = document.getElementById(`substats-window-${index}`);
+        substatDivPopup?.classList.replace('flex', 'hidden');
+        
     }
 
     //close substat window
@@ -109,7 +146,8 @@ const Inventory = () => {
     //return a div for each item
     const allItemNamesDiv = () => {
         if(!items) return;
-        return items.map((item, index) => 
+        if(!displayItems) return;
+        return displayItems.map((item, index) => 
             <div key={index} className='w-24 py-2'>
                 <div id={`${index}`} className='px-1' onClick={(event) => handleVisibility(event)}>
                     {item.name.name}
@@ -157,7 +195,7 @@ const Inventory = () => {
                                     <button onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
                                 </div>
                                 <div id='sell-button' className='w-36'>
-                                    <button onClick={() => sellItemsForCurrency(item.id, (Math.floor(item.exp/2)) ) }>Sell for {Math.floor(item.exp/2)} Currency</button>
+                                    <button onClick={() => sellItemsForCurrency(item.id, (Math.floor(item.exp/2)), index ) }>Sell for {Math.floor(item.exp/2)} Currency</button>
                                 </div>
                             </div>
                             <div>
@@ -177,20 +215,32 @@ const Inventory = () => {
             <div className='flex flex-wrap justify-evenly overflow-y-scroll py-2 max-h-[83%]'>
                 {allItemNamesDiv()}
             </div>
-            { sellAmount && 
-            <div className='text-center'>
-                Sold! Now you have {sellAmount} currency!
-            </div> }
-            <div className='bg-slate-600 sticky bottom-0 mt-auto'>
+            <div className='bg-secondary sticky bottom-0 mt-auto'>
+                { sellAmount && 
+                <div className='text-center bg-lighterskyblue'>
+                    Sold! Now you have {sellAmount} currency!
+                </div> }
                 <div className='text-center'>
-                    <button onClick={()=>hideAll()}>
-                        Collapse All Items
-                    </button>
-                </div>
-                <div className='text-center'>
-                    <button onClick={()=>showAll()}>
-                        Reveal All Items
-                    </button>
+                    <div>
+                        Sorting
+                    </div>
+                    <div id='sort-orders' className='flex flex-col bg-skyblue'>
+                        <div>
+                            <button onClick={() => handleSortButtonClick('sortByHat')}>
+                                Hat
+                            </button>
+                        </div>
+                        <div>
+                            <button onClick={() => handleSortButtonClick('sortByArmor')}>
+                                Armor
+                            </button>                       
+                        </div>
+                        <div>
+                            <button onClick={() => handleSortButtonClick('sortBySword')}>
+                                Sword
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
