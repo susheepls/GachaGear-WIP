@@ -155,9 +155,9 @@ const Inventory = () => {
                 <div className='px-1'>
                     Level: {expToLevelConverter(item.exp)}
                 </div>
-                <div id={`substats${index}`} className=' bg-slate-400'>
-                    <div id={`substats-window-${index}`} className='hidden fixed top-0 left-0 justify-center z-50 bg-blue-600 bg-opacity-70 w-full max-h-full h-full'>
-                        <div className='bg-white p-6 mt-auto mb-auto mx-2 rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center'>
+                <div id={`substats${index}`} className=' bg-one'>
+                    <div id={`substats-window-${index}`} className='hidden fixed top-0 left-0 justify-center z-50 bg-pink-200 bg-opacity-70 w-full max-h-full h-full'>
+                        <div className='bg-five p-6 mt-auto mb-auto mx-2 rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center'>
                             <div>
                                 {item.name.name}
                             </div>
@@ -211,20 +211,27 @@ const Inventory = () => {
 
     return (
         // height is wonky because i had to subtract the navbar height; full screen h - navbar height
-        <div className='flex flex-col h-[calc(100vh-32px)]'>
-            <div className='flex flex-wrap justify-evenly overflow-y-scroll py-2 max-h-[83%]'>
+        <div className='flex flex-col h-[calc(100vh-32px)] bg-two text-four'>
+            <div className='flex flex-wrap flex-grow overflow-y-scroll py-1 max-h-[83%]'>
                 {allItemNamesDiv()}
             </div>
-            <div className='bg-secondary sticky bottom-0 mt-auto'>
+            <div className='bg-three sticky bottom-0 mt-auto'>
                 { sellAmount && 
-                <div className='text-center bg-lighterskyblue'>
+                <div className='text-center bg-three'>
                     Sold! Now you have {sellAmount} currency!
                 </div> }
                 <div className='text-center'>
                     <div>
-                        Sorting
+                        Sort by
                     </div>
-                    <div id='sort-orders' className='flex flex-col bg-skyblue'>
+                    <div id='sort-orders' className='flex flex-col bg-five text-white'>
+                        <div className='flex justify-evenly'>
+                            <div>
+                                <button onClick={() => handleSortButtonClick(sortType === 'default' || sortType === 'idAsc'? 'idDes' : 'idAsc')}>
+                                    {sortType === 'default' || sortType === 'idAsc' ? 'Obtained' : 'New'}
+                                </button>
+                            </div>
+                        </div>
                         <div>
                             <button onClick={() => handleSortButtonClick('sortByHat')}>
                                 Hat

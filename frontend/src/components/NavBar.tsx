@@ -31,10 +31,10 @@ const NavBar = () => {
 
     return (
         <nav>
-            <div className="flex">
+            <div className="flex bg-three text-white">
                 {pages.map((page) => (
                     <a
-                        className="p-1"
+                        className="p-1 text-whiteblue"
                         key={page.key}
                         href={page.href}
                     >   
