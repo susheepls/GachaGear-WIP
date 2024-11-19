@@ -182,6 +182,35 @@ const characterModel = {
                 ownerId: accountId,
             }
         });
+    },
+    getAllTotalStatsRanking: async() => {
+        const allCharactersRank = await prisma.character.findMany({
+            include: {
+                equipment: {
+                    select: {
+                        substats: true,
+                    }
+                }
+            }
+        });
+
+        const allCharactersRankWithTotals = allCharactersRank.map(character => {
+
+            const substatsTotal = character.equipment.reduce((equipmentSum, equipment) => {
+
+                const substatsSum = equipment.substats.reduce(
+                    (substatSum, substat) => substatSum + substat.value, 0
+                );
+
+                return equipmentSum + substatsSum
+            }, 0);
+
+            return {...character, substatsTotal };
+        })
+        .filter(character => character.substatsTotal > 0)
+        .sort((a, b) => b.substatsTotal - a.substatsTotal );
+
+        return allCharactersRankWithTotals;
     }
 
 }

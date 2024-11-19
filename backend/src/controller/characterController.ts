@@ -142,6 +142,16 @@ const characterController = {
         } catch(error) {
             next(error);
         }
+    },
+    getAllTotalStatsRanking: async(req: Request, res: Response, next: NextFunction) => {
+        try {
+            const rankings = await characterModel.getAllTotalStatsRanking();
+
+            res.status(200).json( rankings );
+
+        } catch(error) {
+            next(error);
+        }
     }
 }
 

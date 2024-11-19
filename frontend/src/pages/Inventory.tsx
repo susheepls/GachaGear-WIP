@@ -26,7 +26,6 @@ const Inventory = () => {
     }, [userInfo, fetchUserInfo, navigate, token]);
 
     useEffect(() => {
-        console.log('im fetching agian')
         handleItems();
     }, [userInfo]);
     
