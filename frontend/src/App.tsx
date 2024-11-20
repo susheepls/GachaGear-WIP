@@ -9,6 +9,7 @@ import CurrencyBox from "./pages/CurrencyBox"
 import Characters from "./pages/Characters"
 import { UserProvider } from "./middleware/UserContext"
 import OneCharacter from "./pages/OneCharacter"
+import Rankings from "./pages/Rankings"
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="currencyBox" element={<CurrencyBox/>} />
             <Route path="characters" element={<Characters/>} />
             <Route path=":username/characters/:id" element={<OneCharacter/>} />
+            <Route path="rankings" element={<Rankings/>} />
           </Route>
         </Routes>
       </BrowserRouter>

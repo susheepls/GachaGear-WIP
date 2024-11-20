@@ -35,12 +35,19 @@ const Home = () => {
         navigate('/gacharoll');
     }
 
+    const toRankingPage = () => {
+        navigate('/rankings');
+    }
+
     return (
         <div>
             {!token ? (
-                <div className='flex'>
+                <div className='flex flex-col'>
                     <div className='p-1 m-auto'>
                         <button onClick={() => toLoginPage()}>Click Here to Login!</button>
+                    </div>
+                    <div className='m-auto'>
+                        <button onClick={() => toRankingPage()}>View Rankings</button>
                     </div>
                 </div>
             ) : (
@@ -53,6 +60,9 @@ const Home = () => {
                     </div>
                     <div>
                         <button onClick={() => toGachaRoll()}>want to gamba?</button>
+                    </div>
+                    <div>
+                        <button onClick={() => toRankingPage()}>Rankings</button>
                     </div>
                     <div>
                         <button onClick={() => logout()}>Log Out</button>

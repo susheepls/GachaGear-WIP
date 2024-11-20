@@ -147,7 +147,7 @@ const characterController = {
         try {
             const rankings = await characterModel.getAllTotalStatsRanking();
 
-            res.status(200).json( rankings );
+            res.status(200).json({ result: rankings });
 
         } catch(error) {
             next(error);

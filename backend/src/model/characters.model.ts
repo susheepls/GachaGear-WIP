@@ -188,7 +188,21 @@ const characterModel = {
             include: {
                 equipment: {
                     select: {
-                        substats: true,
+                        name: {
+                            select: {
+                                name: true
+                            }
+                        },
+                        substats: {
+                            select: {
+                                substatType: {
+                                    select: {
+                                        name: true,
+                                    }
+                                },
+                                value: true,
+                            }
+                        }
                     }
                 }
             }
