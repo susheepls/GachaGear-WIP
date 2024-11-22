@@ -224,7 +224,7 @@ const characterModel = {
         .filter(character => character.substatsTotal > 0)
         .sort((a, b) => b.substatsTotal - a.substatsTotal );
 
-        return allCharactersRankWithTotals;
+        return allCharactersRankWithTotals.slice(0, 11);
     }
 
 }
