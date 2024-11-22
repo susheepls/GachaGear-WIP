@@ -17,11 +17,11 @@ const Rankings = () => {
 
     const topThreeRankingsDiv = (characterArray: CharacterDataForRankings[] | null) => {
         if(!characterArray) return <div>Loading...</div>;
-        console.log(Object.keys(characterArray))
+        
         return (
             <div className='flex m-1 flex-col outline-dashed'>
                 <div className='mx-auto'>
-                    Top Ranking for Substats
+                    Top Ranking for Total Substats
                 </div>
                 <div id='top3-totalsubstats' className='flex flex-col'>
                     <div className='mx-auto'>
@@ -34,12 +34,31 @@ const Rankings = () => {
                 </div>
             </div>
         )
-        
+    }
+
+    const topTenRankingsDiv = (characterArray: CharacterDataForRankings[] | null) => {
+        if(!characterArray || characterArray.length < 3) return <div>Loading...</div>;
+
+        const getFourThroughTen = (characterArray: CharacterDataForRankings[]) => {
+            for(let i = 3; i < 10 || i < characterArray.length ; i++ ) {
+                return <div className='pl-2'>{i}. {characterArray[i].characterName}</div>
+            }
+        }
+
+        return (
+            <div className='flex flex-col mt-2 outline-dotted'>
+                <div className='mx-auto'>
+                    Top 10
+                </div>
+                {getFourThroughTen(characterArray)}
+            </div>
+        )
     }
 
     return (
         <div className='flex m-1 flex-col'>
             {topThreeRankingsDiv(allSubstatsRankings)}
+            {topTenRankingsDiv(allSubstatsRankings)}
         </div>
     )
 }
