@@ -21,3 +21,7 @@ export interface RenameCharacterReq {
 export interface DeleteCharacterReq {
     characterId: number,
 }
+
+export interface FindCharacterReq {
+    characterId: number,
+}

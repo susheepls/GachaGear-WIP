@@ -1,7 +1,7 @@
 import { Request ,Response, NextFunction } from "express";
 import { AuthenticatedRequest, CustomJwtPayload } from "../interfaces/jwtTypes";
 import characterModel from "../model/characters.model";
-import { addGearToCharacterReq, CharacterCreate, DeleteCharacterReq, removeGearFromCharacterReq, RenameCharacterReq } from "../interfaces/characterType";
+import { addGearToCharacterReq, CharacterCreate, DeleteCharacterReq, FindCharacterReq, removeGearFromCharacterReq, RenameCharacterReq } from "../interfaces/characterType";
 
 const characterController = {
     getAllAccountCharacters: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -148,6 +148,20 @@ const characterController = {
             const rankings = await characterModel.getAllTotalStatsRanking();
 
             res.status(200).json({ result: rankings });
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    getSpecificRankingTotalStats: async(req: Request, res: Response, next: NextFunction) => {
+        try {
+            const targetCharacterId = (req.body as FindCharacterReq).characterId;
+
+            const targetCharacterRankingTotalSubstats = await characterModel.getSpecificRankingTotalStats(targetCharacterId);
+            
+            if(targetCharacterRankingTotalSubstats === null || targetCharacterRankingTotalSubstats === -1) res.status(404).json({ message: "Character Not Found" });
+
+            res.status(200).json({ result: targetCharacterRankingTotalSubstats });
 
         } catch(error) {
             next(error);
