@@ -60,5 +60,7 @@ router.patch('/:username/characters/unequip/:id', authenticateToken, characterCo
 //ranking routes
 router.get('/characters/rankings/totalsubstats', characterController.getAllTotalStatsRanking);
 //findCharById
-router.get('/characters/rankings/totalsubstats/pluh', characterController.getSpecificRankingTotalStats);
+router.get('/characters/rankings/totalsubstats/:characterid', characterController.getSpecificRankingTotalStats);
+//find by character name
+router.get('/characters/rankings/:charactername', characterController.searchCharacterByName);
 export default router;

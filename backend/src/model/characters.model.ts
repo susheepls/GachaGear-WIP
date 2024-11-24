@@ -270,6 +270,19 @@ const characterModel = {
         
         return rankingOfCharacter;
 
+    },
+    searchCharacterByName: async(searchCharacterName: string) => {
+        const charactersWithName = await prisma.character.findMany({
+            where: {
+                characterName: searchCharacterName
+            },
+            select: {
+                id: true,
+                characterName: true,
+            }
+        });
+
+        return charactersWithName;
     }
 
 

@@ -157,11 +157,31 @@ const characterController = {
         try {
             const targetCharacterId = (req.body as FindCharacterReq).characterId;
 
+            //if theres a mismatch in character id
+            if(req.params.characterid !== String(targetCharacterId)) return res.status(404).json({ message: 'Unauthorized' });
+
             const targetCharacterRankingTotalSubstats = await characterModel.getSpecificRankingTotalStats(targetCharacterId);
             
             if(targetCharacterRankingTotalSubstats === null || targetCharacterRankingTotalSubstats === -1) res.status(404).json({ message: "Character Not Found" });
 
             res.status(200).json({ result: targetCharacterRankingTotalSubstats });
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    searchCharacterByName: async(req: Request, res: Response, next: NextFunction) => {
+        try {
+            const searchedName = (req.body as CharacterCreate).characterName;
+
+            //if theres a mismatch in character name
+            if(req.params.charactername !== searchedName) return res.status(404).json({ message: 'Unauthorized' });
+
+            const searchedCharacterNameResults = await characterModel.searchCharacterByName(searchedName);
+
+            if(searchedCharacterNameResults.length < 1) res.status(404).json({ message: 'Character Not Found' });
+
+            res.status(200).json({ result: searchedCharacterNameResults });
 
         } catch(error) {
             next(error);
