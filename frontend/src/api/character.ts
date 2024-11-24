@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { AccountCharacters, AddGearToCharacterReq, CreateCharacterReq, OneCharacter, RemoveGearFromCharacterReq } from "../interface/characterType";
+import { AccountCharacters, AddGearToCharacterReq, CreateCharacterReq, OneCharacter, RemoveGearFromCharacterReq, SearchCharacterRes } from "../interface/characterType";
 const endpoint = import.meta.env.VITE_endpoint;
 
 export const fetchAccountCharacters = async(username: string) => {
@@ -92,7 +92,7 @@ export const createCharacter = async(username: string, characterCreateForm: Crea
         body: JSON.stringify(characterCreateForm)
     });
 
-    return request.json();
+    return await request.json();
 }
 
 export const deleteCharacter = async(username: string, characterId: number) => {
@@ -110,9 +110,28 @@ export const deleteCharacter = async(username: string, characterId: number) => {
             })
         });
 
-        return request.json();
+        return await request.json();
         
     } catch(error) {
         console.error(error);
     } 
+}
+
+export const searchCharacterByName = async(targetCharacter: string) => {
+    try {
+        const backendURL = endpoint + `characters/rankings/${targetCharacter}`;
+        const request = await fetch(backendURL, {
+            method:'GET',
+            headers: {
+                'Content-Type':'application/json',
+            },
+        });
+    
+        const searchResults: SearchCharacterRes = await request.json(); 
+    
+        return searchResults.result;
+
+    } catch(error) {
+        console.error(error);
+    }
 }

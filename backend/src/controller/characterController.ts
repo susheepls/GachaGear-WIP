@@ -172,10 +172,7 @@ const characterController = {
     },
     searchCharacterByName: async(req: Request, res: Response, next: NextFunction) => {
         try {
-            const searchedName = (req.body as CharacterCreate).characterName;
-
-            //if theres a mismatch in character name
-            if(req.params.charactername !== searchedName) return res.status(404).json({ message: 'Unauthorized' });
+            const searchedName = req.params.charactername;
 
             const searchedCharacterNameResults = await characterModel.searchCharacterByName(searchedName);
 

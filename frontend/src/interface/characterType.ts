@@ -34,3 +34,12 @@ export interface RemoveGearFromCharacterReq {
 export interface CreateCharacterReq {
     characterName: string,
 }
+
+export interface SearchCharacterRes {
+    result: SearchedCharacters[]
+}
+
+export interface SearchedCharacters {
+    id: number,
+    characterName: string
+}
