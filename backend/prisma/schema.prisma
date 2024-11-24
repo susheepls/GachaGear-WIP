@@ -67,6 +67,7 @@ model SubstatTypes {
 model Character {
   id Int @id @default(autoincrement())
   characterName String?
+  processedName String?
   owner Account? @relation(fields: [ownerId], references: [id])
   ownerId Int?
 

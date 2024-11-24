@@ -79,7 +79,8 @@ const characterModel = {
         return await prisma.character.create({
             data: {
                 ownerId: accountId,
-                characterName: name
+                characterName: name,
+                processedName: name.toLowerCase().split(" ").join(""),
             },
         })
     },
@@ -272,9 +273,10 @@ const characterModel = {
 
     },
     searchCharacterByName: async(searchCharacterName: string) => {
+        const searchedName = searchCharacterName.toLowerCase().split(" ").join("");
         const charactersWithName = await prisma.character.findMany({
             where: {
-                characterName: searchCharacterName
+                processedName: searchedName,
             },
             select: {
                 id: true,
