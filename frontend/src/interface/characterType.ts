@@ -46,7 +46,8 @@ export interface SearchedCharacters {
 }
 
 export interface SearchedCharacterDetailsRes {
-    result: SearchedCharacterDetails
+    result: SearchedCharacterDetails,
+    message?: string,
 }
 
 export interface SearchedCharacterDetails {

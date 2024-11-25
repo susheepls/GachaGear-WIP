@@ -30,7 +30,7 @@ function App() {
             <Route path="characters" element={<Characters/>} />
             <Route path=":username/characters/:id" element={<OneCharacter/>} />
             <Route path="rankings" element={<Rankings/>} />
-            <Route path="rankings/characters/:id" element={<PublicCharacterProfile/>} />
+            <Route path="rankings/characters/:characterid" element={<PublicCharacterProfile/>} />
           </Route>
         </Routes>
       </BrowserRouter>
