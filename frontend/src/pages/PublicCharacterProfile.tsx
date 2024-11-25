@@ -1,6 +1,10 @@
 import React from 'react'
 
 const PublicCharacterProfile = () => {
+
+    const fetchCharacterDetails = async() => {
+        
+    }
     return (
         <div>PublicCharacterProfile</div>
     )

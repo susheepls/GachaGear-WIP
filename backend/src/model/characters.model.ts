@@ -2,6 +2,9 @@ import { Character, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const itemOrder = ['hat', 'armor', 'sword'];
+const substatOrder = ['hp', 'def', 'atk'];
+
 const characterModel = {
     getAccountCharacters: async(accountId: number) => {
         return await prisma.account.findMany({
@@ -285,6 +288,46 @@ const characterModel = {
         });
 
         return charactersWithName;
+    },
+    searchedCharacterDetails: async(characterId: number) => {
+        const character = await prisma.character.findFirst({
+            where: {
+                id: characterId,
+            },
+            select: {
+                id: true,
+                characterName: true,
+                equipment: {
+                    select: {
+                        id: true,
+                        exp: true,
+                        name: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        substats: {
+                            select: {
+                                substatType: {
+                                    select: {
+                                        name: true,
+                                    }
+                                },
+                                value: true,
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        if(!character) return;
+        if(character.equipment) {
+            character.equipment.sort((a, b) => itemOrder.indexOf(a.name!.name) - itemOrder.indexOf(b.name!.name));
+        }
+        character.equipment.forEach((item) => item.substats.sort((a, b) => substatOrder.indexOf(a.substatType!.name) - substatOrder.indexOf(b.substatType!.name)));
+
+        return character;
     }
 
 

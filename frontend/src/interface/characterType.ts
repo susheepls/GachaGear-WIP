@@ -44,3 +44,25 @@ export interface SearchedCharacters {
     id: number,
     characterName: string
 }
+
+export interface SearchedCharacterDetailsRes {
+    result: SearchedCharacterDetails
+}
+
+export interface SearchedCharacterDetails {
+    id: number,
+    characterName: string,
+    equipment: SearchedCharacterItem[]
+}
+
+export interface SearchedCharacterItem {
+    id: number,
+    exp: number,
+    name: { name: string },
+    substats: SearchedSubstatsType[]
+}
+
+export interface SearchedSubstatsType {
+    substatType: { name: string },
+    value: number
+}

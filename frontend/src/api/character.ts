@@ -137,3 +137,19 @@ export const searchCharacterByName = async(targetCharacter: string) => {
         console.error(error);
     }
 }
+
+export const getSearchedCharacterTotalSubstatsDetails = async(characterId: number) => {
+    try {
+        const backendURL = endpoint + `characters/rankings/totalsubstats/${characterId}`;
+        const request = await fetch(backendURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const characterDetails = 
+    } catch(error) {
+        console.error(error);
+    } 
+}

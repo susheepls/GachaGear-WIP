@@ -63,4 +63,6 @@ router.get('/characters/rankings/totalsubstats', characterController.getAllTotal
 router.get('/characters/rankings/totalsubstats/:characterid', characterController.getSpecificRankingTotalStats);
 //find by character name
 router.get('/characters/rankings/:charactername', characterController.searchCharacterByName);
+//totalsubstats detail when checking rankings
+router.get('/characters/rankings/details/:characterid', characterController.searchedCharacterDetails);
 export default router;

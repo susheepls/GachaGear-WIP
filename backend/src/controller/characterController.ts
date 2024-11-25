@@ -183,6 +183,19 @@ const characterController = {
         } catch(error) {
             next(error);
         }
+    },
+    searchedCharacterDetails: async(req: Request, res: Response, next: NextFunction) => {
+        try {
+            const targetCharacterId = Number(req.params.characterid);
+            const searchedCharacterDetails = await characterModel.searchedCharacterDetails(targetCharacterId);
+
+            if(!searchedCharacterDetails) res.status(404).json({ message: 'Character Not Found' });
+
+            res.status(200).json({ result: searchedCharacterDetails });
+
+        } catch(error) {
+            next(error);
+        }
     }
 }
 
