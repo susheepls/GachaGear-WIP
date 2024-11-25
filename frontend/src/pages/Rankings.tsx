@@ -3,11 +3,13 @@ import * as RankingsApi from '../api/rankings';
 import { CharacterDataForRankings } from '../interface/rankingTypes';
 import SearchRankings from '../components/SearchRankings';
 import { CreateCharacterReq, SearchedCharacters } from '../interface/characterType';
+import { useNavigate } from 'react-router-dom';
 
 const Rankings = () => {
+    const navigate = useNavigate();
     const [allSubstatsRankings, setAllSubstatsRankings] = useState<CharacterDataForRankings[] | null>(null);
     const [searchCharacterForm, setSearchCharacterForm] = useState<CreateCharacterReq>({ characterName: '' });
-    const [searchedCharacterResult, setSearchedCharacterResult] = useState<SearchedCharacters[] | null | string>(null);
+    const [searchedCharacterResult, setSearchedCharacterResult] = useState<SearchedCharacters[] | null>(null);
 
     useEffect(() => {
         fetchAllSubstatsRankings();
@@ -59,6 +61,18 @@ const Rankings = () => {
         )
     }
 
+    const searchResultsCharactersDiv = () => {
+        if(!searchedCharacterResult) return;
+        if(searchedCharacterResult.length < 1) return <div>Character not Found!</div>
+        return searchedCharacterResult.map((character, index) => 
+            <div key={index} id={`character-result-${index}`} className='bg-four m-1 rounded-lg'
+                onClick={() => navigate(`/rankings/characters/${character.id}`)}
+            >
+                {character.characterName}
+            </div>
+        )
+    }
+
     return (
         <div className='flex m-1 flex-col'>
             {topThreeRankingsDiv(allSubstatsRankings)}
@@ -72,10 +86,15 @@ const Rankings = () => {
                 {searchedCharacterResult && 
                 <div className='fixed top-0 left-0 z-50 bg-pink-200 bg-opacity-70 w-full max-h-full h-full'>
                     <div className='bg-five p-6 mt-9 mb-auto mx-auto rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center'>
-                        <div>
-                            {searchedCharacterResult === 'None' && (
+                        <div id='search-results-container' className='overflow-scroll'>
+                            {!searchedCharacterResult && (
                                 <div>
                                     Character Not Found
+                                </div>
+                            )}
+                            {searchedCharacterResult && (
+                                <div id='search-results-characters' className='flex flex-col'>
+                                    {searchResultsCharactersDiv()}
                                 </div>
                             )}
                         </div>

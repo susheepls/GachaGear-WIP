@@ -37,6 +37,7 @@ export interface CreateCharacterReq {
 
 export interface SearchCharacterRes {
     result: SearchedCharacters[]
+    message? : string
 }
 
 export interface SearchedCharacters {

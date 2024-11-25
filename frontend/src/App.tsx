@@ -10,6 +10,7 @@ import Characters from "./pages/Characters"
 import { UserProvider } from "./middleware/UserContext"
 import OneCharacter from "./pages/OneCharacter"
 import Rankings from "./pages/Rankings"
+import PublicCharacterProfile from "./pages/PublicCharacterProfile"
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="characters" element={<Characters/>} />
             <Route path=":username/characters/:id" element={<OneCharacter/>} />
             <Route path="rankings" element={<Rankings/>} />
+            <Route path="rankings/characters/:id" element={<PublicCharacterProfile/>} />
           </Route>
         </Routes>
       </BrowserRouter>

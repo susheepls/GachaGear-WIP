@@ -129,7 +129,9 @@ export const searchCharacterByName = async(targetCharacter: string) => {
     
         const searchResults: SearchCharacterRes = await request.json(); 
     
-        return searchResults.result;
+        if (!searchResults) return null;
+        else if(searchResults.message === 'Character Not Found') return [];
+        else return searchResults.result;
 
     } catch(error) {
         console.error(error);

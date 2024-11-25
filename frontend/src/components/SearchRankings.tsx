@@ -5,7 +5,7 @@ import * as CharacterApi from '../api/character'
 interface Props {
     searchCharacterForm: CreateCharacterReq
     setSearchCharacterForm: Dispatch<SetStateAction<CreateCharacterReq>>
-    setSearchedCharacterResult: Dispatch<SetStateAction<SearchedCharacters[] | string | null>>
+    setSearchedCharacterResult: Dispatch<SetStateAction<SearchedCharacters[] | null>>
 }
 
 const SearchRankings:React.FC<Props> = (props) => {
@@ -20,14 +20,14 @@ const SearchRankings:React.FC<Props> = (props) => {
         event.preventDefault();
         
         if(props.searchCharacterForm.characterName.length < 3){
-            props.setSearchedCharacterResult('None');
+            props.setSearchedCharacterResult(null);
             return;
         }
         
         const result = await CharacterApi.searchCharacterByName(props.searchCharacterForm.characterName);
 
         if(!result) {
-            props.setSearchedCharacterResult('None');
+            props.setSearchedCharacterResult(null);
         } else {
             props.setSearchedCharacterResult(result);
         }
