@@ -21,13 +21,13 @@ const Rankings = () => {
         setAllSubstatsRankings(allSubstatsRankingsData);
     }
 
-    const topThreeRankingsDiv = (characterArray: CharacterDataForRankings[] | null) => {
+    const topThreeRankingsDiv = (characterArray: CharacterDataForRankings[] | null, category: string) => {
         if(!characterArray) return <div>Loading...</div>;
         
         return (
             <div className='flex m-1 flex-col outline-dashed'>
                 <div className='mx-auto'>
-                    Top Ranking for Total Substats
+                    Top Ranking for {category}
                 </div>
                 <div id='top3-totalsubstats' className='flex flex-col'>
                     <div className='mx-auto'>
@@ -75,7 +75,7 @@ const Rankings = () => {
 
     return (
         <div className='flex m-1 flex-col'>
-            {topThreeRankingsDiv(allSubstatsRankings)}
+            {topThreeRankingsDiv(allSubstatsRankings, 'Total Substats')}
             {topTenRankingsDiv(allSubstatsRankings)}
             <SearchRankings
                 searchCharacterForm = {searchCharacterForm}
