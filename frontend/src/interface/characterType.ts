@@ -67,3 +67,7 @@ export interface SearchedSubstatsType {
     substatType: { name: string },
     value: number
 }
+
+export interface RankingNumber {
+    result: number,
+}

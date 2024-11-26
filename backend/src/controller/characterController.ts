@@ -155,11 +155,7 @@ const characterController = {
     },
     getSpecificRankingTotalStats: async(req: Request, res: Response, next: NextFunction) => {
         try {
-            const targetCharacterId = (req.body as FindCharacterReq).characterId;
-
-            //if theres a mismatch in character id
-            if(req.params.characterid !== String(targetCharacterId)) return res.status(404).json({ message: 'Unauthorized' });
-
+            const targetCharacterId = Number(req.params.characterid);
             const targetCharacterRankingTotalSubstats = await characterModel.getSpecificRankingTotalStats(targetCharacterId);
             
             if(targetCharacterRankingTotalSubstats === null || targetCharacterRankingTotalSubstats === -1) res.status(404).json({ message: "Character Not Found" });

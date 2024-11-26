@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { AccountCharacters, AddGearToCharacterReq, CreateCharacterReq, OneCharacter, RemoveGearFromCharacterReq, SearchCharacterRes, SearchedCharacterDetailsRes } from "../interface/characterType";
+import { AccountCharacters, AddGearToCharacterReq, CreateCharacterReq, OneCharacter, RankingNumber, RemoveGearFromCharacterReq, SearchCharacterRes, SearchedCharacterDetailsRes } from "../interface/characterType";
 const endpoint = import.meta.env.VITE_endpoint;
 
 export const fetchAccountCharacters = async(username: string) => {
@@ -156,4 +156,23 @@ export const getSearchedCharacterDetails = async(characterId: number) => {
     } catch(error) {
         console.error(error);
     } 
+}
+
+export const getCharacterTotalSubstatRanking = async(characterId: number) => {
+    try {
+        const backendURL = endpoint + `characters/rankings/totalsubstats/${characterId}`;
+        const request = await fetch(backendURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const characterRank: RankingNumber = await request.json();
+        
+        return characterRank;
+
+    } catch(error) {
+        console.error(error);
+    }
 }
