@@ -192,6 +192,26 @@ const characterController = {
         } catch(error) {
             next(error);
         }
+    },
+    searchCharacterWithItem: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const characterId = Number(req.params.characterid);
+
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            if(accountUsername !== req.params.username) return res.status(404).json({ message: 'Unauthorized' });
+
+            const accountId = (req.user as CustomJwtPayload).id;
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const itemOwner = await characterModel.searchCharacterWithItem(accountId, characterId);
+
+            if(!itemOwner) res.status(404).json({ message: 'Character Not Found '});
+
+            res.status(200).json({ result: itemOwner });
+
+        } catch(error) {
+            next(error);
+        }
     }
 }
 

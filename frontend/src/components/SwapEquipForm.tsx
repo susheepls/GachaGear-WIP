@@ -68,7 +68,6 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                         Level: {props.expToLvlConverter(item.exp)}
                     </div>
                     <div>
-                        Substats
                         <div>
                             {item.substats[0].substatType.name}: {item.substats[0].value}
                         </div>
@@ -78,6 +77,16 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                         <div>
                             {item.substats[2].substatType.name}: {item.substats[2].value}
                         </div>
+                    </div>
+                    <div>
+                        {item.character && item.characterId !== props.characterId ? 
+                            <div>
+                                on {item.character.characterName}
+                            </div>
+                            :
+                            <div>
+                            </div>
+                        }
                     </div>
                     <div>
                         { _.isEqual(item, props.itemData) ? 

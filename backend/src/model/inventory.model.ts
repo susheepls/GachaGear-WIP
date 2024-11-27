@@ -154,6 +154,11 @@ const InventoryModel = {
                         }
                     }
                 },
+                character: {
+                    select: {
+                        characterName: true,
+                    }
+                },
                 characterId: true,
             }
         })

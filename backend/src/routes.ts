@@ -56,6 +56,8 @@ router.delete('/:username/characters/:id', authenticateToken, characterControlle
 router.patch('/:username/characters/equip/:id', authenticateToken, characterController.addGearToCharacter);
 //remove gear from character
 router.patch('/:username/characters/unequip/:id', authenticateToken, characterController.removeGearFromCharacter);
+//get item Owner used in SwapEquip Component
+router.get('/:username/characters/items/:characterid', authenticateToken, characterController.searchCharacterWithItem);
 
 //ranking routes
 router.get('/characters/rankings/totalsubstats', characterController.getAllTotalStatsRanking);

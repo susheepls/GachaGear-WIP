@@ -72,6 +72,11 @@ const characterModel = {
                                 }
                             }
                         },
+                        character: {
+                            select: {
+                                characterName: true
+                            }
+                        },
                         characterId: true,
                     }
                 }
@@ -328,6 +333,20 @@ const characterModel = {
         character.equipment.forEach((item) => item.substats.sort((a, b) => substatOrder.indexOf(a.substatType!.name) - substatOrder.indexOf(b.substatType!.name)));
 
         return character;
+    },
+    searchCharacterWithItem: async(ownerId: number, characterId: number) => {
+        const itemOwner = await prisma.character.findFirst({
+            where: {
+                id: characterId,
+                ownerId: ownerId
+            },
+            select: {
+                id: true,
+                characterName: true,
+            }
+        });
+
+        return itemOwner;
     }
 
 

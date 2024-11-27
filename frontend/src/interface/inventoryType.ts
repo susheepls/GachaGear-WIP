@@ -7,7 +7,9 @@ export interface Item {
     id: number,
     exp: number,
     name: ItemNameType,
-    substats: Substats[]
+    substats: Substats[],
+    character: { characterName: string },
+    characterId: number,
 }
 export interface ItemNameType {
     name: string,

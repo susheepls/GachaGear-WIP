@@ -71,3 +71,7 @@ export interface SearchedSubstatsType {
 export interface RankingNumber {
     result: number,
 }
+
+export interface SearchItemOwner {
+    result: { id: number, characterName: string } 
+}
