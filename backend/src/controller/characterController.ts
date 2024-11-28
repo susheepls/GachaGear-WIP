@@ -212,6 +212,33 @@ const characterController = {
         } catch(error) {
             next(error);
         }
+    },
+    getAllStatsRankings: async(req: Request, res: Response, next: NextFunction) => {
+        try {
+            const substatType = req.params.substattype;
+
+            const rankings = await characterModel.getAllStatsRanking(substatType);
+
+            res.status(200).json({ result: rankings });
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    getSpecificCharacterRankingDesiredSubstats: async(req: Request, res: Response, next: NextFunction) => {
+        try {
+            const targetCharacterId = Number(req.params.characterid);
+            const targetSubstat = req.params.substattype
+            
+            const targetCharacterRankingTotalSubstats = await characterModel.getSpecificCharacterRankingDesiredSubstats(targetCharacterId, targetSubstat);
+            
+            if(targetCharacterRankingTotalSubstats === null || targetCharacterRankingTotalSubstats === -1) res.status(404).json({ message: "Character Not Found" });
+
+            res.status(200).json({ result: targetCharacterRankingTotalSubstats });
+
+        } catch(error) {
+            next(error);
+        }
     }
 }
 

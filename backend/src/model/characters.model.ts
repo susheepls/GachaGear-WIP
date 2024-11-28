@@ -347,6 +347,97 @@ const characterModel = {
         });
 
         return itemOwner;
+    },
+    //return rankings for substat type input is the substat type
+    getAllStatsRanking: async(substatType: string) => {
+        const allCharactersRank = await prisma.character.findMany({
+            include: {
+                equipment: {
+                    select: {
+                        name: {
+                            select: {
+                                name: true
+                            }
+                        },
+                        substats: {
+                            select: {
+                                substatType: {
+                                    select: {
+                                        name: true,
+                                    }
+                                },
+                                value: true,
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        const allCharactersRankWithTotals = allCharactersRank.map(character => {
+
+            const substatsTotal = character.equipment.reduce((equipmentSum, equipment) => {
+
+                const desiredSubstatsOnly = equipment.substats.filter((substat) => substat.substatType!.name === substatType);
+                
+                const substatsSum = desiredSubstatsOnly.reduce(
+                    (substatSum, substat) => substatSum + substat.value, 0
+                )
+
+                return equipmentSum + substatsSum
+            }, 0);
+
+            return {...character, substatsTotal };
+        })
+        .filter(character => character.substatsTotal > 0)
+        .sort((a, b) => b.substatsTotal - a.substatsTotal );
+
+        return allCharactersRankWithTotals.slice(0, 11);
+    },
+    getSpecificCharacterRankingDesiredSubstats: async(characterId: number, substatType: string) => {
+        const allCharactersRank = await prisma.character.findMany({
+            include: {
+                equipment: {
+                    select: {
+                        name: {
+                            select: {
+                                name: true
+                            }
+                        },
+                        substats: {
+                            select: {
+                                substatType: {
+                                    select: {
+                                        name: true,
+                                    }
+                                },
+                                value: true,
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        const allCharactersRankWithTotals = allCharactersRank.map(character => {
+
+            const substatsTotal = character.equipment.reduce((equipmentSum, equipment) => {
+
+                const desiredSubstatsOnly = equipment.substats.filter((substat) => substat.substatType!.name === substatType);
+
+                const substatsSum = desiredSubstatsOnly.reduce(
+                    (substatSum, substat) => substatSum + substat.value, 0
+                )
+
+                return equipmentSum + substatsSum
+            }, 0);
+
+            return {...character, substatsTotal };
+        })
+        .filter(character => character.substatsTotal > 0)
+        .sort((a, b) => b.substatsTotal - a.substatsTotal );
+
+        const rankingOfCharacter = allCharactersRankWithTotals.findIndex(character => character.id === characterId);
+        
+        return rankingOfCharacter;
     }
 
 
