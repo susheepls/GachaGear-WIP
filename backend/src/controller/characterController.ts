@@ -172,9 +172,9 @@ const characterController = {
 
             const searchedCharacterNameResults = await characterModel.searchCharacterByName(searchedName);
 
-            if(searchedCharacterNameResults.length < 1) res.status(404).json({ message: 'Character Not Found' });
+            if(searchedCharacterNameResults.length < 1) return res.status(404).json({ message: 'Character Not Found' });
 
-            res.status(200).json({ result: searchedCharacterNameResults });
+            return res.status(200).json({ result: searchedCharacterNameResults });
 
         } catch(error) {
             next(error);

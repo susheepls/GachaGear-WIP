@@ -1,4 +1,4 @@
-import { Item } from "./inventoryType";
+
 
 export interface allTotalSubstatsRankingsData {
     result: CharacterDataForRankings[]

@@ -61,14 +61,14 @@ router.get('/:username/characters/items/:characterid', authenticateToken, charac
 
 //ranking routes
 router.get('/characters/rankings/totalsubstats', characterController.getAllTotalStatsRanking);
-//ranking with desired substats as param
-router.get('/characters/rankings/:substattype', characterController.getAllStatsRankings);
-//character ranking SUBSTATS TOTAL
-router.get('/characters/rankings/totalsubstats/:characterid', characterController.getSpecificRankingTotalStats);
-//character ranking DESIRED SUBSTAT
-router.get('/characters/rankings/:substattype/:characterid', characterController.getSpecificCharacterRankingDesiredSubstats);
 //find by character name
-router.get('/characters/rankings/:charactername', characterController.searchCharacterByName);
+router.get('/characters/rankings/search/:charactername', characterController.searchCharacterByName);
 //totalsubstats detail when checking rankings
 router.get('/characters/rankings/details/:characterid', characterController.searchedCharacterDetails);
+//character ranking SUBSTATS TOTAL
+router.get('/characters/rankings/totalsubstats/:characterid', characterController.getSpecificRankingTotalStats);
+//ranking with desired substats as param
+router.get('/characters/rankings/:substattype', characterController.getAllStatsRankings);
+//character ranking DESIRED SUBSTAT
+router.get('/characters/rankings/:substattype/:characterid', characterController.getSpecificCharacterRankingDesiredSubstats);
 export default router;

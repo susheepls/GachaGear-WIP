@@ -119,7 +119,7 @@ export const deleteCharacter = async(username: string, characterId: number) => {
 
 export const searchCharacterByName = async(targetCharacter: string) => {
     try {
-        const backendURL = endpoint + `characters/rankings/${targetCharacter}`;
+        const backendURL = endpoint + `characters/rankings/search/${targetCharacter}`;
         const request = await fetch(backendURL, {
             method:'GET',
             headers: {
