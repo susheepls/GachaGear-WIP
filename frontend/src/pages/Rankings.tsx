@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 const Rankings = () => {
     const navigate = useNavigate();
     const [allSubstatsRankings, setAllSubstatsRankings] = useState<CharacterDataForRankings[] | null>(null);
+    const [atkSubstatsRankings, setAtkSubstatsRankings] = useState<CharacterDataForRankings[] | null>(null);
+    const [hpSubstatsRankings, setHpSubstatsRankings] = useState<CharacterDataForRankings[] | null>(null);
+    const [defSubstatsRankings, setDefSubstatsRankings] = useState<CharacterDataForRankings[] | null>(null);
     const [searchCharacterForm, setSearchCharacterForm] = useState<CreateCharacterReq>({ characterName: '' });
     const [searchedCharacterResult, setSearchedCharacterResult] = useState<SearchedCharacters[] | null>(null);
 
@@ -17,8 +20,19 @@ const Rankings = () => {
 
     const fetchAllSubstatsRankings = async() => {
         const allSubstatsRankingsData = await RankingsApi.getAllTotalSubstatsRankings();
+        const atkSubstatsRankingsData = await RankingsApi.getAllSubstatsTypeRankings('atk');
+        const hpSubstatsRankingsData = await RankingsApi.getAllSubstatsTypeRankings('hp');
+        const defSubstatsRankingsData = await RankingsApi.getAllSubstatsTypeRankings('def');
+
         if(!allSubstatsRankingsData) return;
+        if(!atkSubstatsRankingsData) return; 
+        if(!hpSubstatsRankingsData) return;
+        if(!defSubstatsRankingsData) return;
+
         setAllSubstatsRankings(allSubstatsRankingsData);
+        setAtkSubstatsRankings(atkSubstatsRankingsData);
+        setHpSubstatsRankings(hpSubstatsRankingsData);
+        setDefSubstatsRankings(defSubstatsRankingsData);
     }
 
     const topThreeRankingsDiv = (characterArray: CharacterDataForRankings[] | null, category: string) => {
@@ -52,7 +66,7 @@ const Rankings = () => {
         }
 
         return (
-            <div className='flex flex-col mt-2 outline-dotted'>
+            <div className='flex flex-col m-1 mb-4 outline-dotted'>
                 <div className='mx-auto'>
                     Top 10
                 </div>
@@ -77,6 +91,16 @@ const Rankings = () => {
         <div className='flex m-1 flex-col'>
             {topThreeRankingsDiv(allSubstatsRankings, 'Total Substats')}
             {topTenRankingsDiv(allSubstatsRankings)}
+            
+            {topThreeRankingsDiv(atkSubstatsRankings, 'Highest Atk')}
+            {topTenRankingsDiv(atkSubstatsRankings)}
+
+            {topThreeRankingsDiv(hpSubstatsRankings, 'Highest HP')}
+            {topTenRankingsDiv(hpSubstatsRankings)}
+
+            {topThreeRankingsDiv(defSubstatsRankings, 'Highest Def')}
+            {topTenRankingsDiv(defSubstatsRankings)}
+
             <SearchRankings
                 searchCharacterForm = {searchCharacterForm}
                 setSearchCharacterForm = {setSearchCharacterForm}

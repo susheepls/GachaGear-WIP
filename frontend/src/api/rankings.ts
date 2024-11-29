@@ -30,3 +30,30 @@ export const getAllTotalSubstatsRankings = async() => {
         console.error(error);
     }
 }
+
+export const getAllSubstatsTypeRankings = async(substatType: string) => {
+    try {
+        const substatsTypeRankingsReq = await fetch(endpoint + `characters/rankings/${substatType}`,{
+            method:'GET',
+            headers: {
+                'Content-Type':'application/json'
+            }
+        });
+
+        const substatTypeRankingsData: allTotalSubstatsRankingsData = await substatsTypeRankingsReq.json();
+        if(!substatTypeRankingsData) return;
+
+        const rankingsData = substatTypeRankingsData.result;
+        rankingsData.forEach((character) => character.equipment.sort((a, b) => itemOrder.indexOf(a.name.name) - itemOrder.indexOf(b.name.name)));
+        rankingsData.forEach((character) => {
+            character.equipment.forEach((item) => {
+                item.substats.sort((a, b) => substatOrder.indexOf(a.substatType.name) - substatOrder.indexOf(b.substatType.name));
+            })
+        });
+        return rankingsData;
+
+
+    } catch(error) {
+        console.error(error);
+    }
+}
