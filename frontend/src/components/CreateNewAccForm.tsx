@@ -32,25 +32,33 @@ const CreateNewAccForm: React.FC<Props> = (props) => {
         ));
     };
 
+    const backButton = () => {
+        setFormData({ username: '', password: '' });
+        props.setIsCreatingAcc(false);
+    }
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className='flex flex-col'>
+            <form className='flex flex-col mt-3' onSubmit={handleSubmit}>
+                <div className='flex w-2/3 mx-auto'>
                     <label className='p-1'>
-                        Username:
-                        <input name='username' type='text' value={formData.username} onChange={handleChange} required/>
+                        User:
+                        <input className='focus:outline focus:outline-1 ml-1' name='username' type='text' value={formData.username} onChange={handleChange} required/>
                     </label> 
                 </div>
-                <div>
+                <div className='flex w-2/3 mx-auto'>
                     <label className='p-1'>
-                        Password:
-                        <input name='password' type='password' value={formData.password} onChange={handleChange} required/>
+                        Pass:
+                        <input className='focus:outline focus:outline-1 ml-1' name='password' type='password' value={formData.password} onChange={handleChange} required/>
                     </label>
                 </div>
-                <div className='text-center'>
+                <div className='mx-auto mb-2 text-center outline outline-1 rounded-md w-32 bg-three text-four'>
                     <button type='submit'>Create Account!</button>
                 </div>
             </form>
+            <svg className='h-8 w-8 bg-three rounded-full mx-auto'>
+                <image onClick={backButton} href='back-button.svg'></image>
+            </svg>
         </div>
     )
 }

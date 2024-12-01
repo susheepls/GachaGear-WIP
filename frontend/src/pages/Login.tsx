@@ -24,20 +24,20 @@ const Login = () => {
   }, [loginMessage]);
 
   return (
-    <>
+    <div>
       { !isCreatingAcc ? (
         <>
           <LoginForm
             setLoginMessage = {setLoginMessage}
             setUsername = {setUsername}
           />
-          <div className='text-center'>
-            {loginMessage}
-          </div>
-          <div className='p-1 text-center'>
+          <div className='p-1 text-center w-40 mx-auto bg-three text-four rounded-md my-2'>
             <button onClick={() => setIsCreatingAcc(true)}>
               Create New Account
             </button>
+          </div>
+          <div className='text-center'>
+            {loginMessage}
           </div>
         </>
        ) : (
@@ -48,7 +48,7 @@ const Login = () => {
           />
         </>
        )}
-    </>
+    </div>
   )
 }
 
