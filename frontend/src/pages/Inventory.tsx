@@ -31,6 +31,12 @@ const Inventory = () => {
         handleItems();
     }, [userInfo]);
     
+    useEffect(() => {
+        if (items) {
+            sortItems('default');
+        }
+    }, [items]);
+
     //fetch all the items that the account has
     const handleItems = async() => {
         if(!userInfo) return;
@@ -76,7 +82,7 @@ const Inventory = () => {
                 sortedItems.sort((a, b) => a.id - b.id);
                 break;
             case 'idDes':
-                sortedItems.sort((a, b) => b.id- a.id);
+                sortedItems.sort((a, b) => b.id - a.id);
                 break;
             case 'sortByHat':
                 const hatOrder = ['hat', 'armor', 'sword'];
@@ -304,7 +310,7 @@ const Inventory = () => {
                     <div id='filter-list' className='bg-three fixed bottom-[50px] right-0.5 text-four rounded-t-lg opacity-0 pointer-events-none'>
                         <div className='p-2'>
                             <button onClick={() => handleSortButtonClick(sortType === 'default' || sortType === 'idAsc'? 'idDes' : 'idAsc')}>
-                                {sortType === 'default' || sortType === 'idAsc' ? 'Old' : 'New'}
+                                {sortType === 'default' || sortType === 'idAsc' ? 'New' : 'Old'}
                             </button>
                         </div>
                         <div className='p-2'>
