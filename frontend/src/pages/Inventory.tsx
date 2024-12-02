@@ -30,12 +30,6 @@ const Inventory = () => {
     useEffect(() => {
         handleItems();
     }, [userInfo]);
-    
-    useEffect(() => {
-        if (items) {
-            sortItems('default');
-        }
-    }, [items]);
 
     //fetch all the items that the account has
     const handleItems = async() => {
@@ -50,7 +44,7 @@ const Inventory = () => {
         });
 
         setItems(result.accountInventory);
-        setDisplayItems(result.accountInventory);
+        setDisplayItems(result.accountInventory.sort((a, b) => a.id - b.id));
     }
     
     //change visibility
@@ -59,8 +53,6 @@ const Inventory = () => {
     
         const substatDivPopup = document.getElementById(`substats-window-${itemDiv}`);
         substatDivPopup?.classList.replace('hidden', 'flex');
-
-        
     }
 
     //close substat window
