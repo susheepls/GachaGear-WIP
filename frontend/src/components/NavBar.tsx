@@ -68,7 +68,7 @@ const NavBar = () => {
                     Home
                 </a>
                 <svg className="h-6 w-6 mr-1" onClick={handleHamburgerMenu}>
-                    <image height={30} width={20} href="burger-menu.svg"></image>
+                    <image height={30} width={20} xlinkHref="../../public/burger-menu.svg"></image>
                 </svg>
             </div>
             <div id='hamburger' className="h-{50vh} bg-three z-50 absolute top-7 right-0">

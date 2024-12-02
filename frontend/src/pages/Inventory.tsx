@@ -6,6 +6,7 @@ import * as CurrencyApi from '../api/currency';
 import { CurrencyIncreaseResponse } from '../interface/currencyTypes';
 import { useUser } from '../middleware/UserContext';
 import Cookies from 'js-cookie';
+import gsap from 'gsap';
 
 const Inventory = () => {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Inventory = () => {
     const [displayItems, setDisplayItems] = useState<Item [] | null>(null);
     const [sellAmount, setSellAmount] = useState<number | null>(null);
     const [sortType, setSortType] = useState<string>('default');
+    const [isFilterClicked, setIsFilterClicked] = useState<boolean>(false);
 
     const { userInfo, fetchUserInfo } = useUser();
 
@@ -51,7 +53,14 @@ const Inventory = () => {
     
         const substatDivPopup = document.getElementById(`substats-window-${itemDiv}`);
         substatDivPopup?.classList.replace('hidden', 'flex');
+
         
+    }
+
+    //close substat window
+    const closeSubstatWindow = (substatIndex: number) => {
+        const substatDivPopup = document.getElementById(`substats-window-${substatIndex}`);
+        substatDivPopup?.classList.replace('flex', 'hidden');
     }
     
     //sorting functions switch case
@@ -135,11 +144,12 @@ const Inventory = () => {
         substatDivPopup?.classList.replace('flex', 'hidden');
         
     }
-
-    //close substat window
-    const closeSubstatWindow = (substatIndex: number) => {
-        const substatDivPopup = document.getElementById(`substats-window-${substatIndex}`);
-        substatDivPopup?.classList.replace('flex', 'hidden');
+    
+    //svg chooser
+    const svgChooser = (itemType: string) => {
+        if(itemType === 'sword') return '../../public/sword.svg';
+        else if (itemType === 'armor') return '../../public/armor.svg';
+        else return '../../public/hat.svg';
     }
 
     //return a div for each item
@@ -147,14 +157,21 @@ const Inventory = () => {
         if(!items) return;
         if(!displayItems) return;
         return displayItems.map((item, index) => 
-            <div key={index} className='w-24 py-2'>
-                <div id={`${index}`} className='px-1' onClick={(event) => handleVisibility(event)}>
-                    {item.name.name}
+            <div key={index} className='w-28 py-2 outline outline-three rounded-lg m-2'>
+                <div id={`${index}`} className='flex' onClick={(event) => handleVisibility(event)}>
+                    <div className='flex flex-col'>
+                        <div className='px-1'>
+                            {item.name.name}
+                        </div>
+                        <div className='px-1'>
+                            Level: {expToLevelConverter(item.exp)}
+                        </div>
+                    </div>
+                    <svg className='w-4 h-4 ml-auto'>
+                        <image xlinkHref={svgChooser(item.name.name)}></image>
+                    </svg>
                 </div>
-                <div className='px-1'>
-                    Level: {expToLevelConverter(item.exp)}
-                </div>
-                <div id={`substats${index}`} className=' bg-one'>
+                <div id={`substats${index}`} className='bg-one z-50'>
                     <div id={`substats-window-${index}`} className='hidden fixed top-0 left-0 justify-center z-50 bg-pink-200 bg-opacity-70 w-full max-h-full h-full'>
                         <div className='bg-five p-6 mt-auto mb-auto mx-2 rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center'>
                             <div>
@@ -208,46 +225,110 @@ const Inventory = () => {
         );
     }
 
+    const handleFilterButtonPress = () => {
+        const filterSvg = document.getElementById('filter-svg');
+        const filterList = document.getElementById('filter-list');
+        if(!filterSvg) return;
+        if(!filterList) return;
+
+        if(!isFilterClicked) {
+            setIsFilterClicked(true);
+            filterList.classList.remove('pointer-events-none');
+            
+            gsap.fromTo(filterSvg,
+                {
+                    width:44,
+                },
+                {
+                    width:67,
+                    duration: 0.1
+                }
+            )
+            gsap.fromTo(filterList,
+                {
+                    opacity: 0,
+                    height: 100
+                },
+                {
+                    opacity:1,
+                    height: 160,
+                    duration: 0.3
+                }
+            )
+            
+            filterSvg.classList.replace('rounded-full', 'rounded-b-lg');
+
+        } else {
+            setIsFilterClicked(false);
+
+            gsap.fromTo(filterSvg,
+                {
+                    width: 67
+                },
+                {
+                    width: 44,
+                    duration: 0.3
+                }
+
+            )
+            gsap.fromTo(filterList,
+                {
+                    opacity: 1,
+                    height: 160,
+                },
+                {
+                    opacity: 0,
+                    height: 120,
+                    duration: 0.15,
+                }
+            )
+
+            filterSvg.classList.replace('rounded-b-lg', 'rounded-full');
+            filterList.classList.add('pointer-events-none');
+        }
+    }   
+
     return (
         // height is wonky because i had to subtract the navbar height; full screen h - navbar height
-        <div className='flex flex-col h-[calc(100vh-32px)] bg-two text-four'>
-            <div className='flex flex-wrap flex-grow overflow-y-scroll py-1 max-h-[83%]'>
+        <div className='flex flex-col h-[calc(100vh-32px)] bg-four'>
+            <div className='flex flex-wrap flex-grow overflow-y-scroll py-1 max-h-[99%]'>
                 {allItemNamesDiv()}
             </div>
-            <div className='bg-three sticky bottom-0 mt-auto'>
-                { sellAmount && 
-                <div className='text-center bg-three'>
-                    Sold! Now you have {sellAmount} currency!
-                </div> }
-                <div className='text-center'>
-                    <div>
-                        Sort by
-                    </div>
-                    <div id='sort-orders' className='flex flex-col bg-five text-white'>
-                        <div className='flex justify-evenly'>
-                            <div>
-                                <button onClick={() => handleSortButtonClick(sortType === 'default' || sortType === 'idAsc'? 'idDes' : 'idAsc')}>
-                                    {sortType === 'default' || sortType === 'idAsc' ? 'Obtained' : 'New'}
-                                </button>
-                            </div>
-                        </div>
-                        <div>
-                            <button onClick={() => handleSortButtonClick('sortByHat')}>
-                                Hat
+            { sellAmount && 
+            <div className='text-center bg-three'>
+                Sold! Now you have {sellAmount} currency!
+            </div> }
+            <div className='fixed bottom-3 right-[25px] h-11 w-11 ml-auto bg-transparent'>
+                <div className='z-50 max-h-11 ml-auto'>
+                
+                    <div id='filter-list' className='bg-three fixed bottom-[50px] right-0.5 text-four rounded-t-lg opacity-0 pointer-events-none'>
+                        <div className='p-2'>
+                            <button onClick={() => handleSortButtonClick(sortType === 'default' || sortType === 'idAsc'? 'idDes' : 'idAsc')}>
+                                {sortType === 'default' || sortType === 'idAsc' ? 'Old' : 'New'}
                             </button>
                         </div>
-                        <div>
+                        <div className='p-2'>
+                            <button onClick={() => handleSortButtonClick('sortByHat')}>
+                                Hats
+                            </button>
+                        </div>
+                        <div className='p-2'>
                             <button onClick={() => handleSortButtonClick('sortByArmor')}>
-                                Armor
+                                Armors
                             </button>                       
                         </div>
-                        <div>
+                        <div className='p-2'>
                             <button onClick={() => handleSortButtonClick('sortBySword')}>
-                                Sword
+                                Swords
                             </button>
-                        </div>
+                        </div> 
                     </div>
+                  
+                    <svg id='filter-svg' className='w-11 h-11 bg-three rounded-full pl-1.5 pt-1.5' onClick={handleFilterButtonPress}>
+                        <image href='/filter.svg'></image>
+                    </svg>
                 </div>
+                
             </div>
         </div>
     )
