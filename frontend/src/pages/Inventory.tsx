@@ -181,40 +181,40 @@ const Inventory = () => {
                             <div id={`substats-for-item${index}`}>
                                 <div id='substat1' className='flex justify-evenly'>
                                     <div className='flex'>
-                                        <div className='fixed top-auto left-36'>
+                                        <div className='w-6 h-6'>
                                             {item.substats[0].substatType.name} 
                                         </div>
-                                        <svg className='w-4 h-4 pt-0.5 ml-9 mt-1.5'>
+                                        <svg className='w-5 h-5 pt-0.5 ml-2 mt-1.5'>
                                             <image href='/sword.svg'></image>
                                         </svg>
                                     </div>
-                                    <div>
+                                    <div className='w-8'>
                                         {item.substats[0].value}
                                     </div>
                                 </div>
                                 <div id='substat2' className='flex justify-evenly'>
                                     <div className='flex'>
-                                        <div className='fixed top-auto left-36'>
+                                        <div className='w-6 h-6'>
                                             {item.substats[1].substatType.name}
                                         </div>
-                                        <svg className='w-5 h-5 pt-1.5 ml-8'>
+                                        <svg className='w-5 h-5 pt-1.5 ml-1.5'>
                                             <image href='/heart.svg'></image>
                                         </svg>
                                     </div>
-                                    <div>
+                                    <div className='w-8'>
                                         {item.substats[1].value}
                                     </div>
                                 </div>
                                 <div id='substat3' className='flex justify-evenly'>
                                     <div className='flex'>
-                                        <div className='fixed top-auto left-36'>
+                                        <div className='w-6 h-6'>
                                             {item.substats[2].substatType.name}
                                         </div>
-                                        <svg className='w-5 h-5 pt-0.5 ml-8'>
+                                        <svg className='w-5 h-5 pt-0.5 ml-1.5'>
                                             <image href='/shield.svg'></image>
                                         </svg>
                                     </div>
-                                    <div>
+                                    <div className='w-8'>
                                         {item.substats[2].value}
                                     </div>
                                 </div>
