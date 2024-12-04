@@ -37,7 +37,7 @@ const SearchRankings:React.FC<Props> = (props) => {
     }
 
     return (
-        <div className='mt-2 flex flex-col mx-auto'>
+        <div className='flex flex-col mx-auto outline outline-1 rounded-md px-1 mt-auto mb-1'>
             <div>
                 Search Character by Name
             </div>
@@ -47,7 +47,7 @@ const SearchRankings:React.FC<Props> = (props) => {
                     value={props.searchCharacterForm.characterName}
                     onChange={handleChange}
                     ></input>
-                <div className='w-14 mx-auto rounded-xl outline outline-1 text-center m-2'>
+                <div className='w-14 mx-auto rounded-xl outline outline-1 text-center m-2 text-four bg-three'>
                     <button type='submit'>Go</button>
                 </div>
                 </form>

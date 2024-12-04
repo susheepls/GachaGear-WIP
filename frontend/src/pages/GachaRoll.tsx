@@ -17,7 +17,7 @@ const GachaRoll = () => {
     <div className='flex-col'>
       {!newItem ? (
         <div className='flex justify-center'>
-            <div>
+            <div className='mx-auto w-11 outline outline-1 text-center mt-2 text-four bg-three rounded-lg'>
               <button onClick={() => handleRollRequest()}>Roll!</button>
             </div>
         </div>

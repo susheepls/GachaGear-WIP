@@ -4,6 +4,8 @@ import { CharacterDataForRankings } from '../interface/rankingTypes';
 import SearchRankings from '../components/SearchRankings';
 import { CreateCharacterReq, SearchedCharacters } from '../interface/characterType';
 import { useNavigate } from 'react-router-dom';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 const Rankings = () => {
     const navigate = useNavigate();
@@ -17,6 +19,11 @@ const Rankings = () => {
     useEffect(() => {
         fetchAllSubstatsRankings();
     }, []);
+
+    useGSAP(() => {
+        fadeInRankings();
+        console.log('running')
+    }, [allSubstatsRankings, atkSubstatsRankings, hpSubstatsRankings, defSubstatsRankings])
 
     const fetchAllSubstatsRankings = async() => {
         const allSubstatsRankingsData = await RankingsApi.getAllTotalSubstatsRankings();
@@ -39,9 +46,14 @@ const Rankings = () => {
         if(!characterArray) return <div>Loading...</div>;
         
         return (
-            <div className='flex m-1 flex-col outline-dashed'>
+            <div id={category + '-top-three'} className='flex m-1 flex-col outline outline-3 outline-three pt-1'>
                 <div className='mx-auto'>
                     Top Ranking for {category}
+                </div>
+                <div className='h-6 w-6 mx-auto'>
+                    <svg className='h-6 w-6'>
+                        <image href={svgChooser(category)}></image>
+                    </svg>
                 </div>
                 <div id='top3-totalsubstats' className='flex flex-col'>
                     <div className='mx-auto'>
@@ -56,7 +68,14 @@ const Rankings = () => {
         )
     }
 
-    const topTenRankingsDiv = (characterArray: CharacterDataForRankings[] | null) => {
+    const svgChooser = (category: string) => {
+        if(category === 'Total Substats') return '/totalsubstats.svg';
+        else if(category === 'Highest Atk') return '/highestatk.svg';
+        else if(category === 'Highest HP') return '/highesthp.svg';
+        else return '/highestdef.svg';
+    }
+
+    const topTenRankingsDiv = (characterArray: CharacterDataForRankings[] | null, category: string) => {
         if(!characterArray || characterArray.length < 3) return <div>Loading...</div>;
 
         const getFourThroughTen = (characterArray: CharacterDataForRankings[]) => {
@@ -66,7 +85,7 @@ const Rankings = () => {
         }
 
         return (
-            <div className='flex flex-col m-1 mb-4 outline-dotted'>
+            <div id={category + '-top-ten'} className='flex flex-col m-1 mb-4 outline outline-1 outline-three'>
                 <div className='mx-auto'>
                     Top 10
                 </div>
@@ -87,19 +106,108 @@ const Rankings = () => {
         )
     }
 
+    //animation fade in for the rankings when they show up
+    const fadeInRankings = () => {
+        if(!allSubstatsRankings) return;
+        if(!atkSubstatsRankings) return;
+        if(!hpSubstatsRankings) return;
+        if(!defSubstatsRankings) return;
+
+        const top3TotalSubstats = document.getElementById('Total Substats-top-three');
+        const top10TotalSubstats = document.getElementById('Total Substats-top-ten');
+        const top3HighestAtk = document.getElementById('Highest Atk-top-three');
+        const top10HighestAtk = document.getElementById('Highest Atk-top-ten');
+        const top3HighestHp = document.getElementById('Highest HP-top-three');
+        const top10HighestHp = document.getElementById('Highest HP-top-ten');
+        const top3HighestDef = document.getElementById('Highest Def-top-three');
+        const top10HighestDef = document.getElementById('Highest Def-top-ten');
+
+        gsap.fromTo(top3TotalSubstats, 
+            {
+                opacity: 0
+            },
+            {
+                opacity: 1
+            }
+        ),
+        gsap.fromTo(top10TotalSubstats, 
+            { 
+                opacity: 0
+            },
+            {
+                opacity: 1,
+                delay: 0.7
+            }
+        ),
+        gsap.fromTo(top3HighestAtk, 
+            {
+                opacity: 0
+            },
+            {
+                opacity: 1,
+                delay: 1.5
+            }
+        ),
+        gsap.fromTo(top10HighestAtk, 
+            { 
+                opacity: 0
+            },
+            {
+                opacity: 1,
+                delay: 2.2
+            }
+        ),
+        gsap.fromTo(top3HighestHp, 
+            {
+                opacity: 0
+            },
+            {
+                opacity: 1,
+                delay: 3
+            }
+        ),
+        gsap.fromTo(top10HighestHp, 
+            { 
+                opacity: 0
+            },
+            {
+                opacity: 1,
+                delay: 3.5
+            }
+        ),
+        gsap.fromTo(top3HighestDef, 
+            {
+                opacity: 0
+            },
+            {
+                opacity: 1,
+                delay: 4.2
+            }
+        ),
+        gsap.fromTo(top10HighestDef, 
+            { 
+                opacity: 0
+            },
+            {
+                opacity: 1,
+                delay: 4.7
+            }
+        )
+    }
+
     return (
-        <div className='flex m-1 flex-col'>
+        <div className='flex flex-col bg-four h-screen text-one'>
             {topThreeRankingsDiv(allSubstatsRankings, 'Total Substats')}
-            {topTenRankingsDiv(allSubstatsRankings)}
+            {topTenRankingsDiv(allSubstatsRankings, 'Total Substats')}
             
             {topThreeRankingsDiv(atkSubstatsRankings, 'Highest Atk')}
-            {topTenRankingsDiv(atkSubstatsRankings)}
+            {topTenRankingsDiv(atkSubstatsRankings, 'Highest Atk')}
 
             {topThreeRankingsDiv(hpSubstatsRankings, 'Highest HP')}
-            {topTenRankingsDiv(hpSubstatsRankings)}
+            {topTenRankingsDiv(hpSubstatsRankings, 'Highest HP')}
 
             {topThreeRankingsDiv(defSubstatsRankings, 'Highest Def')}
-            {topTenRankingsDiv(defSubstatsRankings)}
+            {topTenRankingsDiv(defSubstatsRankings, 'Highest Def')}
 
             <SearchRankings
                 searchCharacterForm = {searchCharacterForm}
