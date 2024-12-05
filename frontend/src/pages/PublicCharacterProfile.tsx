@@ -7,7 +7,10 @@ const PublicCharacterProfile = () => {
     const { characterid } = useParams();
 
     const [characterDetails, setCharacterDetails] = useState<SearchedCharacterDetails | null>(null);
-    const [totalSubstatsRankings, setTotalSubstatsRankings] = useState<number | null>(null); 
+    const [totalSubstatsRankings, setTotalSubstatsRankings] = useState<number | null>(null);
+    const [atkRankings, setAtkRankings] = useState<number | null>(null);
+    const [hpRankings, setHpRankings] = useState<number | null>(null);
+    const [defRankings, setDefRankings] = useState<number | null>(null); 
 
     useEffect(() => {
         fetchCharacterDetails();
@@ -15,6 +18,9 @@ const PublicCharacterProfile = () => {
 
     useEffect(() => {
         fetchRankingsForTotalSubstats();
+        fetchRankingsForAtk();
+        fetchRankingsForHp();
+        fetchRankingsForDef();
     }, [characterDetails]);
 
     const fetchCharacterDetails = async() => {
@@ -23,6 +29,7 @@ const PublicCharacterProfile = () => {
         setCharacterDetails(characterDetails);
     };
 
+    //fetch functions for different categories
     const fetchRankingsForTotalSubstats = async() => {
         if(!characterDetails) return;
         const characterId = characterDetails.id;
@@ -31,27 +38,70 @@ const PublicCharacterProfile = () => {
 
         if(!characterRankings) return;
         setTotalSubstatsRankings(characterRankings.result + 1);
-    }
+    };
+    const fetchRankingsForAtk = async() => {
+        if(!characterDetails) return;
+        const characterId = characterDetails.id;
+
+        const characterRankings = await CharacterApi.getCharacterRankingNumberCategory(characterId, 'atk');
+
+        if(!characterRankings) return;
+        setAtkRankings(characterRankings.result + 1);
+    };
+    const fetchRankingsForHp = async() => {
+        if(!characterDetails) return;
+        const characterId = characterDetails.id;
+
+        const characterRankings = await CharacterApi.getCharacterRankingNumberCategory(characterId, 'hp');
+
+        if(!characterRankings) return;
+        setHpRankings(characterRankings.result + 1);
+    };
+    const fetchRankingsForDef = async() => {
+        if(!characterDetails) return;
+        const characterId = characterDetails.id;
+
+        const characterRankings = await CharacterApi.getCharacterRankingNumberCategory(characterId, 'def');
+
+        if(!characterRankings) return;
+        setDefRankings(characterRankings.result + 1);
+    };
 
     //will use this for the other categories; the ranking spot is the state that will be assigned
     const rankNumberDivMaker = (rankingSpot: number | null, rankingCategory: string) => {
         if(!rankingSpot) return;
         return (
-            <div className='flex justify-between'>
-                <div>
+            <div className='flex justify-between text-one'>
+                <div className='ml-2'>
                     {rankingCategory}
                 </div>
-                <div>
+                <div className='mr-2'>
                     # {rankingSpot}
                 </div>
             </div>
         )
     }
 
+    //svg chooser
+    const svgChooser = (itemType: string) => {
+        if(itemType === 'sword') return '/sword.svg';
+        else if (itemType === 'armor') return '/armor.svg';
+        else return '/hat.svg';
+    }
+
+    //exp to level converter
+    const expToLevelConverter = (exp: number) => {
+        if (exp < 10) return 0;
+        if (exp < 30) return 1;
+        if (exp < 60) return 2;
+        if (exp < 100) return 3;
+        return 'MAX';
+    };
+
     const equipmentDivMaker = () => {
         if(!characterDetails) return;
         return characterDetails.equipment.map((item, index) => 
-            <div key={index} id={`item-${index}`} className='flex flex-col outline outline-1 mx-1 mt-1'>
+            <div key={index} id={`item-${index}`} className='flex flex-col outline outline-1 outline-one rounded-md mx-1 mt-1'>
                 <div className='mx-auto'>
                     {item.name.name}
                 </div>
@@ -59,7 +109,12 @@ const PublicCharacterProfile = () => {
 
                 </div>
                 <div className='mx-auto'>
-                    {item.exp}
+                    {expToLevelConverter(item.exp)}
+                </div>
+                <div>
+                    <svg className='w-3 h-3 mx-auto'>
+                        <image href={svgChooser(item.name.name)}></image>
+                    </svg>
                 </div>
                 <div className='flex text-center'>
                     <div className='w-9 flex flex-col'>
@@ -97,16 +152,16 @@ const PublicCharacterProfile = () => {
                 <div>Loading...</div>
             ) : (
                 <div id='character-loaded-container' className='flex flex-col'>
-                    <div>
+                    <div className="mx-auto text-one text-lg font-bold outline-double outline-three p-1 mt-2 rounded-sm">
                         {characterDetails.characterName}
                     </div>
                     <div id='character-picture' className='h-96 overflow-hidden'>
                         <div className='w-full p-2'>
-                            <img src='../../public/Luce_mascot.png'></img>
+                            <img className='mx-auto' src='/Luce_mascot.png'></img>
                         </div>
                     </div>
                     <div id='equipments' className='flex flex-col m-1'>
-                        <div className='mx-auto'>
+                        <div className='mx-auto w-24 bg-three text-four rounded-md text-center mt-1 mb-1 p-1'>
                             Equipment
                         </div>
                         <div className='flex mx-auto'>
@@ -115,16 +170,35 @@ const PublicCharacterProfile = () => {
                     </div>
                 </div>
             )}
-                <div className='flex flex-col m-3 mx-1 outline outline-1'>
-                    <div className='mx-auto'>
-                        Rankings
+                <div className='flex flex-col m-3 mx-1 outline outline-1 outline-three rounded-md'>
+                    <div className='flex bg-three text-four w-28 justify-center mx-auto rounded-md mt-2'>
+                        <div className='rounded-md w-16'>
+                            Rankings
+                        </div>
+                        <div className='mt-1 ml-1'>
+                            <svg className='h-4 w-4'>
+                                <image stroke='white' href='/trophywhite.svg'></image>
+                            </svg>
+                        </div>
+
                     </div>
 
                     {!totalSubstatsRankings ? (
                         <div>loading...</div>
                     ):(
-                        <div id='all-rankings-numbers-container'>
-                            {rankNumberDivMaker(totalSubstatsRankings, 'Total Substats')}
+                        <div id='ranking-categories'>
+                            <div id='all-rankings-numbers-container'>
+                                {rankNumberDivMaker(totalSubstatsRankings, 'Total Substats')}
+                            </div>
+                            <div>
+                                {rankNumberDivMaker(atkRankings, 'Highest Atk')}
+                            </div>
+                            <div>
+                                {rankNumberDivMaker(hpRankings, 'Highest HP')}
+                            </div>
+                            <div>
+                                {rankNumberDivMaker(defRankings, 'Highest Def')}
+                            </div>
                         </div>
                     )}
 

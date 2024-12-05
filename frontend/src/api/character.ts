@@ -199,3 +199,24 @@ export const getItemOwnerCharacterName = async(username: string, characterId: nu
         console.error(error);
     }
 }
+
+export const getCharacterRankingNumberCategory = async(characterId: number, category: string) => {
+    //cateory should be either atk, def, or hp
+    try {
+        const backendURL = endpoint + `characters/rankings/${category}/${characterId}`;
+
+        const request = await fetch(backendURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const characterRank: RankingNumber = await request.json();
+
+        return characterRank;
+
+    } catch(error) {
+        console.error(error);
+    }
+}

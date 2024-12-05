@@ -22,7 +22,6 @@ const Rankings = () => {
 
     useGSAP(() => {
         fadeInRankings();
-        console.log('running')
     }, [allSubstatsRankings, atkSubstatsRankings, hpSubstatsRankings, defSubstatsRankings])
 
     const fetchAllSubstatsRankings = async() => {
@@ -98,7 +97,7 @@ const Rankings = () => {
         if(!searchedCharacterResult) return;
         if(searchedCharacterResult.length < 1) return <div>Character not Found!</div>
         return searchedCharacterResult.map((character, index) => 
-            <div key={index} id={`character-result-${index}`} className='bg-four m-1 rounded-lg'
+            <div key={index} id={`character-result-${index}`} className='bg-four outline outline-three m-2 rounded-lg overflow-scroll'
                 onClick={() => navigate(`/rankings/characters/${character.id}`)}
             >
                 {character.characterName}
@@ -217,7 +216,10 @@ const Rankings = () => {
             <div>
                 {searchedCharacterResult && 
                 <div className='fixed top-0 left-0 z-50 bg-pink-200 bg-opacity-70 w-full max-h-full h-full'>
-                    <div className='bg-five p-6 mt-9 mb-auto mx-auto rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center'>
+                    <div className='bg-four outline outline-five p-6 mt-9 mb-auto mx-auto rounded shadow-lg w-7/12 h-1/2 flex flex-col text-center'>
+                        <div className='mx-auto text-one border-b-2 border-one mb-1'>
+                            Results
+                        </div>
                         <div id='search-results-container' className='overflow-scroll'>
                             {!searchedCharacterResult && (
                                 <div>
@@ -230,7 +232,7 @@ const Rankings = () => {
                                 </div>
                             )}
                         </div>
-                        <div className='relative bottom-0'>
+                        <div className='mt-auto mx-auto bg-three text-four w-9 rounded-lg'>
                             <button onClick={() => setSearchedCharacterResult(null)}>Exit</button>
                         </div>
                     </div>
