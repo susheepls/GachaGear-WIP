@@ -47,7 +47,7 @@ const SearchRankings:React.FC<Props> = (props) => {
                     value={props.searchCharacterForm.characterName}
                     onChange={handleChange}
                     ></input>
-                <div className='w-14 mx-auto rounded-xl outline outline-1 text-center m-2 text-four bg-three'>
+                <div className='w-14 mx-auto rounded-xl outline outline-1 text-center m-2 text-four bg-three active:bg-two'>
                     <button type='submit'>Go</button>
                 </div>
                 </form>

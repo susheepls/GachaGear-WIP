@@ -97,7 +97,7 @@ const Rankings = () => {
         if(!searchedCharacterResult) return;
         if(searchedCharacterResult.length < 1) return <div>Character not Found!</div>
         return searchedCharacterResult.map((character, index) => 
-            <div key={index} id={`character-result-${index}`} className='bg-four outline outline-three m-2 rounded-lg overflow-scroll'
+            <div key={index} id={`character-result-${index}`} className='bg-four outline outline-three m-2 rounded-lg overflow-scroll active:bg-two active:text-four'
                 onClick={() => navigate(`/rankings/characters/${character.id}`)}
             >
                 {character.characterName}
@@ -232,7 +232,7 @@ const Rankings = () => {
                                 </div>
                             )}
                         </div>
-                        <div className='mt-auto mx-auto bg-three text-four w-9 rounded-lg'>
+                        <div className='mt-auto mx-auto bg-three text-four w-9 rounded-lg active:bg-two'>
                             <button onClick={() => setSearchedCharacterResult(null)}>Exit</button>
                         </div>
                     </div>

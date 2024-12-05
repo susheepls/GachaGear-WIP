@@ -61,13 +61,13 @@ const NavBar = () => {
         <nav>
             <div className="max-h-8 flex justify-between bg-three text-white">
                 <a
-                    className="p-1 text-four"
+                    className="p-1 text-four active:bg-two"
                     key={'home'}
                     href={'/'}
                 >
                     Home
                 </a>
-                <svg className="h-6 w-6 mr-1" onClick={handleHamburgerMenu}>
+                <svg className="h-6 w-6 ml-1 active:bg-two" onClick={handleHamburgerMenu}>
                     <image height={30} width={20} xlinkHref="/burger-menu.svg"></image>
                 </svg>
             </div>
@@ -75,7 +75,7 @@ const NavBar = () => {
                 <div className="w-screen flex flex-col">
                 {isHamburgerClicked && pages.map((page) => (
                         <a
-                            className="p-1 text-four"
+                            className="p-1 text-four active:bg-two"
                             key={page.key}
                             href={page.href}
                         >   

@@ -51,7 +51,7 @@ const LoginForm: React.FC<Props> = (props) => {
                         <input className='focus:outline focus:outline-1 ml-1' name='password' type='password' value={formData.password} onChange={handleChange} required/>
                     </label>
                 </div>
-                <div className='mx-auto mb-2 text-center outline outline-1 rounded-md w-16 bg-three text-four'>
+                <div className='mx-auto mb-2 text-center outline outline-1 rounded-md w-16 bg-three text-four active:bg-two'>
                     <button className='p-1' type='submit'>Log In</button>
                 </div>
             </form>
