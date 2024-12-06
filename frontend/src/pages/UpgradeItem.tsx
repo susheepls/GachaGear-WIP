@@ -14,6 +14,7 @@ const UpgradeItem = () => {
     const [remainingExp, setRemainingExp] = useState<number | string | null>(null);
     const [increaseSubstatObject, setIncreaseSubstatObject] = useState<ItemSubstatIncrease | null>(null);
     const [currentCurrency, setCurrentCurrency] = useState<number | null>(null);
+    const [substatIncreaseHistory, setSubstatIncreaseHistory] = useState<ItemSubstatIncrease[]>([]);
 
     const { username, id } = useParams();
 
@@ -123,6 +124,29 @@ const UpgradeItem = () => {
         
     }, [increaseSubstatObject])
 
+    useGSAP(() => {
+        if(!substatIncreaseHistory) return;
+        if(substatIncreaseHistory.length < 1) return;
+        const substatHistoryDiv = document.getElementById('upgrade-history');
+        if(!substatHistoryDiv) return;
+        const height = substatHistoryDiv.clientHeight;
+        console.log(height)
+
+        gsap.to(substatHistoryDiv,
+            {
+                height: height + 30
+            }
+        )
+
+    }, [substatIncreaseHistory])
+
+    //svg chooser
+    const svgChooser = (itemType: string) => {
+        if(itemType === 'sword') return '/sword.svg';
+        else if (itemType === 'armor') return '/armor.svg';
+        else return '/hat.svg';
+    }
+
     return (
         <div>
             {!currentItem || !currentItem.result ? (
@@ -130,12 +154,17 @@ const UpgradeItem = () => {
                     Loading....
                 </div>
             ) : (
-                <div>
+                <div className='outline outline-2 outline-three m-1'>
                     <div id='item-stats' className='flex flex-col text-center'>
                         <div className='px-1'>
                             {currentItem.result.name.name}
                         </div>
-                        <div className='px-1'>
+                        <div className='mx-auto'>
+                            <svg className='h-3 w-3'>
+                                <image href={svgChooser(currentItem.result.name.name)}></image>
+                            </svg>
+                        </div>
+                        <div className='px-1 border-b-2 border-one w-40 mx-auto'>
                             Item Level: {currentItemLvl}
                         </div>
                         <div id='item-substats'>
@@ -143,11 +172,11 @@ const UpgradeItem = () => {
                                 <div className='w-28'>
                                     {currentItem.result.substats[0].substatType.name}
                                 </div>
-                                <div className='flex pl-2 w-28'>
+                                <div className='flex pl-8 w-28'>
                                     <div>
                                         {currentItem.result.substats[0].value}
                                     </div>
-                                    <div id='substat-increase-atk' className='pl-2'>
+                                    <div id='substat-increase-atk' className='pl-2 text-two'>
                                         { increaseSubstatObject && 
                                         increaseSubstatObject.result.substatType.name === 'atk' && 
                                         increaseSubstatObject.result.increaseValue }
@@ -158,7 +187,7 @@ const UpgradeItem = () => {
                                 <div className='w-28'>
                                     {currentItem.result.substats[1].substatType.name}
                                 </div>
-                                <div className='flex pl-2 w-28'>
+                                <div className='flex pl-8 w-28'>
                                     <div>
                                         {currentItem.result.substats[1].value}
                                     </div>
@@ -173,7 +202,7 @@ const UpgradeItem = () => {
                                 <div className='w-28'>
                                     {currentItem.result.substats[2].substatType.name}
                                 </div>
-                                <div className='flex pl-2 w-28'>
+                                <div className='flex pl-8 w-28'>
                                     <div>
                                         {currentItem.result.substats[2].value}
                                     </div>
@@ -186,7 +215,7 @@ const UpgradeItem = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='exp-bar'>
+                    <div className='exp-bar text-center mt-2'>
                         <div>
                             Current EXP = {currentItem.result.exp}
                         </div>
@@ -203,12 +232,39 @@ const UpgradeItem = () => {
                         setIncreaseSubstatObject = {setIncreaseSubstatObject}
                         currentCurrency = {currentCurrency}
                         setCurrentCurrency = {setCurrentCurrency}
+                        setSubstatIncreaseHistory = {setSubstatIncreaseHistory}
                     />
-                    <div className='p-1'>
-                        EXP Currency: {currentCurrency ?? 0}
+                    <div className='p-1 bg-two text-four mt-4 flex outline outline-four w-fit mx-auto justify-center rounded-md'>
+                        <div>
+                            EXP Currency: {currentCurrency ?? 0}
+                        </div>
+                        <div className='w-4 h-4 pt-0.5 ml-1'>
+                            <svg className='w-4 h-4 pt-0.5'>
+                                <image href='/currency.svg'></image>
+                            </svg>                    
+                        </div>
                     </div>
                 </div>
             )}
+            <div id='upgrade-history' className='w-2/3 mx-auto outline outline-2 mt-6 rounded-md outline-two text-one'>
+                <div className='mt-2 w-36 text-center mx-auto border-b-2 border-one '>
+                    Upgrade History
+                </div>
+                {increaseSubstatObject && 
+                <div className='flex flex-col w-36 mx-auto'>
+                    {substatIncreaseHistory.map((substatIncrease, index) => 
+                    <div key={index} id={index+'upgrade-history'} className='flex m-1'>
+                        <div>
+                            {substatIncrease.result.substatType.name}
+                        </div>
+                        <div className='ml-auto'>
+                            +{substatIncrease.result.increaseValue}
+                        </div>
+                    </div>
+                    )}
+                </div>
+                }
+            </div>
         </div>
     )
 }

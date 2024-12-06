@@ -14,6 +14,7 @@ interface Props{
     currentItem: EnhanceOneItemType | null
     currentCurrency: number | null
     setCurrentCurrency: React.Dispatch<SetStateAction<number | null>>
+    setSubstatIncreaseHistory: React.Dispatch<SetStateAction<ItemSubstatIncrease[]>>
 }
 
 const EnhanceForm: React.FC<Props> = (props) => {
@@ -58,7 +59,10 @@ const EnhanceForm: React.FC<Props> = (props) => {
         if(expAmount.expIncrease === props.remainingExp) {
             const enhanceSubstat = async() => {
                 const itemSubstatIncrease = await ItemApi.enhanceSubstat(username!, itemId!);
-                if(itemSubstatIncrease) props.setIncreaseSubstatObject(itemSubstatIncrease); 
+                if(itemSubstatIncrease) {
+                    props.setIncreaseSubstatObject(itemSubstatIncrease);
+                    props.setSubstatIncreaseHistory( oldData => ([...oldData, itemSubstatIncrease]) ) 
+                }
             };
             enhanceSubstat();
         }
@@ -87,15 +91,15 @@ const EnhanceForm: React.FC<Props> = (props) => {
     }
 
     return (
-        <div>
+        <div className='outline outline-2 outline-five rounded-full p-1 mt-3'>
             <form>
                 <div id='form-input' className='flex flex-col'>
-                    <label>
+                    <label className='text-center'>
                         Enhance EXP Amount: {expAmount.expIncrease}
                     </label>
                     <input id='exp-input' type='range' name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
                 </div>
-                <div id='submit-button' className='flex flex-col justify-center'>
+                <div id='submit-button' className='flex flex-col justify-center outline outline-1 outline-four bg-five text-four w-24 mx-auto rounded-md active:bg-one'>
                     <button type='submit' onClick={handleSubmit}>Enhance!</button>
                 </div>
             </form>
