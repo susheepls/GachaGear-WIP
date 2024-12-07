@@ -130,7 +130,6 @@ const UpgradeItem = () => {
         const substatHistoryDiv = document.getElementById('upgrade-history');
         if(!substatHistoryDiv) return;
         const height = substatHistoryDiv.clientHeight;
-        console.log(height)
 
         gsap.to(substatHistoryDiv,
             {
