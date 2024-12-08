@@ -20,7 +20,7 @@ const NavBar = () => {
         {name: 'Inventory', href: userInfo ? `/${userInfo.username}/inventory` : '/login', key: 'inventory'},
         {name: 'Characters', href: '/characters', key: 'characters'},
         {name: 'Get Currency', href: '/currencyBox', key: 'currencybox'},
-        {name: 'Roll Now!', href: '/gacharoll', key: 'gacharoll'},
+        {name: 'Get Gear!', href: '/gacharoll', key: 'gacharoll'},
         {name: 'Rankings', href: '/rankings', key: 'rankings'},
     ];
 
@@ -67,7 +67,7 @@ const NavBar = () => {
                 >
                     Home
                 </a>
-                <svg className="h-6 w-6 ml-1 active:bg-two" onClick={handleHamburgerMenu}>
+                <svg className="h-6 w-6 ml-1 rounded-md active:bg-two" onClick={handleHamburgerMenu}>
                     <image height={30} width={20} xlinkHref="/burger-menu.svg"></image>
                 </svg>
             </div>
