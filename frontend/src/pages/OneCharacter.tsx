@@ -142,12 +142,12 @@ const OneCharacter = () => {
                         {characterItems && characterItems[index] ?
                             itemStatDivMaker(characterItems[index])
                             :
-                            <div className='my-auto'>
+                            <div className='my-auto w-fit bg-three p-1 text-four rounded-lg active:bg-two'>
                                 <button onClick={() => toggleForm(itemType)}>Equip</button>
                             </div>
                         }
                         {characterItems && characterItems[index] && (
-                            <div className='my-auto w-fit bg-three p-1 text-four rounded-lg'>
+                            <div className='my-auto w-fit bg-three p-1 text-four rounded-lg active:bg-two'>
                                 <button onClick={() => toggleForm(itemType)}>Swap</button>
                             </div>
                         )}
