@@ -146,9 +146,9 @@ const CurrencyBox = () => {
         }
     }
 
-    const testAnimation = () => {
-        !isOpeningCase ? setIsOpeningCase(true) : setIsOpeningCase(false)
-    }
+    // const testAnimation = () => {
+    //     !isOpeningCase ? setIsOpeningCase(true) : setIsOpeningCase(false)
+    // }
 
     //enable button if ready
     const enableFreeDailyBoxButton = () => {
