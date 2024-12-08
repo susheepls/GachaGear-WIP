@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import { Item } from '../interface/inventoryType'
 import * as InventoryApi from '../api/inventory'
 import _ from 'lodash';
@@ -9,6 +9,8 @@ interface Props {
     itemData: Item | null,
     username: string | null,
     characterId: number | null,
+    setUpdatedItem: React.Dispatch<SetStateAction<boolean>>,
+    updatedItem: boolean,
     expToLvlConverter: (exp: number) => number | string;
 }
 
@@ -17,7 +19,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
 
     useEffect(() => {
         fetchItemType();
-    }, [props.itemType, props.itemData])
+    }, [props.itemType, props.itemData, props.setUpdatedItem])
 
     const fetchItemType = async() => {
         const itemType = props.itemType;
@@ -39,11 +41,17 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         setItemTypes(itemsByType);
     }
 
+    const handleUpdatedItem = () => {
+        !props.updatedItem ? props.setUpdatedItem(true) : props.setUpdatedItem(false);
+    }
     const swapItemEquippedSubmit = async(username: string, itemId: number, swapItemId?: number) => {
         if(!props.characterId) return;
         const swapEquipForm = { characterId: props.characterId, itemId: itemId, swapItemId: (swapItemId ? swapItemId : null) };
         
         await CharacterApi.swapEquipItemOnCharacter(username, props.characterId, swapEquipForm);
+
+        handleUpdatedItem();
+        fetchItemType();
     }
 
     const removeItemFromCharacterSubmit = async(itemId: number) => {
@@ -53,6 +61,9 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         const removeItemBody = { characterId: props.characterId, itemId: itemId };
 
         await CharacterApi.removeItemFromCharacter(props.username, props.characterId, removeItemBody);
+
+        handleUpdatedItem();
+        fetchItemType();
     }
 
     const makeDivForAccountItems = () => {
@@ -60,11 +71,11 @@ const SwapEquipForm: React.FC<Props> = (props) => {
 
         return (
             itemTypes.map((item, index) => (
-                <div key={index} className='p-2 w-24'>
-                    <div>
+                <div key={index} className='p-2 w-24 outline outline-1 outline-three m-1 rounded-md h-56 flex flex-col'>
+                    <div className='w-fit mx-auto'>
                         {item.name.name}
                     </div>
-                    <div>
+                    <div className='mb-1'>
                         Level: {props.expToLvlConverter(item.exp)}
                     </div>
                     <div>
@@ -78,17 +89,22 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                             {item.substats[2].substatType.name}: {item.substats[2].value}
                         </div>
                     </div>
-                    <div>
+                    <div className='my-2 overflow-y-hidden'>
                         {item.character && item.characterId !== props.characterId ? 
                             <div>
-                                on {item.character.characterName}
+                                <div className='w-5 h-5 mx-auto bg-five rounded-full'>
+                                    <svg className='w-4 h-4 mx-auto my-auto pt-0.5'>
+                                        <image href='/charactericon.svg'></image>
+                                    </svg>
+                                </div>
+                                <div className='w-fit mx-auto overflow-scroll'>{item.character.characterName}</div>
                             </div>
                             :
                             <div>
                             </div>
                         }
                     </div>
-                    <div>
+                    <div className='mt-auto bg-three text-four rounded-lg text-center active:bg-two'>
                         { _.isEqual(item, props.itemData) ? 
                             <button onClick={() => removeItemFromCharacterSubmit(item.id)}>
                                 Remove
