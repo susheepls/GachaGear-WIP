@@ -7,6 +7,8 @@ import CaseOpeningAnimation from '../components/CaseOpeningAnimation';
 import * as CurrencyApi from '../api/currency';
 import { CurrencyDecreaseResponse, CurrencyIncreaseResponse } from '../interface/currencyTypes';
 import { useUser } from '../middleware/UserContext';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 const CurrencyBox = () => {
     const [lastFreeBoxTime, setLastFreeBoxTime] = useState<Date | null>(null);
@@ -22,6 +24,34 @@ const CurrencyBox = () => {
     const navigate = useNavigate();
     const { userInfo, fetchUserInfo } = useUser();
 
+    useGSAP(() => {
+        const winningAmountDiv = document.getElementById('winning-amount');
+        if(!winningAmount) return;
+
+        const currencyAmountDiv = document.getElementById('currency-display-amount');
+        if(!currencyAmountDiv) return;
+
+        gsap.fromTo(winningAmountDiv, 
+            {
+                opacity:0
+            },
+            {
+                opacity:1
+            }
+        )
+
+        gsap.fromTo(currencyAmountDiv, 
+            {
+                textContent: currency
+            },
+            {
+                textContent: currency! + Number(winningAmount),
+                duration: 1,
+                snap: { textContent: 1 }
+            }
+        )
+
+    }, [winningAmount])
     useEffect(() => {
         // Fetch user info only if there's a token and userInfo hasn't been set yet
         if(!userInfo && token) {
@@ -166,13 +196,13 @@ const CurrencyBox = () => {
                 setTimerComplete={setTimerComplete}
                 timerComplete={timerComplete}
             />
-            <div className='flex justify-center'>
+            <div className='flex flex-col text-four mt-6'>
                 <button id='free-daily-box-button' onClick={() => checkIfCanOpen()}
-                    className='disabled:line-through p-1'
+                    className='disabled:line-through disabled:bg-one p-1 bg-two w-fit mx-auto mt-2 rounded-lg active:bg-five'
                     >
                         Daily Free Currency!
                 </button>
-                <button id='pay-box-button' className='p-1' onClick={() => openGambleCase()}>Gamble for Currency (50)</button>
+                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => openGambleCase()}>Gamble for Currency (50)</button>
             </div>
             <div>
                 {errorMessage &&
@@ -181,19 +211,24 @@ const CurrencyBox = () => {
                     </div>
                 }
             </div>
-            <div>
+            {/* <div>
                 <button onClick={() => testAnimation()}>Test animation</button>
-            </div>
+            </div> */}
             {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
             <div className='text-center'>
                 {winningAmount && 
-                    <div>
-                        You won {winningAmount};
+                    <div id='winning-amount' className='m-2 w-fit p-1 mx-auto bg-five text-four rounded-lg'>
+                        You won {winningAmount}!
                     </div>
                 }
             </div>
-            <div className='text-center'>
-                {currency} currency
+            <div className='flex w-fit p-1 mx-auto text-white bg-three mt-10 rounded-lg '>
+                <div id='currency-display-amount'>
+                    {currency} 
+                </div>
+                <div className='ml-2'>
+                    currency
+                </div>
             </div>
         </div>
     )

@@ -39,6 +39,10 @@ const Home = () => {
         navigate('/rankings');
     }
 
+    const toCharacters = () => {
+        navigate('/characters')
+    }
+
     return (
         <div>
             {!token ? (
@@ -67,7 +71,7 @@ const Home = () => {
                             <button onClick={() => toAccountInventory()}>Check Inventory</button>
                         </div>
                         <svg className='w-4 h-4 my-auto ml-1'>
-                            <image href='bag-shopping.svg'></image>
+                            <image href='/bag-shopping.svg'></image>
                         </svg>
                     </div>
                     <div className='flex h-5 ml-10'>
@@ -75,7 +79,15 @@ const Home = () => {
                             <button onClick={() => toGachaRoll()}>Get Gear</button>
                         </div>
                         <svg className='w-4 h-4 my-auto ml-1 mt-2'>
-                            <image href='sword.svg'></image>
+                            <image href='/sword.svg'></image>
+                        </svg>
+                    </div>
+                    <div className='flex h-5 ml-10 mt-2'>
+                        <div className=''>
+                            <button onClick={() => toCharacters()}>My Characters</button>
+                        </div>
+                        <svg className='w-4 h-4 my-auto ml-1 mt-1.5'>
+                            <image href='/mycharacters.svg'></image>
                         </svg>
                     </div>
                     <div className='flex h-5 ml-10 mt-3'>
@@ -83,7 +95,7 @@ const Home = () => {
                             <button onClick={() => toRankingPage()}>Rankings</button>
                         </div>
                         <svg className='w-4 h-4 my-auto ml-1 mt-1.5'>
-                            <image href='trophy.svg'></image>
+                            <image href='/trophy.svg'></image>
                         </svg>
                     </div>
                     <div className='mt-2'>
