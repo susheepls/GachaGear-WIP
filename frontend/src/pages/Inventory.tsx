@@ -155,7 +155,7 @@ const Inventory = () => {
         if(!items) return;
         if(!displayItems) return;
         return displayItems.map((item, index) => 
-            <div key={index} className='w-28 py-2 outline outline-three rounded-lg m-2'>
+            <div key={index} className='w-[calc(100vw/5)] py-2 outline outline-three rounded-lg m-2'>
                 <div id={`${index}`} className='flex' onClick={(event) => handleVisibility(event)}>
                     <div className='flex flex-col'>
                         <div className='px-1'>

@@ -43,13 +43,13 @@ const CreateNewAccForm: React.FC<Props> = (props) => {
                 <div className='flex w-2/3 mx-auto'>
                     <label className='p-1'>
                         User:
-                        <input className='focus:outline focus:outline-1 ml-1' name='username' type='text' value={formData.username} onChange={handleChange} required/>
+                        <input className='focus:outline focus:outline-1 outline outline-1 outline-three text-opacity-100 rounded-md ml-1 lowercase' name='username' type='text' value={formData.username} onChange={handleChange} required/>
                     </label> 
                 </div>
                 <div className='flex w-2/3 mx-auto'>
                     <label className='p-1'>
                         Pass:
-                        <input className='focus:outline focus:outline-1 ml-1' name='password' type='password' value={formData.password} onChange={handleChange} required/>
+                        <input className='focus:outline focus:outline-1 ml-1 outline outline-1 outline-three text-opacity-100 rounded-md' name='password' type='password' value={formData.password} onChange={handleChange} required/>
                     </label>
                 </div>
                 <div className='mx-auto mb-2 text-center outline outline-1 rounded-md w-32 bg-three text-four'>
