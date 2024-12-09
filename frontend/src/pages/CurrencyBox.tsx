@@ -110,7 +110,7 @@ const CurrencyBox = () => {
         if(isOpeningCase) {
             paidBoxButton.toggleAttribute('disabled');
         } else {
-            paidBoxButton.toggleAttribute('disabled');
+            paidBoxButton.removeAttribute('disabled');
         }
     }, [isOpeningCase]);
 

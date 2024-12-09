@@ -17,7 +17,7 @@ model Account {
   id Int @id @default(autoincrement())
   username String @unique
   password String 
-  currency Int @default(100)
+  currency Int @default(1000)
   join_date DateTime @db.Date @default(now())
   last_box_open DateTime? @db.Timestamp(0)
   items Inventory[]
