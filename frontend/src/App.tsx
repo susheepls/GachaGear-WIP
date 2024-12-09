@@ -11,6 +11,7 @@ import { UserProvider } from "./middleware/UserContext"
 import OneCharacter from "./pages/OneCharacter"
 import Rankings from "./pages/Rankings"
 import PublicCharacterProfile from "./pages/PublicCharacterProfile"
+import GettingStarted from "./pages/GettingStarted"
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route path=":username/characters/:id" element={<OneCharacter/>} />
             <Route path="rankings" element={<Rankings/>} />
             <Route path="rankings/characters/:characterid" element={<PublicCharacterProfile/>} />
+            <Route path="gettingstarted" element={<GettingStarted/>} />
           </Route>
         </Routes>
       </BrowserRouter>

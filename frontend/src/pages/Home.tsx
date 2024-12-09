@@ -43,6 +43,10 @@ const Home = () => {
         navigate('/characters')
     }
 
+    const toTutorial = () => {
+        navigate('/gettingstarted')
+    }
+
     return (
         <div>
             {!token ? (
@@ -65,6 +69,14 @@ const Home = () => {
                 <div className='flex flex-col'>
                     <div className='text-center drop-shadow-[0_1.2px_1.2px_rgba(191,297,176,0.8)] text-three text-lg'>
                         Welcome back {userInfo ? userInfo.username : ''}
+                    </div>
+                    <div className='flex h-5 ml-10 mt-3 mb-2'>
+                        <div>
+                            <button onClick={() => toTutorial()}>Get Started</button>
+                        </div>
+                        <svg className='w-4 h-4 my-auto ml-1 mt-1'>
+                            <image href='/sprout.svg'></image>
+                        </svg>
                     </div>
                     <div className='flex h-9 ml-10'>
                         <div className='mt-1'>
