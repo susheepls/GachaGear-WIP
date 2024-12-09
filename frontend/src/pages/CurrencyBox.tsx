@@ -206,7 +206,7 @@ const CurrencyBox = () => {
             </div>
             <div>
                 {errorMessage &&
-                    <div>
+                    <div className='w-fit mx-auto bg-one text-four p-1 rounded-lg'>
                         {errorMessage}
                     </div>
                 }

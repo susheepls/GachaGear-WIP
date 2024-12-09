@@ -155,7 +155,7 @@ const Inventory = () => {
         if(!items) return;
         if(!displayItems) return;
         return displayItems.map((item, index) => 
-            <div key={index} className='w-[calc(100vw/5)] h-fit py-2 outline outline-three rounded-lg m-2'>
+            <div key={index} className='w-[calc(100vw/5)] h-24 py-2 outline outline-three rounded-lg m-2'>
                 <div id={`${index}`} className='flex' onClick={(event) => handleVisibility(event)}>
                     <div className='flex flex-col'>
                         <div className='px-1'>
@@ -304,7 +304,7 @@ const Inventory = () => {
     return (
         // height is wonky because i had to subtract the navbar height; full screen h - navbar height
         <div className='flex flex-col h-[calc(100vh-32px)] bg-four'>
-            <div className='flex flex-wrap flex-grow overflow-y-scroll py-1 max-h-[99%]'>
+            <div className='flex flex-wrap justify-start flex-grow overflow-y-scroll py-1 max-h-[99%]'>
                 {allItemNamesDiv()}
             </div>
             { sellAmount && 
