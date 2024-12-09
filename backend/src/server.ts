@@ -6,7 +6,7 @@ import cors from 'cors';
 import router from './routes';
 
 const app: Express = express();
-const port = 3000;
+const port = process.env.PORT;
 
 //middleware
 app.use(express.json());
