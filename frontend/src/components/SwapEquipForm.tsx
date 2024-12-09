@@ -3,6 +3,7 @@ import { Item } from '../interface/inventoryType'
 import * as InventoryApi from '../api/inventory'
 import _ from 'lodash';
 import * as CharacterApi from '../api/character'
+import gsap from 'gsap';
 
 interface Props {
     itemType: string,
@@ -16,6 +17,8 @@ interface Props {
 
 const SwapEquipForm: React.FC<Props> = (props) => {
     const [itemTypes, setItemTypes] = useState<Item[] | null>(null);
+    const [sortType, setSortType] = useState<string>('default');
+    const [isFilterClicked, setIsFilterClicked] = useState<boolean>(false);
 
     useEffect(() => {
         fetchItemType();
@@ -65,6 +68,102 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         handleUpdatedItem();
         fetchItemType();
     }
+
+    //sorting functions switch case
+    const sortItems = (sortType: string) => {
+        setSortType(sortType);
+        if(!itemTypes) return;
+
+        //use a copy of the original fetched items
+        const sortedItems = [...itemTypes];
+        
+        switch(sortType) {
+            case 'idAsc':
+                sortedItems.sort((a, b) => a.id - b.id);
+                break;
+            case 'idDes':
+                sortedItems.sort((a, b) => b.id - a.id);
+                break;
+            case 'sortByHighestLevel':
+                sortedItems.sort((a, b) => b.exp - a.exp);
+                break;
+            case 'sortByLowestLevel':
+                sortedItems.sort((a, b) => a.exp - b.exp);
+                break;
+            default : 
+                sortedItems.sort((a, b) => a.id - b.id);
+                break;
+        }
+
+        setItemTypes(sortedItems);
+    }
+    //button press that changes sort type
+    const handleSortButtonClick = (sortType: string) => {
+        sortItems(sortType);
+    }
+
+    const handleFilterButtonPress = () => {
+        const filterSvg = document.getElementById('filter-svg');
+        const filterList = document.getElementById('filter-list');
+        if(!filterSvg) return;
+        if(!filterList) return;
+
+        if(!isFilterClicked) {
+            setIsFilterClicked(true);
+            filterList.classList.remove('pointer-events-none');
+            
+            gsap.fromTo(filterSvg,
+                {
+                    width:44,
+                },
+                {
+                    width:72,
+                    duration: 0.1
+                }
+            )
+            gsap.fromTo(filterList,
+                {
+                    opacity: 0,
+                    height: 100
+                },
+                {
+                    opacity:1,
+                    height: 160,
+                    duration: 0.3
+                }
+            )
+            
+            filterSvg.classList.replace('rounded-full', 'rounded-b-lg');
+
+        } else {
+            setIsFilterClicked(false);
+
+            gsap.fromTo(filterSvg,
+                {
+                    width: 67
+                },
+                {
+                    width: 44,
+                    duration: 0.3
+                }
+
+            )
+            gsap.fromTo(filterList,
+                {
+                    opacity: 1,
+                    height: 160,
+                },
+                {
+                    opacity: 0,
+                    height: 120,
+                    duration: 0.15,
+                }
+            )
+
+            filterSvg.classList.replace('rounded-b-lg', 'rounded-full');
+            filterList.classList.add('pointer-events-none');
+        }
+    }   
 
     const makeDivForAccountItems = () => {
         if(!itemTypes) return;
@@ -123,6 +222,36 @@ const SwapEquipForm: React.FC<Props> = (props) => {
     return (
         <div className='flex justify-evenly flex-wrap overflow-scroll max-h-full'>
             {makeDivForAccountItems()}
+            <div className='fixed bottom-3 right-[30px] h-11 w-11 ml-auto bg-transparent'>
+                    <div className='z-50 max-h-11 ml-auto'>
+                        <div id='filter-list' className='bg-three fixed bottom-[50px] right-0.5 text-four rounded-t-lg opacity-0 pointer-events-none'>
+                            <div className='p-2'>
+                                <button onClick={() => handleSortButtonClick('idAsc')}>
+                                    Old
+                                </button>
+                            </div>
+                            <div className='p-2'>
+                                <button onClick={() => handleSortButtonClick('idDes')}>
+                                    New
+                                </button>
+                            </div>
+                            <div className='p-2'>
+                                <button onClick={() => handleSortButtonClick('sortByHighestLevel')}>
+                                    High Lvl
+                                </button>                       
+                            </div>
+                            <div className='p-2'>
+                                <button onClick={() => handleSortButtonClick('sortByLowestLevel')}>
+                                    Low Lvl
+                                </button>
+                            </div> 
+                        </div>
+                    
+                        <svg id='filter-svg' className='w-11 h-11 bg-three rounded-full pl-1.5 pt-1.5' onClick={handleFilterButtonPress}>
+                            <image href='/filter.svg'></image>
+                        </svg>
+                    </div>
+            </div>
         </div>
     )
 }
