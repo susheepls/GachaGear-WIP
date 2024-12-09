@@ -58,7 +58,7 @@ const Characters = () => {
         if(!userInfo) return;
         if(!toBeDeletedCharaId) return;
 
-        const deleteCharacterReq = await CharacterApi.deleteCharacter(userInfo.username, toBeDeletedCharaId);
+        await CharacterApi.deleteCharacter(userInfo.username, toBeDeletedCharaId);
         
         setIsDeletingChara(false);
         setToBeDeletedCharaId(null);

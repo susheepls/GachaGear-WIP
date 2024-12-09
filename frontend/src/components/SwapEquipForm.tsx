@@ -17,7 +17,7 @@ interface Props {
 
 const SwapEquipForm: React.FC<Props> = (props) => {
     const [itemTypes, setItemTypes] = useState<Item[] | null>(null);
-    const [sortType, setSortType] = useState<string>('default');
+    const [sortingType, setsortingType] = useState<string>('default');
     const [isFilterClicked, setIsFilterClicked] = useState<boolean>(false);
 
     useEffect(() => {
@@ -70,14 +70,15 @@ const SwapEquipForm: React.FC<Props> = (props) => {
     }
 
     //sorting functions switch case
-    const sortItems = (sortType: string) => {
-        setSortType(sortType);
+    const sortItems = (sortingType: string) => {
+        
+        setsortingType(sortingType);
         if(!itemTypes) return;
 
         //use a copy of the original fetched items
         const sortedItems = [...itemTypes];
         
-        switch(sortType) {
+        switch(sortingType) {
             case 'idAsc':
                 sortedItems.sort((a, b) => a.id - b.id);
                 break;
@@ -98,8 +99,8 @@ const SwapEquipForm: React.FC<Props> = (props) => {
         setItemTypes(sortedItems);
     }
     //button press that changes sort type
-    const handleSortButtonClick = (sortType: string) => {
-        sortItems(sortType);
+    const handleSortButtonClick = (sortingType: string) => {
+        sortItems(sortingType);
     }
 
     const handleFilterButtonPress = () => {
@@ -128,7 +129,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                 },
                 {
                     opacity:1,
-                    height: 160,
+                    height: 130,
                     duration: 0.3
                 }
             )
@@ -151,7 +152,7 @@ const SwapEquipForm: React.FC<Props> = (props) => {
             gsap.fromTo(filterList,
                 {
                     opacity: 1,
-                    height: 160,
+                    height: 130,
                 },
                 {
                     opacity: 0,
@@ -226,13 +227,8 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                     <div className='z-50 max-h-11 ml-auto'>
                         <div id='filter-list' className='bg-three fixed bottom-[50px] right-0.5 text-four rounded-t-lg opacity-0 pointer-events-none'>
                             <div className='p-2'>
-                                <button onClick={() => handleSortButtonClick('idAsc')}>
-                                    Old
-                                </button>
-                            </div>
-                            <div className='p-2'>
-                                <button onClick={() => handleSortButtonClick('idDes')}>
-                                    New
+                                <button onClick={() => handleSortButtonClick(sortingType === 'idAsc' || sortingType === 'default' ? 'idDes' : 'idAsc')}>
+                                    {sortingType === 'idAsc' || sortingType === 'default' ? 'New' : 'Old'}
                                 </button>
                             </div>
                             <div className='p-2'>
