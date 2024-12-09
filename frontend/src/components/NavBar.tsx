@@ -42,14 +42,14 @@ const NavBar = () => {
                     height:0
                 },
                 {
-                    height:170 //height of navbar opened
+                    height:210 //height of navbar opened
                 },
             )
         } else {
             SetIsHamburgerClicked(false);
             gsap.fromTo(hamburgerMenu,
                 {
-                    height:170
+                    height:210
                 },
                 {
                     height:0

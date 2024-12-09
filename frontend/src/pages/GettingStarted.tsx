@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Cookies from 'js-cookie';
 import { useUser } from '../middleware/UserContext';
 import gsap from 'gsap';
@@ -244,9 +244,25 @@ const GettingStarted = () => {
                             <div>
                                 <ol className='list-decimal list-inside'> 
                                     <li>Daily Box</li>
-                                    <li>Gamble 50 for chance to get more</li>
+                                    <li>Gamble 50 for chance to get more (+60%)</li>
                                     <li>Enhance and sell any gear afterwards</li>
                                 </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div className='w-fit mx-auto p-1 bg-two text-four rounded-md mt-3'>
+                            Future Additions
+                        </div>
+                        <div className='w-fit mx-auto'>
+                            <div>
+                                Personal character sprites!
+                            </div>
+                            <div>
+                                Rolling for equipment skins!
+                            </div>
+                            <div className='font-bold'>
+                                and more...
                             </div>
                         </div>
                     </div>
