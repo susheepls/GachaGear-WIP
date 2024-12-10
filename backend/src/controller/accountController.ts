@@ -43,7 +43,7 @@ const accountController = {
             //bcrypt is an async function
             // const salt = await bcrypt.genSalt(); //this line is unnecessary cuz the 10 in the next line does the same thing 
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
-            const createAccountUsername = req.body.username;
+            const createAccountUsername = req.body.username.toLowerCase();
             await accountModel.createAccount(createAccountUsername, hashedPassword);
             res.status(200).json({message:'Account creation: Success!'});
         }catch(error) {
@@ -75,7 +75,8 @@ const accountController = {
     accountLogin: async(req: Request<{}, {}, AccountCreateType>, res: Response, next: NextFunction) => {
         try {
             const { username, password } = req.body;
-            const getAccount = await accountModel.accountLogin(username);
+            const usernameLower = username.toLowerCase()
+            const getAccount = await accountModel.accountLogin(usernameLower);
 
             if(!getAccount) return res.status(401).json({message: 'invalid credentials'});
 
