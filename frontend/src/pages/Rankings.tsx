@@ -41,8 +41,13 @@ const Rankings = () => {
         setDefSubstatsRankings(defSubstatsRankingsData);
     }
 
+    //clicking on character in rankings takes you to their public profile
+    const goToCharacterPage = (characterId: number) => {
+        navigate(`/rankings/characters/${characterId}`);
+    }
+
     const topThreeRankingsDiv = (characterArray: CharacterDataForRankings[] | null, category: string) => {
-        if(!characterArray) return <div>Loading...</div>;
+        if(!characterArray) return <div className='text-four w-fit p-1 bg-slate-400 rounded-lg mx-auto animate-pulse'>Loading...</div>;
         
         return (
             <div id={category + '-top-three'} className='flex m-1 flex-col outline outline-3 outline-three pt-1'>
@@ -55,12 +60,12 @@ const Rankings = () => {
                     </svg>
                 </div>
                 <div id='top3-totalsubstats' className='flex flex-col'>
-                    <div className='mx-auto'>
+                    <div className='mx-auto' onClick={() => goToCharacterPage(characterArray[0].id)}>
                         {characterArray[0].characterName}
                     </div>
                     <div className='flex justify-evenly text-center'>
-                        <div className='w-24'>{characterArray[1].characterName}</div>
-                        <div className='w-24'>{characterArray[2].characterName}</div>
+                        <div className='w-24' onClick={() => goToCharacterPage(characterArray[1].id)}>{characterArray[1].characterName}</div>
+                        <div className='w-24' onClick={() => goToCharacterPage(characterArray[2].id)}>{characterArray[2].characterName}</div>
                     </div>
                 </div>
             </div>
@@ -75,14 +80,14 @@ const Rankings = () => {
     }
 
     const topTenRankingsDiv = (characterArray: CharacterDataForRankings[] | null, category: string) => {
-        if(!characterArray || characterArray.length < 3) return <div>Loading...</div>;
+        if(!characterArray || characterArray.length < 3) return <div className='m-3 text-four w-fit p-1 bg-slate-400 rounded-lg mx-auto animate-pulse'>Loading...</div>;
 
         const getFourThroughTen = (characterArray: CharacterDataForRankings[]) => {
             const copyOfCharacters = [...characterArray];
             const fourThroughTenCharacters = copyOfCharacters.slice(3);
             
             return fourThroughTenCharacters.map((character, index) => 
-                <div className='ml-1'>{index + 3}. {character.characterName}</div>
+                <div key={index} className='ml-1' onClick={() => goToCharacterPage(character.id)}>{index + 3}. {character.characterName}</div>
             )
         }
 
