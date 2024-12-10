@@ -41,5 +41,8 @@
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "*"
-  }
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }
