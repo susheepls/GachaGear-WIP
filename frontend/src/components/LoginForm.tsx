@@ -38,20 +38,20 @@ const LoginForm: React.FC<Props> = (props) => {
 
     return (
         <div>
-            <form className='flex flex-col mt-3' onSubmit={handleSubmit}>
-                <div className='flex w-2/3 mx-auto'>   
-                    <label className='p-1'>
+            <form className='flex flex-col mt-10' onSubmit={handleSubmit}>
+                <div className='flex justify-center'> 
+                    <label className='absolute left-[10%]'>
                         User: 
-                        <input className='focus:outline focus:outline-1 outline outline-1 outline-three text-opacity-100 rounded-md ml-1 lowercase' name='username' type='text' value={formData.username} onChange={handleChange} required/>
                     </label> 
+                        <input className='focus:outline focus:outline-1 outline outline-1 outline-three text-opacity-100 rounded-md ml-1 lowercase' name='username' type='text' value={formData.username} onChange={handleChange} required/>
                 </div>
-                <div className='flex w-2/3 mx-auto'>
-                    <label className='p-1'>
+                <div className='flex mx-auto mt-3'>
+                    <label className='absolute left-[10%]'>
                         Pass:
-                        <input className='focus:outline focus:outline-1 ml-1 outline outline-1 outline-three text-opacity-100 rounded-md' name='password' type='password' value={formData.password} onChange={handleChange} required/>
                     </label>
+                    <input className='focus:outline focus:outline-1 ml-1 outline outline-1 outline-three text-opacity-100 rounded-md' name='password' type='password' value={formData.password} onChange={handleChange} required/>
                 </div>
-                <div className='mx-auto mb-2 text-center outline outline-1 rounded-md w-16 bg-three text-four active:bg-two'>
+                <div className='mx-auto mt-5 mb-2 text-center outline outline-1 rounded-md w-16 bg-three text-four active:bg-two'>
                     <button className='p-1' type='submit'>Log In</button>
                 </div>
             </form>

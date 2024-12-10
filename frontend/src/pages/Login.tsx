@@ -27,6 +27,9 @@ const Login = () => {
     <div>
       { !isCreatingAcc ? (
         <>
+          <div className='w-56 p-1 mx-auto text-one border-b-2 border-one mt-3 text-center'>
+            Login
+          </div>
           <LoginForm
             setLoginMessage = {setLoginMessage}
             setUsername = {setUsername}
@@ -42,6 +45,9 @@ const Login = () => {
         </>
        ) : (
         <>
+          <div className='w-56 p-1 mx-auto text-one border-b-2 border-one mt-3 text-center'>
+            Creating your new account!
+          </div>
           <CreateNewAccForm
             setIsCreatingAcc = {setIsCreatingAcc}
             setLoginMessage = {setLoginMessage}
