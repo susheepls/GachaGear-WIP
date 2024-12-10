@@ -87,7 +87,7 @@ const Rankings = () => {
             const fourThroughTenCharacters = copyOfCharacters.slice(3);
             
             return fourThroughTenCharacters.map((character, index) => 
-                <div key={index} className='ml-1' onClick={() => goToCharacterPage(character.id)}>{index + 3}. {character.characterName}</div>
+                <div key={index} className='ml-1' onClick={() => goToCharacterPage(character.id)}>{index + 4}. {character.characterName}</div>
             )
         }
 
