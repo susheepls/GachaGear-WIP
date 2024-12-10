@@ -233,7 +233,7 @@ const characterModel = {
         .filter(character => character.substatsTotal > 0)
         .sort((a, b) => b.substatsTotal - a.substatsTotal );
 
-        return allCharactersRankWithTotals.slice(0, 11);
+        return allCharactersRankWithTotals.slice(0, 10);
     },
     getSpecificRankingTotalStats: async(characterId: number) => {
         const allCharactersRank = await prisma.character.findMany({
@@ -391,7 +391,7 @@ const characterModel = {
         .filter(character => character.substatsTotal > 0)
         .sort((a, b) => b.substatsTotal - a.substatsTotal );
 
-        return allCharactersRankWithTotals.slice(0, 11);
+        return allCharactersRankWithTotals.slice(0, 10);
     },
     getSpecificCharacterRankingDesiredSubstats: async(characterId: number, substatType: string) => {
         const allCharactersRank = await prisma.character.findMany({
