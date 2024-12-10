@@ -37,7 +37,7 @@ const SearchRankings:React.FC<Props> = (props) => {
     }
 
     return (
-        <div className='flex flex-col mx-auto outline outline-1 rounded-md px-1 mt-auto mb-1'>
+        <div className='flex flex-col mx-auto outline outline-1 rounded-md px-1 mt-1 mb-2'>
             <div>
                 Search Character by Name
             </div>

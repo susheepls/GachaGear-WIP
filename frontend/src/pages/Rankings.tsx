@@ -78,9 +78,12 @@ const Rankings = () => {
         if(!characterArray || characterArray.length < 3) return <div>Loading...</div>;
 
         const getFourThroughTen = (characterArray: CharacterDataForRankings[]) => {
-            for(let i = 3; i < 10 || i < characterArray.length ; i++ ) {
-                return <div className='pl-2'>{i}. {characterArray[i].characterName}</div>
-            }
+            const copyOfCharacters = [...characterArray];
+            const fourThroughTenCharacters = copyOfCharacters.slice(3);
+            
+            return fourThroughTenCharacters.map((character, index) => 
+                <div className='ml-1'>{index + 3}. {character.characterName}</div>
+            )
         }
 
         return (
@@ -195,7 +198,7 @@ const Rankings = () => {
     }
 
     return (
-        <div className='flex flex-col bg-four h-screen text-one'>
+        <div className='flex flex-col bg-four h-fit text-one'>
             {topThreeRankingsDiv(allSubstatsRankings, 'Total Substats')}
             {topTenRankingsDiv(allSubstatsRankings, 'Total Substats')}
             
