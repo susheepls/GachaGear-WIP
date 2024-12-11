@@ -1,4 +1,4 @@
-import { allTotalSubstatsRankingsData } from "../interface/rankingTypes";
+import { AccountRankingsForCurrencyRes, allTotalSubstatsRankingsData } from "../interface/rankingTypes";
 
 const endpoint = import.meta.env.VITE_endpoint;
 
@@ -52,6 +52,24 @@ export const getAllSubstatsTypeRankings = async(substatType: string) => {
         });
         return rankingsData;
 
+
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+export const getAllAccountCurrencyRankings = async() => {
+    try {
+        const accountCurrencyRankingsReq = await fetch(endpoint + `accounts/rankings/currency`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const accountCurrencyRankingsData: AccountRankingsForCurrencyRes = await accountCurrencyRankingsReq.json();
+
+        return accountCurrencyRankingsData.result;
 
     } catch(error) {
         console.error(error);
