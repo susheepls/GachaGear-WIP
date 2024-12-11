@@ -87,13 +87,20 @@ const Rankings = () => {
             const fourThroughTenCharacters = copyOfCharacters.slice(3);
             
             return fourThroughTenCharacters.map((character, index) => 
-                <div key={index} className='ml-1' onClick={() => goToCharacterPage(character.id)}>{index + 4}. {character.characterName}</div>
+                <div key={index} className='flex justify-center'>
+                    <div className='absolute left-[30%] w-5'>
+                        {index+4}.
+                    </div>
+                    <div onClick={() => goToCharacterPage(character.id)}>
+                        {character.characterName}
+                    </div>
+                </div>
             )
         }
 
         return (
             <div id={category + '-top-ten'} className='flex flex-col m-1 mb-4 outline outline-1 outline-three'>
-                <div className='mx-auto'>
+                <div className='mx-auto border-b-2 border-b-one'>
                     Top 10
                 </div>
                 {getFourThroughTen(characterArray)}
