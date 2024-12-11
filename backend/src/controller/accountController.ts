@@ -201,6 +201,34 @@ const accountController = {
         } catch(error) {
             next(error);
         }
+    },
+    totalRankingsofMostCurrency: async(req: Request, res: Response, next: NextFunction) => {
+        try{
+            const topTenMostCurrencyAccounts = await accountModel.totalRankingsofMostCurrency();
+
+            if(topTenMostCurrencyAccounts.length < 1) return res.status(404).json({ message: 'No Account Currency is Greater Than 1000' });
+
+            return res.status(200).json({ result: topTenMostCurrencyAccounts});
+
+        } catch(error) {
+            next(error);
+        }
+    },
+    //protected route to make sure no one else can see account ranking if not on ranking page
+    individualCurrencyRanking: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try {
+            const accountId = Number((req.user as CustomJwtPayload).id);
+            
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+            if(Number(req.params.accountid) !== accountId) return res.status(401).json({ message: 'Unauthorized' });
+
+            const rankingNumberOfCurrency = await accountModel.individualCurrencyRanking(accountId);
+
+            return res.status(200).json({ result: rankingNumberOfCurrency });
+
+        } catch(error) {
+            next(error);
+        }
     }
 }
 

@@ -60,13 +60,18 @@ router.patch('/:username/characters/unequip/:id', authenticateToken, characterCo
 router.get('/:username/characters/items/:characterid', authenticateToken, characterController.searchCharacterWithItem);
 
 //ranking routes
-router.get('/characters/rankings/totalsubstats', characterController.getAllTotalStatsRanking);
 //find by character name
 router.get('/characters/rankings/search/:charactername', characterController.searchCharacterByName);
 //totalsubstats detail when checking rankings
 router.get('/characters/rankings/details/:characterid', characterController.searchedCharacterDetails);
+//rankings of total substats
+router.get('/characters/rankings/totalsubstats', characterController.getAllTotalStatsRanking);
 //character ranking SUBSTATS TOTAL
 router.get('/characters/rankings/totalsubstats/:characterid', characterController.getSpecificRankingTotalStats);
+//user rankings of most currency
+router.get('/accounts/rankings/currency', accountController.totalRankingsofMostCurrency);
+//individual account ranking of most currency
+router.get('/accounts/rankings/currency/:accountid', authenticateToken, accountController.individualCurrencyRanking);
 //ranking with desired substats as param
 router.get('/characters/rankings/:substattype', characterController.getAllStatsRankings);
 //character ranking DESIRED SUBSTAT

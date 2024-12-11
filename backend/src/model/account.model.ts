@@ -151,6 +151,32 @@ const accountModel = {
             }
         });
         return upsertAccountLastOpenTime.last_box_open;
+    },
+    totalRankingsofMostCurrency: async() => {
+        const allAccountCurrencies = await prisma.account.findMany({
+            select: {
+                username: true,
+                currency: true,
+            }
+        });
+
+        const qualifyingAccounts = allAccountCurrencies.filter((account) => account.currency > 1000);
+        qualifyingAccounts.sort((a, b) => b.currency - a.currency);
+
+        return qualifyingAccounts.slice(0, 10);
+    },
+    individualCurrencyRanking: async(accountId: number) => {
+        const allAccountCurrencies = await prisma.account.findMany({
+            select: {
+                id: true,
+                username: true,
+                currency: true,
+            }
+        });
+
+        const sortedCurrencyRankingsOfAllAccounts = allAccountCurrencies.sort((a, b) => b.currency - a.currency);
+        const accountRanking = sortedCurrencyRankingsOfAllAccounts.findIndex(account => account.id === accountId);
+        return accountRanking;
     }
 }
 

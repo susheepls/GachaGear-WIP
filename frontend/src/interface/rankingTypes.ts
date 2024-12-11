@@ -20,3 +20,16 @@ export interface RankSubstats {
     substatType: { name: string },
     value: number
 }
+
+export interface AccountRankingsForCurrencyRes {
+    result: AccountCurrencyRankingIndividual[]
+}
+
+export interface AccountCurrencyRankingIndividual {
+    username: string,
+    currency: number
+}
+
+export interface IndividualCurrencyRanking {
+    result: number
+}
