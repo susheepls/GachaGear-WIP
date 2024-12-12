@@ -92,6 +92,7 @@ const InventoryModel = {
                 id: createItemTableEntry.id
             },
             select: {
+                id: true,
                 name: {
                     select: {
                         name: true
