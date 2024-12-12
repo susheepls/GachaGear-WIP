@@ -155,19 +155,37 @@ const Inventory = () => {
         if(!items) return;
         if(!displayItems) return;
         return displayItems.map((item, index) => 
-            <div key={index} className='w-[calc(100vw/5)] h-24 py-2 outline outline-three rounded-lg m-2'>
-                <div id={`${index}`} className='flex' onClick={(event) => handleVisibility(event)}>
+            <div key={index} className='w-[calc(100vw/3)] h-28 py-2 outline outline-three rounded-lg m-2'>
+                <div id={`${index}`} className='' onClick={(event) => handleVisibility(event)}>
                     <div className='flex flex-col'>
-                        <div className='px-1'>
-                            {item.name.name}
+                        <div className='flex'>
+                            <div className='flex flex-col'>
+                                <div className='px-1'>
+                                    {item.name.name}
+                                </div>
+                                <div className='px-1'>
+                                    Level: {expToLevelConverter(item.exp)}
+                                </div>
+                            </div>
+                            <svg className='w-4 h-4 ml-auto'>
+                                <image xlinkHref={svgChooser(item.name.name)}></image>
+                            </svg>
                         </div>
-                        <div className='px-1'>
-                            Level: {expToLevelConverter(item.exp)}
+                        <div id={index + 'item-substats'}>
+                            <div className='flex justify-around'>
+                                {item.substats.map((substat) => 
+                                    <div className='flex flex-col'>
+                                        <div className='w-fit bg-two text-four p-0.5 rounded-md mx-auto'>
+                                            {substat.substatType.name}
+                                        </div>
+                                        <div className='w-fit mx-auto'>
+                                            {substat.value}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
-                    <svg className='w-4 h-4 ml-auto'>
-                        <image xlinkHref={svgChooser(item.name.name)}></image>
-                    </svg>
                 </div>
                 <div id={`substats${index}`} className='bg-one z-50'>
                     <div id={`substats-window-${index}`} className='hidden fixed top-0 left-0 justify-center z-50 bg-pink-200 bg-opacity-70 w-full max-h-full h-full'>
@@ -304,7 +322,7 @@ const Inventory = () => {
     return (
         // height is wonky because i had to subtract the navbar height; full screen h - navbar height
         <div className='flex flex-col h-[calc(100vh-32px)] bg-four'>
-            <div className='flex flex-wrap justify-start flex-grow overflow-y-scroll py-1 max-h-[99%]'>
+            <div className='flex flex-wrap justify-evenly flex-grow overflow-y-scroll py-1 max-h-[99%]'>
                 {allItemNamesDiv()}
             </div>
             { sellAmount && 

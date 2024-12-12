@@ -81,7 +81,7 @@ const Characters = () => {
                 <div id={`character${character.id}-select-overlay`}>
                     {isCharacterSelected === character.id && (
                         <div className='absolute top-0 left-0 flex justify-center bg-pink-300 bg-opacity-70 z-50 w-full h-full'>
-                            <div className='bg-white mt-28 mb-2 mx-2 rounded shadow-lg w-full h-1/2 flex flex-col'>
+                            <div className='bg-white h-fit mt-28 mb-2 mx-2 rounded shadow-lg w-full flex flex-col'>
                                 <div className='w-fit p-1 mt-2 font-medium mx-auto border-b-2 border-one'>
                                     {character.characterName}
                                 </div>
@@ -111,10 +111,10 @@ const Characters = () => {
                                         ))
                                     )}
                                 </div>
-                                <div className='mt-5 w-fit p-1 mx-auto bg-three text-four rounded-md'>
+                                <div className='mt-3 w-fit p-1 mx-auto bg-three text-four rounded-md'>
                                     <button onClick={() => navigateToCharacterPage(character.id)}>Equip Gear</button>
                                 </div>
-                                <div className='mt-auto mb-1 w-fit p-1 px-2 mx-auto bg-five rounded-md text-four'>
+                                <div className='mt-5 mb-1 w-fit p-1 px-2 mx-auto bg-five rounded-md text-four'>
                                     <button onClick={() => setIsCharacterSelected(null)}>Exit</button>
                                 </div>
                             </div>

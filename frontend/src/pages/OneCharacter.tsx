@@ -84,10 +84,14 @@ const OneCharacter = () => {
         setActiveForm((prev) => (prev === itemType ? null : itemType));
     };
 
+    const toEnhancePage = (itemId: number) => {
+        navigate(`/${userInfo?.username}/inventory/${itemId}`);
+    }
+
     const itemStatDivMaker = (item: Item) => {
         if(!item) return;
         return (
-            <div id={`${item.name.name}-info`} key={item.id} className='flex-col w-36 outline outline-1 my-2'>
+            <div id={`${item.name.name}-info`} key={item.id} className='flex-col w-36 h-fit outline outline-1 rounded-md outline-two my-2'>
                 <div className='text-center'>
                     Level {expToLevelConverter(item.exp)}
                 </div>
@@ -117,18 +121,23 @@ const OneCharacter = () => {
                         </div>
                     </div>
                 </div>
+                <div>
+                    <div className='w-fit p-0.5 bg-two text-four rounded-md mx-auto mb-1' onClick={() => toEnhancePage(item.id)}>
+                        Enhance
+                    </div>
+                </div>
             </div>
         )
     }
 
     return (
-        <div className='flex flex-col py-3 h-full'>
+        <div className='flex flex-col py-3 h-full bg-four'>
             <div className='w-fit mx-auto p-1 rounded-sm border-b-2 border-b-one font-bold'>
                 {characterData?.characterName}
             </div>
             {["hat", "armor", "sword"].map((itemType, index) => (
-                <div key={itemType} className="flex flex-col relative">
-                    <div id={itemType} className="flex justify-between h-28">
+                <div key={itemType} className="flex flex-col">
+                    <div id={itemType} className="flex justify-between h-fit">
                         <div className='w-12 my-auto'>
                             <div className='w-fit mx-auto'>
                                 {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
@@ -172,7 +181,7 @@ const OneCharacter = () => {
                     </div>
                 </div>
             ))}
-            <div id='character-totals' className='flex flex-col outline outline-1 outline-three mt-3 mx-1'>
+            <div id='character-totals' className='flex flex-col outline outline-1 outline-three mx-1'>
                 <div className='w-fit p-1 mx-auto bg-one text-white mt-3 rounded-md mb-3'>
                     Total Stats
                 </div>
