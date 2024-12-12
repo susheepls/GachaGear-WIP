@@ -47,6 +47,10 @@ const Home = () => {
         navigate('/gettingstarted')
     }
 
+    const toGamblePage = () => {
+        navigate('/currencyBox')
+    }
+
     return (
         <div>
             {!token ? (
@@ -72,19 +76,29 @@ const Home = () => {
                     </div>
                     <div className='flex h-5 ml-10 mt-3 mb-2'>
                         <div>
-                            <button onClick={() => toTutorial()}>Get Started</button>
+                            <button onClick={() => toTutorial()}>Getting Started</button>
                         </div>
                         <svg className='w-4 h-4 my-auto ml-1 mt-1'>
                             <image href='/sprout.svg'></image>
                         </svg>
                     </div>
-                    <div className='flex h-9 ml-10'>
+                    <div className='flex h-fit ml-10'>
                         <div className='mt-1'>
-                            <button onClick={() => toAccountInventory()}>Check Inventory</button>
+                            <button onClick={() => toAccountInventory()}>My Inventory</button>
                         </div>
-                        <svg className='w-4 h-4 my-auto ml-1'>
+                        <svg className='w-4 h-4 ml-1 mt-2.5'>
                             <image href='/bag-shopping.svg'></image>
                         </svg>
+                    </div>
+                    <div className='flex h-5 ml-10 mb-3'>
+                        <div className=''>
+                            <button onClick={() => toCharacters()}>My Characters</button>
+                        </div>
+                        <div>
+                        <svg className='w-4 h-4 my-auto ml-1 mt-1.5'>
+                            <image href='/mycharacters.svg'></image>
+                        </svg>
+                        </div>
                     </div>
                     <div className='flex h-5 ml-10'>
                         <div className=''>
@@ -94,12 +108,12 @@ const Home = () => {
                             <image href='/sword.svg'></image>
                         </svg>
                     </div>
-                    <div className='flex h-5 ml-10 mt-2'>
+                    <div className='flex h-5 ml-10 mt-1 mb-2'>
                         <div className=''>
-                            <button onClick={() => toCharacters()}>My Characters</button>
+                            <button onClick={() => toGamblePage()}>Get Currency</button>
                         </div>
-                        <svg className='w-4 h-4 my-auto ml-1 mt-1.5'>
-                            <image href='/mycharacters.svg'></image>
+                        <svg className='w-4 h-4 my-auto ml-1 mt-1'>
+                            <image href='/moneybag.svg'></image>
                         </svg>
                     </div>
                     <div className='flex h-5 ml-10 mt-3'>
