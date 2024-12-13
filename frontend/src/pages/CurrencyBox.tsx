@@ -9,6 +9,7 @@ import { CurrencyDecreaseResponse, CurrencyIncreaseResponse } from '../interface
 import { useUser } from '../middleware/UserContext';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { useDebouncedCallback } from 'use-debounce';
 
 const CurrencyBox = () => {
     const [lastFreeBoxTime, setLastFreeBoxTime] = useState<Date | null>(null);
@@ -189,6 +190,9 @@ const CurrencyBox = () => {
         setIsOpeningCase(true);
     }
 
+    //make sure mulitple api calls to open currency do not go through
+    const debounceCall = useDebouncedCallback(() => openGambleCase(), 200);
+
     return (
         <div className='flex flex-col'>
             <Timer 
@@ -202,7 +206,7 @@ const CurrencyBox = () => {
                     >
                         Daily Free Currency!
                 </button>
-                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => openGambleCase()}>Gamble for Currency (50)</button>
+                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => debounceCall()}>Gamble for Currency (50)</button>
             </div>
             <div>
                 {errorMessage &&
