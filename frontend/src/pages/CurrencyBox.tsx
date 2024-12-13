@@ -140,7 +140,7 @@ const CurrencyBox = () => {
     }
 
     const checkIfCanOpen = () => {
-        if(timerComplete) {
+        if(timerComplete && !isOpeningCase) {
             setErrorMessage(null);
             updateLastFreeBoxTime();
             setIsOpeningCase(true);
