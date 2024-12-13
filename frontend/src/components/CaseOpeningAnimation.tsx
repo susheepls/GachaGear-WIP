@@ -1,5 +1,7 @@
 import { SetStateAction, useEffect, useMemo, useRef } from 'react';
 import gsap from 'gsap';
+import Chooser from 'random-seed-weighted-chooser';
+import { ChosenCurrencyCasePool } from '../interface/CaseTypes';
 
 interface Props {
     setWinningAmount: React.Dispatch<SetStateAction<string | null>>
@@ -11,9 +13,24 @@ const items = [
     '60 Currency', '70 Currency', '70 Currency', '50 Currency', '150 Currency',
 ];
 
+const items2 = [
+    '20 Currency', '20 Currency', '20 Currency', '20 Currency', '20 Currency', 
+    '20 Currency', '20 Currency', '20 Currency', '20 Currency', '1000 Currency',
+];
+
+const weightedArrayChooser = () => {
+    const weightedArrays = [
+        { value: items, weight: 9},
+        { value: items2, weight: 1}
+    ]
+    const chosenArray = Chooser.chooseWeightedObject(weightedArrays) as ChosenCurrencyCasePool;
+    return chosenArray.value;
+}
+
 const CaseOpeningAnimation: React.FC<Props> = (props) => {
     const itemsContainerRef = useRef(null);
-    const displayItems = useMemo(() => shuffleArray([...items,...items,...items]), []);
+    const chosenCurrencyPool = weightedArrayChooser();
+    const displayItems = useMemo(() => shuffleArray([...chosenCurrencyPool,...chosenCurrencyPool,...chosenCurrencyPool]), []);
     
     useEffect(() => {
         const container = itemsContainerRef.current;
