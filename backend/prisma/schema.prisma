@@ -43,6 +43,7 @@ model ItemName {
   id Int @id @default(autoincrement())
   name String @unique
   item Inventory[]
+  skin ItemSkin[]
 }
 
 model ItemSubstats {
@@ -72,4 +73,25 @@ model Character {
   ownerId Int?
 
   equipment Inventory[]
+
+  skins ItemSkin[]
+}
+
+model ItemSkin {
+  id Int @id @default(autoincrement())
+  name String @unique
+
+  rarity SkinRarity? @relation(fields: [rarityId], references: [id])
+  rarityId Int?
+
+  itemName ItemName? @relation(fields: [itemNameId], references: [id])
+  itemNameId Int?
+
+  character Character[]
+}
+
+model SkinRarity {
+  id Int @id @default(autoincrement())
+  name String @unique
+  itemSkin ItemSkin[]
 }
