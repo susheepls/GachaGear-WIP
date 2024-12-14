@@ -79,7 +79,24 @@ const characterModel = {
                         },
                         characterId: true,
                     }
-                }
+                },
+                skins: {
+                    select: {
+                        id: true,
+                        rarity: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        },
+                        itemName: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        name: true,
+                    }
+                },
             }
         })
     },
@@ -322,7 +339,24 @@ const characterModel = {
                             }
                         }
                     }
-                }
+                },
+                skins: {
+                    select: {
+                        id: true,
+                        rarity: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        },
+                        itemName: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        name: true,
+                    }
+                },
             }
         });
 

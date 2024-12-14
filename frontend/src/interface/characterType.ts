@@ -17,7 +17,15 @@ export interface CharacterData {
 export interface Character {
     id: number,
     characterName: string,
-    equipment: Item[]
+    equipment: Item[],
+    skins: Skins[]
+}
+
+export interface Skins {
+    id: number,
+    name: string,
+    rarity: { id: number, name: string },
+    itemName: { id: string, name: string }
 }
 
 export interface AddGearToCharacterReq {
