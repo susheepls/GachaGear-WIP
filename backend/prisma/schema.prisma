@@ -22,6 +22,7 @@ model Account {
   last_box_open DateTime? @db.Timestamp(0)
   items Inventory[]
   characters Character[]
+  skins ItemSkin[]
 }
 
 model Inventory {
@@ -79,13 +80,16 @@ model Character {
 
 model ItemSkin {
   id Int @id @default(autoincrement())
-  name String @unique
+  name String
 
   rarity SkinRarity? @relation(fields: [rarityId], references: [id])
   rarityId Int?
 
   itemName ItemName? @relation(fields: [itemNameId], references: [id])
   itemNameId Int?
+
+  owner Account? @relation(fields: [ownerId], references: [id])
+  ownerId Int?
 
   character Character[]
 }
