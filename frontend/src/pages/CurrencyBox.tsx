@@ -10,6 +10,8 @@ import { useUser } from '../middleware/UserContext';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useDebouncedCallback } from 'use-debounce';
+import SkinOpeningAnimation from '../components/SkinOpeningAnimation';
+import { SkinCaseData } from '../interface/CaseTypes';
 
 const CurrencyBox = () => {
     const [lastFreeBoxTime, setLastFreeBoxTime] = useState<Date | null>(null);
@@ -20,6 +22,9 @@ const CurrencyBox = () => {
     const [currency, setCurrency] = useState<number | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    const [isOpeningSkinCase, setIsOpeningSkinCase] = useState<boolean>(false);
+    const [skinWon, setSkinWon] = useState<SkinCaseData | null>(null);
 
     const token = Cookies.get('token');
     const navigate = useNavigate();
@@ -97,6 +102,10 @@ const CurrencyBox = () => {
     useEffect(() => {
         setWinningAmount(null);
     }, [isOpeningCase]);
+    //reset won skin after rolling is done
+    useEffect(() => {
+        setSkinWon(null);
+    }, [isOpeningSkinCase]);
 
     //fetch user currency
     useEffect(() => {
@@ -147,9 +156,9 @@ const CurrencyBox = () => {
         }
     }
 
-    // const testAnimation = () => {
-    //     !isOpeningCase ? setIsOpeningCase(true) : setIsOpeningCase(false)
-    // }
+    const testAnimation = () => {
+        !isOpeningSkinCase ? setIsOpeningSkinCase(true) : setIsOpeningSkinCase(false)
+    }
 
     //enable button if ready
     const enableFreeDailyBoxButton = () => {
@@ -215,14 +224,22 @@ const CurrencyBox = () => {
                     </div>
                 }
             </div>
-            {/* <div>
+            <div>
                 <button onClick={() => testAnimation()}>Test animation</button>
-            </div> */}
+            </div>
             {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
+            {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
             <div className='text-center'>
                 {winningAmount && 
                     <div id='winning-amount' className='m-2 w-fit p-1 mx-auto bg-five text-four rounded-lg'>
                         You won {winningAmount}!
+                    </div>
+                }
+            </div>
+            <div className='text-center'>
+                {skinWon && 
+                    <div id='winning-amount' className='m-2 w-fit p-1 mx-auto bg-five text-four rounded-lg'>
+                        You won {skinWon.name}!
                     </div>
                 }
             </div>
