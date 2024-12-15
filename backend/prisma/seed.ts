@@ -102,50 +102,55 @@ async function main() {
     //skins
     const poopSkin1 = await prisma.itemSkin.upsert({
         where: {
-            name: 'poop1'
+            id: 1
         },
         update: {},
         create: {
+            id: 1,
             name: 'poop1',
             rarityId: 1
         }
     });
     const poopSkin2 = await prisma.itemSkin.upsert({
         where: {
-            name: 'poop2'
+            id: 2
         },
         update: {},
         create: {
+            id: 2,
             name: 'poop2',
             rarityId: 1
         }
     });
     const blueSteelSkin = await prisma.itemSkin.upsert({
         where: {
-            name: 'blueSteel0' //0 means no variants
+            id: 3
         },
         update: {},
         create: {
-            name: 'blueSteel0',
+            id: 3,
+            name: 'blueSteel0', //0 means no variants
             rarityId: 2
         }
     });
     const galaxySkin1 = await prisma.itemSkin.upsert({
         where: {
-            name: 'galaxy1'
+            id: 4
         },
         update: {},
         create: {
+            id: 4,
             name: 'galaxy1',
             rarityId: 3
         }
     })
     const galaxySkin2 = await prisma.itemSkin.upsert({
         where: {
-            name: 'galaxy2'
+            id: 5,
         },
         update: {},
         create: {
+            id: 5,
             name: 'galaxy2',
             rarityId: 3
         }
