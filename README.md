@@ -72,7 +72,7 @@ more currency and skins.
 ### Searching Character
 ![Searching Character](./public/demo/searchcharacterdemogif.gif)
 
-## Challenges
+## 🚧 Challenges
 Throughout this project, I encountered several challenges that helped me grow:
 
 ### 1. Docker Setup
