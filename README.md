@@ -79,7 +79,7 @@ Throughout this project, I encountered several challenges that helped me grow:
 This was my first time utilizing Docker, and getting started was a steep learning curve. Understanding key concepts like containers, volumes, and how to use commands such as docker compose build took time. Initially, making sure that both frontend and backend servers ran with the correct configs was tricky. However, with guidance from a fellow software engineer and extensive research, I grasped the basics and began to appreciate how powerful Docker is for consistent environment setup and collaboration. This experience has solidified my confidence in using Docker for future projects.
 
 ### 2. Deployment on DigitalOcean
-Deploying on a platform I had never used before presented its own set of challenges. My deployment failed multiple times due to overlooked dependencies, particularly for Vite/React in production. I learned the importance of understanding specific needs for production and ensuring that all environments are fully tested.
+Deploying on a platform I had never used before presented its own set of challenges. I learned the importance of understanding specific needs for production and ensuring that all environments are fully tested.
 
 Additionally, setting up a personal domain for the first time required trial and error, as well as a lot of research. While I initially struggled with DNS configurations and server deployment, it paid off, and I successfully launched the app with my custom domain.
 
