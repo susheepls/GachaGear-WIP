@@ -156,9 +156,9 @@ const CurrencyBox = () => {
         }
     }
 
-    const testAnimation = () => {
-        !isOpeningSkinCase ? setIsOpeningSkinCase(true) : setIsOpeningSkinCase(false)
-    }
+    // const testAnimation = () => {
+    //     !isOpeningSkinCase ? setIsOpeningSkinCase(true) : setIsOpeningSkinCase(false)
+    // }
 
     //enable button if ready
     const enableFreeDailyBoxButton = () => {
@@ -224,9 +224,9 @@ const CurrencyBox = () => {
                     </div>
                 }
             </div>
-            <div>
+            {/* <div>
                 <button onClick={() => testAnimation()}>Test animation</button>
-            </div>
+            </div> */}
             {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
             {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
             <div className='text-center'>
