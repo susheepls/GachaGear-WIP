@@ -115,14 +115,18 @@ const CurrencyBox = () => {
     //disable pay-box-button if animation is playing
     useEffect(() => {
         const paidBoxButton = document.getElementById('pay-box-button');
-        
+        const skinOpenButton = document.getElementById('skin-open-button');
         if(!paidBoxButton) return;
-        if(isOpeningCase) {
+        if(!skinOpenButton) return;
+
+        if(isOpeningCase || isOpeningSkinCase) {
             paidBoxButton.toggleAttribute('disabled');
+            skinOpenButton.toggleAttribute('disabled');
         } else {
             paidBoxButton.removeAttribute('disabled');
+            skinOpenButton.removeAttribute('disabled');
         }
-    }, [isOpeningCase]);
+    }, [isOpeningCase, isOpeningSkinCase]);
 
     const fetchLastFreeBoxTime = async() => {
         if(!username) return;
@@ -156,9 +160,9 @@ const CurrencyBox = () => {
         }
     }
 
-    // const testAnimation = () => {
-    //     !isOpeningSkinCase ? setIsOpeningSkinCase(true) : setIsOpeningSkinCase(false)
-    // }
+    const testAnimation = () => {
+        !isOpeningSkinCase ? setIsOpeningSkinCase(true) : setIsOpeningSkinCase(false)
+    }
 
     //enable button if ready
     const enableFreeDailyBoxButton = () => {
@@ -199,6 +203,27 @@ const CurrencyBox = () => {
         setIsOpeningCase(true);
     }
 
+    const openSkinCase = async() => {
+        setErrorMessage(null);
+        if(currency && currency < 200) {
+            setErrorMessage('Not Enough Currency!');
+            return;
+        }
+        if(!username) return;
+        const currencyDecrease: CurrencyDecreaseResponse = await CurrencyApi.decreaseAccountCurrency(username, { decreaseAmount: 200 });
+        setCurrency(currencyDecrease.result.currency);
+        setIsOpeningSkinCase(true);
+    }
+
+    function rarityFromcolor(rarity: string) {
+        const rarityColors: { [key:string]: string } = {
+            'common': 'bg-green-200',
+            'rare': 'bg-blue-200',
+            'epic': 'bg-purple-600',
+        };
+        return rarityColors[rarity] || 'bg-yellow-400'
+    }
+
     //make sure mulitple api calls to open currency do not go through
     const debounceCall = useDebouncedCallback(() => openGambleCase(), 200);
 
@@ -209,7 +234,8 @@ const CurrencyBox = () => {
                 setTimerComplete={setTimerComplete}
                 timerComplete={timerComplete}
             />
-            <div className='flex flex-col text-four mt-6'>
+            <div className='flex flex-col text-four mt-2'>
+                <div className='text-one text-center w-24 p-1 mx-auto border-b-2 border-b-one'>Currency</div>
                 <button id='free-daily-box-button' onClick={() => checkIfCanOpen()}
                     className='disabled:line-through disabled:bg-one p-1 bg-two w-fit mx-auto mt-2 rounded-lg active:bg-five'
                     >
@@ -217,18 +243,7 @@ const CurrencyBox = () => {
                 </button>
                 <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => debounceCall()}>Gamble for Currency (50)</button>
             </div>
-            <div>
-                {errorMessage &&
-                    <div className='w-fit mx-auto bg-one text-four p-1 rounded-lg'>
-                        {errorMessage}
-                    </div>
-                }
-            </div>
-            {/* <div>
-                <button onClick={() => testAnimation()}>Test animation</button>
-            </div> */}
             {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
-            {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
             <div className='text-center'>
                 {winningAmount && 
                     <div id='winning-amount' className='m-2 w-fit p-1 mx-auto bg-five text-four rounded-lg'>
@@ -236,10 +251,35 @@ const CurrencyBox = () => {
                     </div>
                 }
             </div>
+
+            <div id='skin-gamble-divs' className='mt-6'>
+                <div className='w-10 border-b-2 border-b-one mx-auto'>Skins</div>
+                <div className='w-fit h-fit mx-auto'>
+                    <img className='' src={'/caseoutline.png'}></img>
+                </div>
+            </div>
+            <div className='w-fit h-fit p-1 bg-two text-four rounded-md mx-auto active:bg-one'>
+                <button id='skin-open-button' onClick={() => testAnimation()}>Open for 200</button>
+            </div>
+            {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
             <div className='text-center'>
                 {skinWon && 
-                    <div id='winning-amount' className='m-2 w-fit p-1 mx-auto bg-five text-four rounded-lg'>
-                        You won {skinWon.name}!
+                    <div>
+                        <div className='bg-five absolute top-0 left-0 w-screen h-screen z-50 flex justify-center bg-opacity-50'>
+                            <div className='bg-four w-2/3 h-1/2 my-auto flex flex-col rounded-md'>
+                                <div className='mt-5'>
+                                    You won the {skinWon.name.substring(0, skinWon.name.length - 1)} skin!
+                                </div>
+                                <div className={`mt-2 p-1 text-four ${rarityFromcolor(skinWon.rarity.name)} w-fit rounded-md mx-auto`} >{skinWon.rarity.name}</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div>
+                {errorMessage &&
+                    <div className='w-fit mx-auto bg-one text-four p-1 rounded-lg'>
+                        {errorMessage}
                     </div>
                 }
             </div>
