@@ -22,6 +22,7 @@ const CurrencyBox = () => {
     const [currency, setCurrency] = useState<number | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isViewingSkins, setIsViewingSkins] = useState<boolean>(false);
 
     const [isOpeningSkinCase, setIsOpeningSkinCase] = useState<boolean>(false);
     const [skinWon, setSkinWon] = useState<SkinCaseData | null>(null);
@@ -234,6 +235,22 @@ const CurrencyBox = () => {
         }
     }
 
+    function viewAvailableSkins() {
+        !isViewingSkins ? setIsViewingSkins(true) : setIsViewingSkins(false);
+    }
+    //this has to updated or changed each time i add or change the skin collection; use split to get rarity and pattern name
+    const case1PatternList = [
+        'poop common', 'blueSteel rare', 'galaxy epic'
+    ]
+    function patternImgSource(patternName: string) {
+        const pattern = patternName.split(' ')[0];
+        if(pattern !== 'galaxy') {
+            return `/skins/patterns/${pattern}.png`;
+        } else {
+            return `/skins/patterns/${pattern}.gif`;
+        }
+    }
+
     //make sure mulitple api calls to open currency do not go through
     const debounceCallCurrency = useDebouncedCallback(() => openGambleCase(), 200);
     const debounceCallSkins = useDebouncedCallback(() => openSkinCase(), 200);
@@ -265,18 +282,52 @@ const CurrencyBox = () => {
 
             <div id='skin-gamble-divs' className='mt-6'>
                 <div className='w-10 border-b-2 border-b-one mx-auto'>Skins</div>
+                <div className='text-sm text-center'>Click case to view available skins</div>
                 <div className='w-fit h-fit mx-auto'>
                     {isOpeningSkinCase ? (
                         <div>
                             <img src='/openedcase.png'></img>
                         </div>
                     ) : (
-                        <div>
+                        <div onClick={() => viewAvailableSkins()}>
                             <img className='' src={'/caseoutline.png'}></img>
                         </div>
                     )}
                 </div>
             </div>
+
+            <div id='skin-viewer'>
+                    {isViewingSkins && 
+                    <div className='bg-five absolute top-0 left-0 w-screen h-screen z-50 flex justify-center bg-opacity-50'>
+                        <div className='bg-four w-3/4 h-3/4 my-4 flex flex-col rounded-md'>
+                            <div className='w-fit mx-auto border-b-2 border-b-one mt-3'>
+                                Available Patterns
+                            </div>
+                            <div className='flex flex-col'>
+                                {case1PatternList.map((pattern) => 
+                                <div className='flex m-4 overflow-scroll justify-evenly'>
+                                    <div className='w-20 h-fit my-auto m-4'>
+                                        <div className={`rounded-md p-1 text-center mx-auto w-20 ${rarityFromcolor(pattern.split(' ')[1])} `}>
+                                            {pattern.split(' ')[1]}
+                                        </div>
+                                        <div className='text-center'>
+                                            {pattern.split(' ')[0]}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <img src={patternImgSource(pattern)}></img>
+                                    </div>
+                                </div>
+                                )}
+                            </div>
+                            <div className='w-fit p-1 mx-auto my-auto bg-two text-four rounded-md active:bg-one'>
+                                <button onClick={() => viewAvailableSkins()}>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+            </div>
+
             <div className='w-fit h-fit p-1 bg-two text-four rounded-md mx-auto active:bg-one'>
                 <button id='skin-open-button' onClick={() => testAnimation()}>Open for 200</button>
             </div>
