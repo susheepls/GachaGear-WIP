@@ -224,8 +224,19 @@ const CurrencyBox = () => {
         return rarityColors[rarity] || 'bg-yellow-400'
     }
 
+    function skinImageSelector(skinName: string, equipmentType: string, rarity: string) {
+        if(rarity === 'common' || rarity === 'rare'){
+            const correctSkin = skinName + equipmentType;
+            return `/skins/${correctSkin}.png` ;
+        } else {
+            const correctSkin = skinName + equipmentType;
+            return `/skins/${correctSkin}.gif` ;
+        }
+    }
+
     //make sure mulitple api calls to open currency do not go through
-    const debounceCall = useDebouncedCallback(() => openGambleCase(), 200);
+    const debounceCallCurrency = useDebouncedCallback(() => openGambleCase(), 200);
+    const debounceCallSkins = useDebouncedCallback(() => openSkinCase(), 200);
 
     return (
         <div className='flex flex-col'>
@@ -241,7 +252,7 @@ const CurrencyBox = () => {
                     >
                         Daily Free Currency!
                 </button>
-                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => debounceCall()}>Gamble for Currency (50)</button>
+                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => debounceCallCurrency()}>Gamble for Currency (50)</button>
             </div>
             {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
             <div className='text-center'>
@@ -255,7 +266,15 @@ const CurrencyBox = () => {
             <div id='skin-gamble-divs' className='mt-6'>
                 <div className='w-10 border-b-2 border-b-one mx-auto'>Skins</div>
                 <div className='w-fit h-fit mx-auto'>
-                    <img className='' src={'/caseoutline.png'}></img>
+                    {isOpeningSkinCase ? (
+                        <div>
+                            <img src='/openedcase.png'></img>
+                        </div>
+                    ) : (
+                        <div>
+                            <img className='' src={'/caseoutline.png'}></img>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className='w-fit h-fit p-1 bg-two text-four rounded-md mx-auto active:bg-one'>
@@ -268,9 +287,20 @@ const CurrencyBox = () => {
                         <div className='bg-five absolute top-0 left-0 w-screen h-screen z-50 flex justify-center bg-opacity-50'>
                             <div className='bg-four w-2/3 h-1/2 my-auto flex flex-col rounded-md'>
                                 <div className='mt-5'>
-                                    You won the {skinWon.name.substring(0, skinWon.name.length - 1)} skin!
+                                    You won the <span className='font-bold'>{skinWon.name.substring(0, skinWon.name.length - 1)}</span> skin!
                                 </div>
                                 <div className={`mt-2 p-1 text-four ${rarityFromcolor(skinWon.rarity.name)} w-fit rounded-md mx-auto`} >{skinWon.rarity.name}</div>
+                                <div className='w-fit h-fit mx-auto my-auto'>
+                                    <img className='scale-150' src={skinImageSelector(skinWon.name, skinWon.itemName.name, skinWon.rarity.name)}></img>
+                                    {skinWon.name.substring(skinWon.name.length - 1) !== '0' && 
+                                        <div>
+                                            <div className='mt-7 w-fit mx-auto text-four bg-one rounded-md p-1'>Variant {skinWon.name.substring(skinWon.name.length - 1)}</div>
+                                        </div>
+                                    }
+                                </div>
+                                <div className='w-fit text-four bg-three rounded-md mx-auto mt-auto p-1 mb-3 active:bg-two'>
+                                    <button onClick={() => setIsOpeningSkinCase(false)}>Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
