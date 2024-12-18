@@ -144,7 +144,7 @@ const SkinOpeningAnimation: React.FC<Props> = (props) => {
     }
 
     const itemspluh = displayItems.map((item, index) => 
-        <div data-item={item} key={index} className={`w-24 h-[100px] ${rarityFromcolor(item)} flex flex-col items-center justify-center flex-shrink-0`}>
+        <div data-item={item} key={index} className={`w-24 h-[100px] ${rarityFromcolor(item)} flex flex-col items-center justify-center flex-shrink-0 rounded-md`}>
             <div>
                 {item}
             </div>

@@ -240,7 +240,9 @@ const CurrencyBox = () => {
     }
     //this has to updated or changed each time i add or change the skin collection; use split to get rarity and pattern name
     const case1PatternList = [
-        'poop common', 'blueSteel rare', 'galaxy epic'
+        'poop common', 'cube common', 'comic common',
+        'blueSteel rare', 'sunset rare', 'koi rare',
+        'galaxy epic'
     ]
     function patternImgSource(patternName: string) {
         const pattern = patternName.split(' ')[0];
@@ -262,6 +264,14 @@ const CurrencyBox = () => {
                 setTimerComplete={setTimerComplete}
                 timerComplete={timerComplete}
             />
+            <div className='flex w-fit p-1 mx-auto text-white bg-five mt-2 rounded-lg '>
+                <div id='currency-display-amount'>
+                    {currency} 
+                </div>
+                <div className='ml-2'>
+                    money
+                </div>
+            </div>
             <div className='flex flex-col text-four mt-2'>
                 <div className='text-one text-center w-24 p-1 mx-auto border-b-2 border-b-one'>Currency</div>
                 <button id='free-daily-box-button' onClick={() => checkIfCanOpen()}
@@ -303,9 +313,9 @@ const CurrencyBox = () => {
                             <div className='w-fit mx-auto border-b-2 border-b-one mt-3'>
                                 Available Patterns
                             </div>
-                            <div className='flex flex-col'>
+                            <div className='flex flex-col overflow-scroll'>
                                 {case1PatternList.map((pattern) => 
-                                <div className='flex m-4 overflow-scroll justify-evenly'>
+                                <div className='flex m-4 justify-evenly'>
                                     <div className='w-20 h-fit my-auto m-4'>
                                         <div className={`rounded-md p-1 text-center mx-auto w-20 ${rarityFromcolor(pattern.split(' ')[1])} `}>
                                             {pattern.split(' ')[1]}
@@ -320,7 +330,7 @@ const CurrencyBox = () => {
                                 </div>
                                 )}
                             </div>
-                            <div className='w-fit p-1 mx-auto my-auto bg-two text-four rounded-md active:bg-one'>
+                            <div className='w-fit p-1 mx-auto my-1 bg-two text-four rounded-md active:bg-one'>
                                 <button onClick={() => viewAvailableSkins()}>Close</button>
                             </div>
                         </div>
@@ -340,7 +350,10 @@ const CurrencyBox = () => {
                                 <div className='mt-5'>
                                     You won the <span className='font-bold'>{skinWon.name.substring(0, skinWon.name.length - 1)}</span> skin!
                                 </div>
-                                <div className={`mt-2 p-1 text-four ${rarityFromcolor(skinWon.rarity.name)} w-fit rounded-md mx-auto`} >{skinWon.rarity.name}</div>
+                                <div className={`mt-2 p-1 text-four ${rarityFromcolor(skinWon.rarity.name)} w-fit rounded-md mx-auto`} >
+                                    {skinWon.rarity.name}<br></br>
+                                    {skinWon.itemName.name}
+                                </div>
                                 <div className='w-fit h-fit mx-auto my-auto'>
                                     <img className='scale-150' src={skinImageSelector(skinWon.name, skinWon.itemName.name, skinWon.rarity.name)}></img>
                                     {skinWon.name.substring(skinWon.name.length - 1) !== '0' && 
@@ -363,14 +376,6 @@ const CurrencyBox = () => {
                         {errorMessage}
                     </div>
                 }
-            </div>
-            <div className='flex w-fit p-1 mx-auto text-white bg-three mt-10 rounded-lg '>
-                <div id='currency-display-amount'>
-                    {currency} 
-                </div>
-                <div className='ml-2'>
-                    currency
-                </div>
             </div>
         </div>
     )
