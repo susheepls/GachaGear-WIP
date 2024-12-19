@@ -65,6 +65,43 @@ const skinModel = {
 
         return createSkinAndAddToAccount;
 
+    },
+    equipSwapSkins: async(accountId: number, characterId: number, skinIds: number[]) => {
+        //reset skins so theres no conflict
+        const resetSkins = await prisma.itemSkin.findMany({
+            where: {
+                ownerId: accountId,
+                character: {
+                    some: { id: characterId }
+                }  
+            },
+        });
+        for(let skin of resetSkins) {
+            await prisma.itemSkin.update({
+                where: {
+                    id: skin.id
+                },
+                data: {
+                    character: {
+                        disconnect: { id: characterId }
+                    }
+                }
+            })
+        };
+        
+        const equipSkinToCharacter = await prisma.character.update({
+            where: {
+                id: characterId,
+                ownerId: accountId,
+            },
+            data: {
+                skins: {
+                    connect: skinIds.map((number) => ({ id: number }))
+                }
+            },
+        });
+
+        return equipSkinToCharacter;
     }
 }
 
