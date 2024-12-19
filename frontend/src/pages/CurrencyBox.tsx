@@ -161,9 +161,9 @@ const CurrencyBox = () => {
         }
     }
 
-    const testAnimation = () => {
-        !isOpeningSkinCase ? setIsOpeningSkinCase(true) : setIsOpeningSkinCase(false)
-    }
+    // const testAnimation = () => {
+    //     !isOpeningSkinCase ? setIsOpeningSkinCase(true) : setIsOpeningSkinCase(false)
+    // }
 
     //enable button if ready
     const enableFreeDailyBoxButton = () => {
@@ -339,7 +339,7 @@ const CurrencyBox = () => {
             </div>
 
             <div className='w-fit h-fit p-1 bg-two text-four rounded-md mx-auto active:bg-one'>
-                <button id='skin-open-button' onClick={() => testAnimation()}>Open for 200</button>
+                <button id='skin-open-button' onClick={() => debounceCallSkins()}>Open for 200</button>
             </div>
             {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
             <div className='text-center'>
