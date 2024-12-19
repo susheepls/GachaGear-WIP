@@ -102,6 +102,30 @@ const skinModel = {
         });
 
         return equipSkinToCharacter;
+    },
+    fetchAccountSkins: async(accountId: number) => {
+        const accountSkins = await prisma.itemSkin.findMany({
+            where: {
+                ownerId: accountId
+            },
+            select: {
+                id: true,
+                name: true,
+                rarity: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                },
+                itemName: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                }
+            }
+        });
+        return accountSkins;
     }
 }
 

@@ -44,6 +44,25 @@ const skinController = {
         } catch(error) {
             next(error);
         }
+    },
+    fetchAccountSkins: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try{
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            
+            //if the username is not equal to the url inputted
+            if(accountUsername !== req.params.username) return res.status(403).json({ message: 'User Not Authorized'});
+
+            const accountId = (req.user as CustomJwtPayload).id;
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const fetchAccountSkinsReq = await skinModel.fetchAccountSkins(accountId);
+
+            if(!fetchAccountSkinsReq) res.status(404).json({ message: 'Failure', result: null });
+            res.status(200).json({ message: 'Success', result: fetchAccountSkinsReq });
+
+        } catch(error) {
+            next(error);
+        }
     }
 }
 

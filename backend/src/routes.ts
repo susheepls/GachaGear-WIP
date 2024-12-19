@@ -48,6 +48,8 @@ router.patch('/:username/lastbox', authenticateToken, accountController.updateLa
 router.post('/:username/skins', authenticateToken, skinController.createOneSkin);
 //equip swap skins on character
 router.patch('/:username/skins/characters/:characterid', authenticateToken, skinController.equipSwapSkins);
+//fetch all account skins
+router.get('/:username/skins', authenticateToken, skinController.fetchAccountSkins);
 
 //character endpoints
 router.get('/:username/characters', authenticateToken, characterController.getAllAccountCharacters);

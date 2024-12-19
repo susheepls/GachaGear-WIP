@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useUser } from '../middleware/UserContext';
 import { Item } from '../interface/inventoryType';
 import SwapEquipForm from '../components/SwapEquipForm';
+import CharacterSkinSwap from '../components/CharacterSkinSwap';
 
 const OneCharacter = () => {
     const [characterData, setCharacterData] = useState<Character | null>(null);
@@ -12,6 +13,7 @@ const OneCharacter = () => {
     const [activeForm, setActiveForm] = useState<string | null>(null);
     const [updatedItem, setUpdatedItem] = useState<boolean>(false);
     const [characterSkins, setCharacterSkins] = useState<(Skins | null)[]>([null, null, null]);
+    const [isChangingSkins, setIsChangingSkins] = useState<boolean>(false);
 
     const { userInfo, fetchUserInfo } = useUser();
 
@@ -160,9 +162,17 @@ const OneCharacter = () => {
             <div className='w-fit mx-auto p-1 rounded-sm border-b-2 border-b-one font-bold'>
                 {characterData?.characterName}
             </div>
+            {isChangingSkins &&
+                <CharacterSkinSwap
+                accountId = {userInfo!.id}
+                username = {userInfo!.username}
+                characterId = {characterData!.id}
+                characterSkins = {characterSkins}
+                />
+            }
             <div id='character-picture' className='relative h-fit overflow-hidden'>
                 <div className='w-full p-2'>
-                    <img className='mx-auto' src='/charactersprites/character.png'></img>
+                    <img className='mx-auto' onClick={() => setIsChangingSkins(true)} src='/charactersprites/character.png'></img>
                     <img className='h-fit absolute top-3 left-1/2 transform -translate-x-1/3' src={handleSkinsSource(0)}></img>
                     <img className='h-fit absolute top-1/2 left-1/2 transform -translate-x-[47%] translate-y-[12%]' src={handleSkinsSource(1)}></img>
                     <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src={handleSkinsSource(2)}></img>

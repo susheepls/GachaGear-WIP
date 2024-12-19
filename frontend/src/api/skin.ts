@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { OpenSkinCaseReq } from "../interface/CaseTypes";
+import { FetchSkinReq, OpenSkinCaseReq } from "../interface/CaseTypes";
 
 const endpoint = import.meta.env.VITE_endpoint;
 
@@ -17,6 +17,25 @@ export const rollSkinCase = async(username: string) => {
         return getOneSkinResult.result;
 
     } catch(error) {
+        console.error(error);
+    }
+}
+
+export const fetchAccountSkins = async(username: string) => {
+    try {
+        const token = Cookies.get('token');
+        const fetchAccountSkinsReq = await fetch(endpoint + `${username}/skins`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const allAccountSkins: FetchSkinReq = await fetchAccountSkinsReq.json();
+        return allAccountSkins;
+
+    } catch(error){
         console.error(error);
     }
 }
