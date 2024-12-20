@@ -118,6 +118,8 @@ const GachaRoll = () => {
     
   }
 
+  if(isAwaitingFlip && !newItem) return <div className='text-four w-fit p-1 bg-slate-400 rounded-lg mx-auto animate-pulse'>Loading...</div>;
+  
   return (
     <div className='flex-col h-screen'>
       {!newItem ? (
