@@ -19,6 +19,7 @@ const GachaRoll = () => {
   const token = Cookies.get('token');
   const handleRollRequest = async() => {
     if(!token) alert('You must log in to roll!');
+    setNewItem(null);
     const rolledItem = await gachaRollApi.rollGacha();
     if(!rolledItem) return;
     setNewItem(rolledItem);
