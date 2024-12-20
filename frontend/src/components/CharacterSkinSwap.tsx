@@ -3,7 +3,6 @@ import { Skins } from '../interface/characterType';
 import * as SkinsApi from '../api/skin';
 import { FetchedSkinData } from '../interface/CaseTypes';
 import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 
 interface Props {
     accountId: number,
@@ -78,20 +77,40 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
         }
     }
 
-    //show dropdown list of skins
-    const handleSkinsDropDown = (itemType: string) => {
-        const targetDropList = document.getElementById(`${itemType}-skins-container`);
-        if(!targetDropList) return;
-        if(targetDropList.classList.contains('hidden')){
-            targetDropList.classList.remove('hidden');
-            targetDropList.classList.add('flex');
-            targetDropList.classList.add('flex-wrap');
-            targetDropList.classList.add('justify-evenly');
-        } else {
-            targetDropList.classList.remove('flex');
-            targetDropList.classList.remove('flex-wrap');
-            targetDropList.classList.remove('justify-evenly');
-            targetDropList.classList.add('hidden');
+    //gsaps animate dropdown
+    const animateDropDown = (itemType: string) => {
+        const targetDiv = document.getElementById(`${itemType}-skins-container`);
+        if(!targetDiv) return;
+        if(targetDiv.classList.contains('hidden')){
+            targetDiv.classList.remove('hidden');
+            targetDiv.classList.add('flex');
+            targetDiv.classList.add('flex-wrap');
+            targetDiv.classList.add('justify-evenly');
+            gsap.fromTo(targetDiv, 
+                {
+                    height: 0
+                },
+                {
+                    height: "auto",
+                    duration: 0.3,
+                    opacity: 1,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        targetDiv.style.height = ""
+                    } 
+                }
+            )
+        }else {
+            gsap.to(targetDiv, {
+                height: 0,
+                duration: 0.3,
+                opacity: 0,
+                onComplete: () => {
+                    targetDiv.classList.remove("flex", "flex-wrap", "justify-evenly");
+                    targetDiv.classList.add("hidden");
+                    targetDiv.style.height = "";
+                }
+            })
         }
     }
 
@@ -106,8 +125,13 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
 
         return ( 
             <div className='px-2'>
-                <div className='w-fit bg-three text-four mx-auto p-1 rounded-md mt-4' onClick={() => handleSkinsDropDown(itemType)}>
-                    {itemType} Skins
+                <div className='w-fit bg-three text-four mx-auto p-1 rounded-md mt-4 flex' onClick={() => animateDropDown(itemType)}>
+                    <div>
+                        {itemType} Skins
+                    </div>
+                    <div className='h-fit my-auto ml-1'>
+                        <img src='/dropdown.svg'></img>
+                    </div>
                 </div>
                 <div id={itemType + '-skins-container'} className='hidden border-2 mt-1 rounded-md'>
                     {filteredSkins.map((skin, index) => 
@@ -130,15 +154,6 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
                                     </div>
                                 }
                             </div>
-                            {/* <div className='hidden'>
-                                <input 
-                                    checked={setInitiallyCheckmarkedSkins(skin.id)} 
-                                    id={`skin-input-${skin.id}`} type='radio' 
-                                    name={skin.itemName.name+'-skin'} 
-                                    value={skin.id}
-                                    onChange={() => handleNewEquippedSkinsState(skin)} 
-                                />
-                            </div> */}
                         </div>
                     )}
                 </div>

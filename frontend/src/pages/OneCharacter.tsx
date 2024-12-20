@@ -178,6 +178,7 @@ const OneCharacter = () => {
             <div className='w-fit mx-auto p-1 rounded-sm border-b-2 border-b-one font-bold'>
                 {characterData?.characterName}
             </div>
+            <div className='w-fit mx-auto text-xs italic'>Click to character to change skins</div>
             {isChangingSkins &&
                 <CharacterSkinSwap
                 accountId = {userInfo!.id}
