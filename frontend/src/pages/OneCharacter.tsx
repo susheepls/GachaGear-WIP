@@ -6,6 +6,8 @@ import { useUser } from '../middleware/UserContext';
 import { Item } from '../interface/inventoryType';
 import SwapEquipForm from '../components/SwapEquipForm';
 import CharacterSkinSwap from '../components/CharacterSkinSwap';
+import * as SkinsApi from '../api/skin';
+import { FetchedSkinData } from '../interface/CaseTypes';
 
 const OneCharacter = () => {
     const [characterData, setCharacterData] = useState<Character | null>(null);
@@ -14,6 +16,7 @@ const OneCharacter = () => {
     const [updatedItem, setUpdatedItem] = useState<boolean>(false);
     const [characterSkins, setCharacterSkins] = useState<(Skins | null)[]>([null, null, null]);
     const [isChangingSkins, setIsChangingSkins] = useState<boolean>(false);
+    const [accountSkins, setAccountSkins] = useState<FetchedSkinData[] | null>(null);
 
     const { userInfo, fetchUserInfo } = useUser();
 
@@ -30,7 +33,11 @@ const OneCharacter = () => {
 
     useEffect(() => {
         fetchCharacterData();
-    }, [userInfo, activeForm, updatedItem]);
+    }, [userInfo, activeForm, updatedItem, isChangingSkins]);
+
+    useEffect(() => {
+        fetchAccountSkins();
+    }, [userInfo]);
 
     const fetchCharacterData = async() => {
         if(!userInfo || !id) return;
@@ -70,6 +77,15 @@ const OneCharacter = () => {
 
         setCharacterItems(orderedItems);
         setCharacterSkins(orderedSkins);
+    }
+    
+    const fetchAccountSkins = async() => {
+        if(!userInfo) return;
+        const accountSkins = await SkinsApi.fetchAccountSkins(userInfo.username);
+        
+        if(accountSkins){
+            setAccountSkins(accountSkins.result);
+        }
     }
 
     const expToLevelConverter = (exp: number) => {
@@ -168,6 +184,8 @@ const OneCharacter = () => {
                 username = {userInfo!.username}
                 characterId = {characterData!.id}
                 characterSkins = {characterSkins}
+                accountSkins = {accountSkins}
+                setIsChangingSkins = {setIsChangingSkins}
                 />
             }
             <div id='character-picture' className='relative h-fit overflow-hidden'>
