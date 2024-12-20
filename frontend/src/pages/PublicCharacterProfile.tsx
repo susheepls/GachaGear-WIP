@@ -26,6 +26,11 @@ const PublicCharacterProfile = () => {
     const fetchCharacterDetails = async() => {
         const characterDetails = await CharacterApi.getSearchedCharacterDetails(Number(characterid));
         if(!characterDetails) return;
+        
+        //sort the skins and put them in order of [hat, armor, sword];
+        const itemTypeOrder = ['hat', 'armor', 'sword'];
+        characterDetails.skins.sort((a,b) => itemTypeOrder.indexOf(a.itemName.name) - itemTypeOrder.indexOf(b.itemName.name));
+        
         setCharacterDetails(characterDetails);
     };
 
@@ -87,6 +92,19 @@ const PublicCharacterProfile = () => {
         if(itemType === 'sword') return '/sword.svg';
         else if (itemType === 'armor') return '/armor.svg';
         else return '/hat.svg';
+    }
+
+    //skin src chooser
+    const handleSkinsSource = (skinArrayIndex: number) => {
+        const defaultSkins = ['/charactersprites/defaulthat.png', '/charactersprites/defaultarmor.png', '/charactersprites/defaultsword.png'];
+        const skin = characterDetails?.skins[skinArrayIndex];
+
+        if(!skin) return defaultSkins[skinArrayIndex];
+        if(skin && skin.rarity.name !== 'epic') {
+            return `/skins/${skin.name}${skin.itemName.name}.png`;
+        } else {
+            return `/skins/${skin.name}${skin.itemName.name}.gif`;
+        }
     }
 
     //exp to level converter
@@ -158,9 +176,9 @@ const PublicCharacterProfile = () => {
                     <div id='character-picture' className='relative h-fit overflow-hidden'>
                         <div className='w-full p-2'>
                             <img className='mx-auto' src='/charactersprites/character.png'></img>
-                            <img className='h-fit absolute top-3 left-1/2 transform -translate-x-1/3' src='/charactersprites/defaulthat.png'></img>
-                            <img className='h-fit absolute top-1/2 left-1/2 transform -translate-x-[47%] translate-y-[12%]' src='/charactersprites/defaultarmor.png'></img>
-                            <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src='/charactersprites/defaultsword.png'></img>
+                            <img className='h-fit absolute top-3 left-1/2 transform -translate-x-1/3' src={handleSkinsSource(0)}></img>
+                            <img className='h-fit absolute top-1/2 left-1/2 transform -translate-x-[47%] translate-y-[12%]' src={handleSkinsSource(1)}></img>
+                            <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src={handleSkinsSource(2)}></img>
                         </div>
                     </div>
                     <div id='equipments' className='flex flex-col m-1'>

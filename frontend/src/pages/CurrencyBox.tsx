@@ -22,6 +22,7 @@ const CurrencyBox = () => {
     const [currency, setCurrency] = useState<number | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isViewingSkins, setIsViewingSkins] = useState<boolean>(false);
 
     const [isOpeningSkinCase, setIsOpeningSkinCase] = useState<boolean>(false);
     const [skinWon, setSkinWon] = useState<SkinCaseData | null>(null);
@@ -115,14 +116,18 @@ const CurrencyBox = () => {
     //disable pay-box-button if animation is playing
     useEffect(() => {
         const paidBoxButton = document.getElementById('pay-box-button');
-        
+        const skinOpenButton = document.getElementById('skin-open-button');
         if(!paidBoxButton) return;
-        if(isOpeningCase) {
+        if(!skinOpenButton) return;
+
+        if(isOpeningCase || isOpeningSkinCase) {
             paidBoxButton.toggleAttribute('disabled');
+            skinOpenButton.toggleAttribute('disabled');
         } else {
             paidBoxButton.removeAttribute('disabled');
+            skinOpenButton.removeAttribute('disabled');
         }
-    }, [isOpeningCase]);
+    }, [isOpeningCase, isOpeningSkinCase]);
 
     const fetchLastFreeBoxTime = async() => {
         if(!username) return;
@@ -199,8 +204,58 @@ const CurrencyBox = () => {
         setIsOpeningCase(true);
     }
 
+    const openSkinCase = async() => {
+        setErrorMessage(null);
+        if(currency && currency < 200) {
+            setErrorMessage('Not Enough Currency!');
+            return;
+        }
+        if(!username) return;
+        const currencyDecrease: CurrencyDecreaseResponse = await CurrencyApi.decreaseAccountCurrency(username, { decreaseAmount: 200 });
+        setCurrency(currencyDecrease.result.currency);
+        setIsOpeningSkinCase(true);
+    }
+
+    function rarityFromcolor(rarity: string) {
+        const rarityColors: { [key:string]: string } = {
+            'common': 'bg-green-200',
+            'rare': 'bg-blue-200',
+            'epic': 'bg-purple-600',
+        };
+        return rarityColors[rarity] || 'bg-yellow-400'
+    }
+
+    function skinImageSelector(skinName: string, equipmentType: string, rarity: string) {
+        if(rarity === 'common' || rarity === 'rare'){
+            const correctSkin = skinName + equipmentType;
+            return `/skins/${correctSkin}.png` ;
+        } else {
+            const correctSkin = skinName + equipmentType;
+            return `/skins/${correctSkin}.gif` ;
+        }
+    }
+
+    function viewAvailableSkins() {
+        !isViewingSkins ? setIsViewingSkins(true) : setIsViewingSkins(false);
+    }
+    //this has to updated or changed each time i add or change the skin collection; use split to get rarity and pattern name
+    const case1PatternList = [
+        'poop common', 'cube common', 'comic common',
+        'blueSteel rare', 'sunset rare', 'koi rare',
+        'galaxy epic'
+    ]
+    function patternImgSource(patternName: string) {
+        const pattern = patternName.split(' ')[0];
+        if(pattern !== 'galaxy') {
+            return `/skins/patterns/${pattern}.png`;
+        } else {
+            return `/skins/patterns/${pattern}.gif`;
+        }
+    }
+
     //make sure mulitple api calls to open currency do not go through
-    const debounceCall = useDebouncedCallback(() => openGambleCase(), 200);
+    const debounceCallCurrency = useDebouncedCallback(() => openGambleCase(), 200);
+    const debounceCallSkins = useDebouncedCallback(() => openSkinCase(), 200);
 
     return (
         <div className='flex flex-col'>
@@ -209,26 +264,24 @@ const CurrencyBox = () => {
                 setTimerComplete={setTimerComplete}
                 timerComplete={timerComplete}
             />
-            <div className='flex flex-col text-four mt-6'>
+            <div className='flex w-fit p-1 mx-auto text-white bg-five mt-2 rounded-lg '>
+                <div id='currency-display-amount'>
+                    {currency} 
+                </div>
+                <div className='ml-2'>
+                    money
+                </div>
+            </div>
+            <div className='flex flex-col text-four mt-2'>
+                <div className='text-one text-center w-24 p-1 mx-auto border-b-2 border-b-one'>Currency</div>
                 <button id='free-daily-box-button' onClick={() => checkIfCanOpen()}
                     className='disabled:line-through disabled:bg-one p-1 bg-two w-fit mx-auto mt-2 rounded-lg active:bg-five'
                     >
                         Daily Free Currency!
                 </button>
-                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => debounceCall()}>Gamble for Currency (50)</button>
+                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => debounceCallCurrency()}>Gamble for Currency (50)</button>
             </div>
-            <div>
-                {errorMessage &&
-                    <div className='w-fit mx-auto bg-one text-four p-1 rounded-lg'>
-                        {errorMessage}
-                    </div>
-                }
-            </div>
-            {/* <div>
-                <button onClick={() => testAnimation()}>Test animation</button>
-            </div> */}
             {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
-            {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
             <div className='text-center'>
                 {winningAmount && 
                     <div id='winning-amount' className='m-2 w-fit p-1 mx-auto bg-five text-four rounded-lg'>
@@ -236,20 +289,93 @@ const CurrencyBox = () => {
                     </div>
                 }
             </div>
+
+            <div id='skin-gamble-divs' className='mt-6'>
+                <div className='w-10 border-b-2 border-b-one mx-auto'>Skins</div>
+                <div className='text-sm text-center'>Click case to view available skins</div>
+                <div className='w-fit h-fit mx-auto'>
+                    {isOpeningSkinCase ? (
+                        <div>
+                            <img src='/openedcase.png'></img>
+                        </div>
+                    ) : (
+                        <div onClick={() => viewAvailableSkins()}>
+                            <img className='' src={'/caseoutline.png'}></img>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <div id='skin-viewer'>
+                    {isViewingSkins && 
+                    <div className='bg-five absolute top-0 left-0 w-screen h-screen z-50 flex justify-center bg-opacity-50'>
+                        <div className='bg-four w-3/4 h-3/4 my-4 flex flex-col rounded-md'>
+                            <div className='w-fit mx-auto border-b-2 border-b-one mt-3'>
+                                Available Patterns
+                            </div>
+                            <div className='flex flex-col overflow-scroll'>
+                                {case1PatternList.map((pattern) => 
+                                <div className='flex m-4 justify-evenly'>
+                                    <div className='w-20 h-fit my-auto m-4'>
+                                        <div className={`rounded-md p-1 text-center mx-auto w-20 ${rarityFromcolor(pattern.split(' ')[1])} `}>
+                                            {pattern.split(' ')[1]}
+                                        </div>
+                                        <div className='text-center'>
+                                            {pattern.split(' ')[0]}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <img src={patternImgSource(pattern)}></img>
+                                    </div>
+                                </div>
+                                )}
+                            </div>
+                            <div className='w-fit p-1 mx-auto my-1 bg-two text-four rounded-md active:bg-one'>
+                                <button onClick={() => viewAvailableSkins()}>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+            </div>
+
+            <div className='w-fit h-fit p-1 bg-two text-four rounded-md mx-auto active:bg-one'>
+                <button id='skin-open-button' onClick={() => debounceCallSkins()}>Open for 200</button>
+            </div>
+            {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
             <div className='text-center'>
                 {skinWon && 
-                    <div id='winning-amount' className='m-2 w-fit p-1 mx-auto bg-five text-four rounded-lg'>
-                        You won {skinWon.name}!
+                    <div>
+                        <div className='bg-five absolute top-0 left-0 w-screen h-screen z-50 flex justify-center bg-opacity-50'>
+                            <div className='bg-four w-2/3 h-1/2 my-auto flex flex-col rounded-md'>
+                                <div className='mt-5'>
+                                    You won the <span className='font-bold'>{skinWon.name.substring(0, skinWon.name.length - 1)}</span> skin!
+                                </div>
+                                <div className={`mt-2 p-1 text-four ${rarityFromcolor(skinWon.rarity.name)} w-fit rounded-md mx-auto`} >
+                                    {skinWon.rarity.name}<br></br>
+                                    {skinWon.itemName.name}
+                                </div>
+                                <div className='w-fit h-fit mx-auto my-auto'>
+                                    <img className='scale-150' src={skinImageSelector(skinWon.name, skinWon.itemName.name, skinWon.rarity.name)}></img>
+                                    {skinWon.name.substring(skinWon.name.length - 1) !== '0' && 
+                                        <div>
+                                            <div className='mt-7 w-fit mx-auto text-four bg-one rounded-md p-1'>Variant {skinWon.name.substring(skinWon.name.length - 1)}</div>
+                                        </div>
+                                    }
+                                </div>
+                                <div className='w-fit text-four bg-three rounded-md mx-auto mt-auto p-1 mb-3 active:bg-two'>
+                                    <button onClick={() => setIsOpeningSkinCase(false)}>Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 }
             </div>
-            <div className='flex w-fit p-1 mx-auto text-white bg-three mt-10 rounded-lg '>
-                <div id='currency-display-amount'>
-                    {currency} 
-                </div>
-                <div className='ml-2'>
-                    currency
-                </div>
+            <div>
+                {errorMessage &&
+                    <div className='w-fit mx-auto bg-one text-four p-1 rounded-lg'>
+                        {errorMessage}
+                    </div>
+                }
             </div>
         </div>
     )

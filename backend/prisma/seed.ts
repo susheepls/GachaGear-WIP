@@ -155,6 +155,83 @@ async function main() {
             rarityId: 3
         }
     })
+    const sunsetSkin = await prisma.itemSkin.upsert({
+        where: {
+            id: 6
+        },
+        update: {},
+        create: {
+            id:6,
+            name: 'sunset0',
+            rarityId: 2,
+        }
+    })
+    const cubeSkin1 = await prisma.itemSkin.upsert({
+        where: {
+            id: 7
+        },
+        update: {},
+        create: {
+            id:7,
+            name: 'cube1',
+            rarityId: 1,
+        }
+    })
+    const cubeSkin2 = await prisma.itemSkin.upsert({
+        where: {
+            id: 8
+        },
+        update: {},
+        create: {
+            id:8,
+            name: 'cube2',
+            rarityId: 1,
+        }
+    })
+    const koiSkin1 = await prisma.itemSkin.upsert({
+        where: {
+            id: 9
+        },
+        update: {},
+        create: {
+            id: 9,
+            name: 'koi1',
+            rarityId: 2,
+        }
+    })
+    const koiSkin2 = await prisma.itemSkin.upsert({
+        where: {
+            id: 10
+        },
+        update: {},
+        create: {
+            id: 10,
+            name: 'koi2',
+            rarityId: 2,
+        }
+    })
+    const comicSkin1 = await prisma.itemSkin.upsert({
+        where: {
+            id: 11
+        },
+        update: {},
+        create: {
+            id: 11,
+            name: 'comic1',
+            rarityId: 1,
+        }
+    })
+    const comicSkin2 = await prisma.itemSkin.upsert({
+        where: {
+            id: 12
+        },
+        update: {},
+        create: {
+            id: 12,
+            name: 'comic2',
+            rarityId: 1,
+        }
+    })
 
 
 }

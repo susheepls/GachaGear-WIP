@@ -110,7 +110,7 @@ const Home = () => {
                     </div>
                     <div className='flex h-5 ml-10 mt-1 mb-2'>
                         <div className=''>
-                            <button onClick={() => toGamblePage()}>Get Currency</button>
+                            <button onClick={() => toGamblePage()}>Get Skins/Currency</button>
                         </div>
                         <svg className='w-4 h-4 my-auto ml-1 mt-1'>
                             <image href='/moneybag.svg'></image>

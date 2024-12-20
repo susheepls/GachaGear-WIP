@@ -93,9 +93,6 @@ const SkinOpeningAnimation: React.FC<Props> = (props) => {
                 scale: 0,
                 duration: 2.5,
                 ease: 'power1.inOut',
-                onComplete: () => {
-                    props.setIsOpeningSkinCase(false);
-                }
             })
         }, 11000);
 
@@ -106,8 +103,6 @@ const SkinOpeningAnimation: React.FC<Props> = (props) => {
                 opacity: 0
             })
         }, 11000)
-        
-        console.log('running!', displayItems[28], skinApiResult, document.getElementById('28svg'))
 
         return () => {
             clearTimeout(stopTimeout);
@@ -149,7 +144,7 @@ const SkinOpeningAnimation: React.FC<Props> = (props) => {
     }
 
     const itemspluh = displayItems.map((item, index) => 
-        <div data-item={item} key={index} className={`w-24 h-[100px] ${rarityFromcolor(item)} flex flex-col items-center justify-center flex-shrink-0`}>
+        <div data-item={item} key={index} className={`w-24 h-[100px] ${rarityFromcolor(item)} flex flex-col items-center justify-center flex-shrink-0 rounded-md`}>
             <div>
                 {item}
             </div>

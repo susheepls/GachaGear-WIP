@@ -61,7 +61,8 @@ export interface SearchedCharacterDetailsRes {
 export interface SearchedCharacterDetails {
     id: number,
     characterName: string,
-    equipment: SearchedCharacterItem[]
+    equipment: SearchedCharacterItem[],
+    skins: Skins[]
 }
 
 export interface SearchedCharacterItem {
