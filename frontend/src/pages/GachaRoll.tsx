@@ -10,6 +10,7 @@ import { useUser } from '../middleware/UserContext'
 const GachaRoll = () => {
   const [newItem, setNewItem] = useState<Item | null>(null);
   const [isAwaitingFlip, setIsAwaitingFlip] = useState<boolean>(true);
+  const [isClickedOnce, setIsClickedOnce] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ const GachaRoll = () => {
   
     itemDiv?.classList.add('hidden');
     setIsAwaitingFlip(true);
-
+    setIsClickedOnce(true);
   }
 
   useGSAP(() => {
@@ -118,7 +119,7 @@ const GachaRoll = () => {
     
   }
 
-  if(isAwaitingFlip && !newItem) return <div className='text-four w-fit p-1 bg-slate-400 rounded-lg mx-auto animate-pulse'>Loading...</div>;
+  if(isClickedOnce && !newItem) return <div className='text-four w-fit p-1 bg-slate-400 rounded-lg mx-auto animate-pulse'>Loading...</div>;
   
   return (
     <div className='flex-col h-screen'>
