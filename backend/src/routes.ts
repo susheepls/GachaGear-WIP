@@ -50,6 +50,8 @@ router.post('/:username/skins', authenticateToken, skinController.createOneSkin)
 router.patch('/:username/skins/characters/:characterid', authenticateToken, skinController.equipSwapSkins);
 //fetch all account skins
 router.get('/:username/skins', authenticateToken, skinController.fetchAccountSkins);
+//reset skins
+router.patch('/:username/skins/characters/reset/:characterid', authenticateToken, skinController.backToDefault);
 
 //character endpoints
 router.get('/:username/characters', authenticateToken, characterController.getAllAccountCharacters);

@@ -66,7 +66,7 @@ const skinModel = {
         return createSkinAndAddToAccount;
 
     },
-    equipSwapSkins: async(accountId: number, characterId: number, skinIds: number[]) => {
+    equipSwapSkins: async(accountId: number, characterId: number, skinIds: (number | null)[]) => {
         //reset skins so theres no conflict
         const resetSkins = await prisma.itemSkin.findMany({
             where: {
@@ -88,20 +88,44 @@ const skinModel = {
                 }
             })
         };
-        
-        const equipSkinToCharacter = await prisma.character.update({
-            where: {
-                id: characterId,
-                ownerId: accountId,
-            },
-            data: {
-                skins: {
-                    connect: skinIds.map((number) => ({ id: number }))
-                }
-            },
-        });
 
-        return equipSkinToCharacter;
+        for(let i=0; i < skinIds.length; i++){
+            if(skinIds[i]){
+                await prisma.character.update({
+                    where: {
+                        id: characterId,
+                        ownerId: accountId,
+                    },
+                    data: {
+                        skins: {
+                            connect: { id: skinIds[i]! } 
+                        }
+                    },
+                });
+            }
+        }
+    },
+    backToDefault: async(accountId: number, characterId: number) => {
+        const allSkinsOnCharacter = await prisma.itemSkin.findMany({
+            where: {
+                ownerId: accountId,
+                character: {
+                    some: { id: characterId }
+                }
+            }
+        });
+        for(let skin of allSkinsOnCharacter){
+            await prisma.itemSkin.update({
+                where: {
+                    id: skin.id
+                },
+                data: {
+                    character: {
+                        disconnect: { id: characterId }
+                    }
+                }
+            })
+        };
     },
     fetchAccountSkins: async(accountId: number) => {
         const accountSkins = await prisma.itemSkin.findMany({

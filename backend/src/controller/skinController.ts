@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthenticatedRequest, CustomJwtPayload } from "../interfaces/jwtTypes";
 import skinModel from "../model/skin.model";
-import { EquipSwapSkinReq } from "../interfaces/skinType";
+import { BackToDefaultReq, EquipSwapSkinReq } from "../interfaces/skinType";
 
 const skinController = {
     createOneSkin: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -43,6 +43,27 @@ const skinController = {
 
         } catch(error) {
             next(error);
+        }
+    },
+    backToDefault: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        try{
+            const accountUsername = (req.user as CustomJwtPayload).username;
+            
+            //if the username is not equal to the url inputted
+            if(accountUsername !== req.params.username) return res.status(403).json({ message: 'User Not Authorized'});
+
+            const accountId = (req.user as CustomJwtPayload).id;
+            if(!accountId) return res.status(404).json({ message: 'Account Id Not Found' });
+
+            const targetCharacterId = (req.body as BackToDefaultReq).characterId;
+            if(targetCharacterId !== Number(req.params.characterid)) return res.status(403).json({ message: 'Unauthorized' });
+
+            const resetSkinsOnCharacter = await skinModel.backToDefault(accountId, targetCharacterId);
+
+            res.status(200).json({ message: 'Success', result: resetSkinsOnCharacter });
+
+        } catch(error){
+            next(error)
         }
     },
     fetchAccountSkins: async(req: AuthenticatedRequest, res: Response, next: NextFunction) => {
