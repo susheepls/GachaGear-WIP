@@ -19,8 +19,8 @@ const NavBar = () => {
     const pages: page[] = [
         {name: 'Inventory', href: userInfo ? `/${userInfo.username}/inventory` : '/login', key: 'inventory'},
         {name: 'Characters', href: '/characters', key: 'characters'},
-        {name: 'Get Currency', href: '/currencyBox', key: 'currencybox'},
-        {name: 'Get Gear!', href: '/gacharoll', key: 'gacharoll'},
+        {name: 'Get Skins', href: '/currencyBox', key: 'currencybox'},
+        {name: 'Get Gear', href: '/gacharoll', key: 'gacharoll'},
         {name: 'Rankings', href: '/rankings', key: 'rankings'},
         {name: 'Getting Started', href: '/gettingstarted', key: 'gettingstarted'}
     ];

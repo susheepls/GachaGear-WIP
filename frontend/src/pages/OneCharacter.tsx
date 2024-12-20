@@ -39,6 +39,16 @@ const OneCharacter = () => {
         fetchAccountSkins();
     }, [userInfo]);
 
+    //prevent scrolling when overlay is active
+    useEffect(() => {
+        if(isChangingSkins){
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+        
+    }, [isChangingSkins])
+
     const fetchCharacterData = async() => {
         if(!userInfo || !id) return;
         const character = await CharacterApi.fetchOneCharacter(userInfo.username, id);

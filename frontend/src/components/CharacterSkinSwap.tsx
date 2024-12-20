@@ -51,6 +51,11 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
         await SkinsApi.changeSkins(props.username, props.characterId, propEquippedSkinIds);
         props.setIsChangingSkins(false);
     }
+    const backToDefault = async() => {
+        setPropEquippedSkinIds([null, null, null]);
+        await SkinsApi.backToDefault(props.username, props.characterId);
+        props.setIsChangingSkins(false);
+    }
 
     //handle border if selected
     const borderPicker = (skin: FetchedSkinData) => {
@@ -162,17 +167,22 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
     }
 
     return (
-        <div className='absolute top-0 left-0 w-screen h-screen bg-five bg-opacity-30 z-50 flex justify-center overflow-y-scroll'>
+        <div className='absolute top-0 left-0 w-screen h-screen bg-five bg-opacity-30 z-50 flex justify-center overscroll-none'>
             <div className='w-5/6 bg-four h-5/6 my-auto rounded-md overflow-scroll'>
-                <div className='fixed text-four bg-two w-5 text-center rounded-md'>
-                    <button onClick={() => props.setIsChangingSkins(false)}>X</button>
-                </div>
-                <div className='w-fit border-b-2 border-b-one mx-auto font-bold mt-3'>
-                    Skin List
+                <div className='relative'>
+                    <div className='absolute -top-1 text-four bg-two w-5 text-center rounded-md'>
+                        <button onClick={() => props.setIsChangingSkins(false)}>X</button>
+                    </div>
+                    <div className='w-fit border-b-2 border-b-one mx-auto font-bold mt-1'>
+                        Skin List 
+                    </div>
                 </div>
                 {skinDivMaker('hat')}
                 {skinDivMaker('armor')}
                 {skinDivMaker('sword')}
+                <div className='bg-one p-1 w-fit mx-auto mt-3 text-four rounded-md active:bg-five text-xs'>
+                    <button onClick={() => backToDefault()}>Go back to default</button>
+                </div>
                 <div className='bg-five p-1 w-fit mx-auto mt-3 text-four rounded-md active:bg-two'>
                     <button onClick={() => submitSkinChange()}>Submit</button>
                 </div>

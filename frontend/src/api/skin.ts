@@ -58,3 +58,21 @@ export const changeSkins = async(username: string, characterId: number, skinChan
     }
    
 }
+
+export const backToDefault = async(username: string, characterId: number) => {
+    try{
+        const token = Cookies.get('token');
+        const resetSkinsReq = await fetch(endpoint + `${username}/skins/characters/reset/${characterId}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ characterId: characterId }),
+        });
+
+        return resetSkinsReq;
+    } catch(error){
+        console.error(error);
+    }
+}
