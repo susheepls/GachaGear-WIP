@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as CharacterApi from '../api/character';
-import { SearchedCharacterDetails } from '../interface/characterType';
+import { SearchedCharacterDetails, Skins } from '../interface/characterType';
 
 const PublicCharacterProfile = () => {
     const { characterid } = useParams();
 
     const [characterDetails, setCharacterDetails] = useState<SearchedCharacterDetails | null>(null);
+    const [characterSkins, setCharacterSkins] = useState<(Skins | null)[]>([ null, null, null]);
     const [totalSubstatsRankings, setTotalSubstatsRankings] = useState<number | null>(null);
     const [atkRankings, setAtkRankings] = useState<number | null>(null);
     const [hpRankings, setHpRankings] = useState<number | null>(null);
@@ -29,9 +30,15 @@ const PublicCharacterProfile = () => {
         
         //sort the skins and put them in order of [hat, armor, sword];
         const itemTypeOrder = ['hat', 'armor', 'sword'];
+        const skinPlaceholder: (Skins|null)[] = [null, null, null];
+
         characterDetails.skins.sort((a,b) => itemTypeOrder.indexOf(a.itemName.name) - itemTypeOrder.indexOf(b.itemName.name));
+        for(let skin of characterDetails.skins){
+            skinPlaceholder[itemTypeOrder.indexOf(skin.itemName.name)] = skin;
+        }
         
         setCharacterDetails(characterDetails);
+        setCharacterSkins(skinPlaceholder);
     };
 
     //fetch functions for different categories
@@ -97,7 +104,8 @@ const PublicCharacterProfile = () => {
     //skin src chooser
     const handleSkinsSource = (skinArrayIndex: number) => {
         const defaultSkins = ['/charactersprites/defaulthat.png', '/charactersprites/defaultarmor.png', '/charactersprites/defaultsword.png'];
-        const skin = characterDetails?.skins[skinArrayIndex];
+        
+        const skin = characterSkins[skinArrayIndex];
 
         if(!skin) return defaultSkins[skinArrayIndex];
         if(skin && skin.rarity.name !== 'epic') {
@@ -222,7 +230,11 @@ const PublicCharacterProfile = () => {
                             </div>
                         </div>
                     )}
-
+                </div>
+                <div className='bg-three w-8 h-8 rounded-full mx-auto'>
+                    <svg className='w-8 h-8' onClick={() => history.back()}>
+                        <image href='/back-button.svg'></image>
+                    </svg>
                 </div>
         </div>
     )

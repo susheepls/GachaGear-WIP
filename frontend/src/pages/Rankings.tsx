@@ -316,9 +316,17 @@ const Rankings = () => {
 
     return (
         <div className='flex flex-col bg-four h-fit text-one'>
+            <div className='w-fit text-lg italic border-b-2 border-b-one mx-auto mb-1'>
+                Accounts
+            </div>
             {topThreeRankingsDivForAccountCurrency()}
             {topTenRankingsDivForAccountCurrency()}
-
+            <div className='w-fit text-lg italic border-b-2 border-b-one mx-auto mb-1'>
+                Characters
+            </div>
+            <div className='text-xs text-center w-fit border-2 border-one rounded-md mx-auto p-1 border-opacity-50'>
+                click on name to view profile
+            </div>
             {topThreeRankingsDiv(allSubstatsRankings, 'Total Substats')}
             {topTenRankingsDiv(allSubstatsRankings, 'Total Substats')}
             
