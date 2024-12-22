@@ -155,19 +155,19 @@ const Inventory = () => {
         if(!items) return;
         if(!displayItems) return;
         return displayItems.map((item, index) => 
-            <div key={index} className='w-[calc(100vw/3)] h-28 py-2 outline outline-three rounded-lg m-2'>
+            <div key={index} className='w-[calc(100vw/3)] lg:w-[calc(100vw/4)] lg:h-40 h-28 py-2 outline outline-three rounded-lg m-2'>
                 <div id={`${index}`} className='' onClick={(event) => handleVisibility(event)}>
                     <div className='flex flex-col'>
                         <div className='flex'>
                             <div className='flex flex-col'>
-                                <div className='px-1'>
+                                <div className='px-1 lg:text-xl lg:font-bold'>
                                     {item.name.name}
                                 </div>
                                 <div className='px-1'>
                                     Level: {expToLevelConverter(item.exp)}
                                 </div>
                             </div>
-                            <svg className='w-4 h-4 ml-auto'>
+                            <svg className='w-4 h-4 ml-auto lg:scale-150'>
                                 <image xlinkHref={svgChooser(item.name.name)}></image>
                             </svg>
                         </div>
@@ -175,7 +175,7 @@ const Inventory = () => {
                             <div className='flex justify-around'>
                                 {item.substats.map((substat) => 
                                     <div className='flex flex-col'>
-                                        <div className='w-fit bg-two text-four p-0.5 rounded-md mx-auto'>
+                                        <div className='w-fit bg-two text-four p-0.5 rounded-md mx-auto lg:p-1 lg:mt-5'>
                                             {substat.substatType.name}
                                         </div>
                                         <div className='w-fit mx-auto'>

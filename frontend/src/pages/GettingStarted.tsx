@@ -65,7 +65,7 @@ const GettingStarted = () => {
             <div className='w-36 p-1 mx-auto mt-1 font-bold text-xl text-four bg-three rounded-md text-center'>
                 Tutorial
             </div>
-            <div id='whole-intro-container'>
+            <div id='whole-intro-container' className='lg:w-96 lg:mx-auto'>
                 <div className='w-fit p-1 mx-auto mt-2 font-bold text-base text-four bg-five rounded-md'>
                     Introduction
                 </div>
@@ -89,11 +89,11 @@ const GettingStarted = () => {
                 <div className='w-fit p-1 mx-auto mt-3 font-bold text-base text-four bg-one rounded-md'>
                     App Flow
                 </div>
-                <div id='gameplay-flow' className='mt-3 outline outline-1 outline-three mx-1 p-1'>
+                <div id='gameplay-flow' className='mt-3 outline outline-1 outline-three mx-1 p-1 lg:w-fit lg:mx-auto'>
                     <div className='w-fit mx-auto border-b-2 border-one'>
                         Steps
                     </div>
-                    <div>
+                    <div className='lg:w-fit lg:mx-auto'>
                         <ol className='list-decimal list-inside'>
                             <li>Obtain gear from <span className='text-five'><a href='/gacharoll'>Get Gear</a></span> tab</li>
                             <li>Check <span className='text-five'><a href={`${userInfo?.username}/inventory`}>inventory</a></span> to see the newly acquired item</li>
@@ -104,16 +104,16 @@ const GettingStarted = () => {
                     </div>
                 </div>
             </div>
-            <div id='additonal-notes-container' className='mt-3'>
+            <div id='additonal-notes-container' className='mt-3 mb-2'>
                 <div className='w-fit p-1 mx-auto font-bold text-base text-four bg-two rounded-md'>
                     Additional Notes
                 </div>
-                <div className='mt-3 outline outline-1 outline-three mx-1 p-1'>
+                <div className='mt-3 outline outline-1 outline-three mx-1 p-1 lg:w-96 lg:mx-auto'>
                     <div id='substat-rates-container' className='mt-1'>
                         <div className='w-fit p-1 bg-two text-four mx-auto rounded-md'>
                             Substat Rates
                         </div>
-                        <div className='flex justify-between mt-2'>
+                        <div className='flex justify-between mt-2 lg:justify-around'>
                             <div className='w-28 outline outline-1 outline-three'>
                                 <div className='w-fit mx-auto border-b-2 border-two'>
                                     Attack
@@ -237,7 +237,7 @@ const GettingStarted = () => {
                         <div className='w-fit mx-auto p-1 bg-two text-four rounded-md mt-3'>
                             How to get Currency
                         </div>
-                        <div>
+                        <div className='lg:w-fit lg:mx-auto'>
                             <div>
                                 You start with 1000, but you can obtain through various methods.
                             </div>
