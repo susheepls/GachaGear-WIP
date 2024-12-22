@@ -34,7 +34,7 @@ const Login = () => {
             setLoginMessage = {setLoginMessage}
             setUsername = {setUsername}
           />
-          <div className='p-1 text-center w-40 mx-auto bg-three text-four rounded-md my-2'>
+          <div className='p-1 text-center w-40 mx-auto bg-three text-four rounded-md my-2 transition hover:bg-two hover:scale-110 duration-300'>
             <button onClick={() => setIsCreatingAcc(true)}>
               Create New Account
             </button>
