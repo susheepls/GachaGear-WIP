@@ -175,10 +175,10 @@ const Inventory = () => {
                             <div className='flex justify-around'>
                                 {item.substats.map((substat) => 
                                     <div className='flex flex-col'>
-                                        <div className='w-fit bg-two text-four p-0.5 rounded-md mx-auto lg:p-1 lg:mt-5'>
+                                        <div className='w-fit bg-two text-four p-0.5 rounded-md mx-auto lg:p-1 lg:mt-5 lg:w-20 lg:text-lg lg:font-bold lg:text-center'>
                                             {substat.substatType.name}
                                         </div>
-                                        <div className='w-fit mx-auto'>
+                                        <div className='w-fit mx-auto lg:text-xl'>
                                             {substat.value}
                                         </div>
                                     </div>
@@ -189,17 +189,17 @@ const Inventory = () => {
                 </div>
                 <div id={`substats${index}`} className='bg-one z-50'>
                     <div id={`substats-window-${index}`} className='hidden fixed top-0 left-0 justify-center z-50 bg-pink-200 bg-opacity-70 w-full max-h-full h-full'>
-                        <div className='bg-four p-6 mt-auto mb-auto mx-2 rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center outline outline-8 outline-two'>
-                            <div>
+                        <div className='bg-four p-6 mt-auto mb-auto mx-2 rounded shadow-lg w-7/12 h-1/2 flex flex-col justify-between text-center outline outline-8 outline-two lg:w-1/4'>
+                            <div className='lg:text-3xl lg:font-bold'>
                                 {item.name.name}
                             </div>
-                            <div>
+                            <div className='lg:text-xl lg:font-bold'>
                                 Level: {expToLevelConverter(item.exp)}
                             </div>
                             <div id={`substats-for-item${index}`}>
                                 <div id='substat1' className='flex justify-evenly'>
                                     <div className='flex'>
-                                        <div className='w-6 h-6'>
+                                        <div className='w-6 h-6 lg:text-lg'>
                                             {item.substats[0].substatType.name} 
                                         </div>
                                         <svg className='w-5 h-5 pt-0.5 ml-2 mt-1.5'>
@@ -212,10 +212,10 @@ const Inventory = () => {
                                 </div>
                                 <div id='substat2' className='flex justify-evenly'>
                                     <div className='flex'>
-                                        <div className='w-6 h-6'>
+                                        <div className='w-6 h-6 lg:text-lg'>
                                             {item.substats[1].substatType.name}
                                         </div>
-                                        <svg className='w-5 h-5 pt-1.5 ml-1.5'>
+                                        <svg className='w-5 h-5 pt-1.5 ml-1.5 lg:mt-0.5'>
                                             <image href='/heart.svg'></image>
                                         </svg>
                                     </div>
@@ -225,10 +225,10 @@ const Inventory = () => {
                                 </div>
                                 <div id='substat3' className='flex justify-evenly'>
                                     <div className='flex'>
-                                        <div className='w-6 h-6'>
+                                        <div className='w-6 h-6 lg:text-lg'>
                                             {item.substats[2].substatType.name}
                                         </div>
-                                        <svg className='w-5 h-5 pt-0.5 ml-1.5'>
+                                        <svg className='w-5 h-5 pt-0.5 ml-1.5 lg:mt-1'>
                                             <image href='/shield.svg'></image>
                                         </svg>
                                     </div>
@@ -238,14 +238,14 @@ const Inventory = () => {
                                 </div>
                             </div>
                             <div className='flex justify-evenly w-full'>
-                                <div id='enhance-button' className='w-36 h-12 bg-three outline outline-1 mr-4 text-four rounded-lg'>
+                                <div id='enhance-button' className='w-36 h-12 bg-three outline outline-1 mr-4 text-four rounded-lg active:bg-two transition hover:bg-two hover:scale-110'>
                                     <button className='mt-3' onClick={() => navigateToSpecificItem(item.id)}>Enhance!</button>
                                 </div>
-                                <div id='sell-button' className='w-36 h-12 bg-five outline outline-1 text-four rounded-lg'>
-                                    <button onClick={() => sellItemsForCurrency(item.id, (Math.floor(item.exp/2)), index ) }>Sell for {Math.floor(item.exp/2)} Currency</button>
+                                <div id='sell-button' className='w-36 h-12 bg-five outline outline-1 text-four rounded-lg transition hover:bg-one hover:scale-110'>
+                                    <button className='lg:mt-3' onClick={() => sellItemsForCurrency(item.id, (Math.floor(item.exp/2)), index ) }>Sell for {Math.floor(item.exp/2)} Currency</button>
                                 </div>
                             </div>
-                            <div>
+                            <div className='w-fit p-1 bg-one text-four rounded-md mx-auto transition hover:bg-red-800 hover:scale-110'>
                                 <button onClick={() => closeSubstatWindow(index)}>Exit</button>
                             </div>
                         </div>

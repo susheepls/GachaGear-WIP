@@ -69,10 +69,10 @@ const Characters = () => {
         return accountCharacters[0].characters.map((character, index) =>
             <div key={index} className=''>
                 <div className='relative'>
-                    <div className='text-center bg-five w-fit mx-auto mt-2 text-four p-1 rounded-md' onClick={() => setIsCharacterSelected(character.id)}>
+                    <div className='text-center bg-five w-fit mx-auto mt-2 text-four p-1 rounded-md lg:bg-white lg:text-one lg:border-b-2 lg:border-b-one lg:rounded-none cursor-pointer transition hover:border-2 hover:border-one hover:rounded-md duration-700' onClick={() => setIsCharacterSelected(character.id)}>
                         {character.characterName}
                     </div>
-                    <div className='absolute right-1 top-2 text-one w-6 h-6 outline outline-1 outline-one rounded-lg'>
+                    <div className='absolute right-1 top-2 text-one w-6 h-6 outline outline-1 outline-one rounded-lg lg:right-[40%] transition hover:bg-two hover:text-four'>
                         <button className='w-4 h-4' onClick={() => aboutToDeleteCharacter(character.id)}>
                             x
                         </button>
@@ -81,7 +81,7 @@ const Characters = () => {
                 <div id={`character${character.id}-select-overlay`}>
                     {isCharacterSelected === character.id && (
                         <div className='absolute top-0 left-0 flex justify-center bg-pink-300 bg-opacity-70 z-50 w-full h-full'>
-                            <div className='bg-white h-fit mt-28 mb-2 mx-2 rounded shadow-lg w-full flex flex-col'>
+                            <div className='bg-white h-fit mt-28 mb-2 mx-2 rounded shadow-lg w-full flex flex-col lg:w-1/2'>
                                 <div className='w-fit p-1 mt-2 font-medium mx-auto border-b-2 border-one'>
                                     {character.characterName}
                                 </div>
@@ -91,7 +91,7 @@ const Characters = () => {
                                     </div>
                                     {character.equipment.length >= 1 && (
                                         character.equipment.map((item, index) => (
-                                            <div key={index} id={`character${character.id}-equipment${index}`} className='flex justify-center mt-1 outline outline-1 w-1/2 mx-auto mb-1 rounded-md'>
+                                            <div key={index} id={`character${character.id}-equipment${index}`} className='flex justify-center mt-1 outline outline-1 w-1/2 mx-auto mb-1 rounded-md lg:w-1/5'>
                                                 <div className='w-20'>
                                                     {item.name.name}
                                                 </div>
@@ -111,10 +111,10 @@ const Characters = () => {
                                         ))
                                     )}
                                 </div>
-                                <div className='mt-3 w-fit p-1 mx-auto bg-three text-four rounded-md'>
+                                <div className='mt-3 w-fit p-1 mx-auto bg-three text-four rounded-md transition hover:bg-two hover:scale-110'>
                                     <button onClick={() => navigateToCharacterPage(character.id)}>Equip Gear</button>
                                 </div>
-                                <div className='mt-5 mb-1 w-fit p-1 px-2 mx-auto bg-five rounded-md text-four'>
+                                <div className='mt-5 mb-1 w-fit p-1 px-2 mx-auto bg-five rounded-md text-four transition hover:bg-one hover:scale-110'>
                                     <button onClick={() => setIsCharacterSelected(null)}>Exit</button>
                                 </div>
                             </div>
@@ -155,19 +155,19 @@ const Characters = () => {
         <div className='h-[calc(100vh-32px)] border border-two'>
             <div>{userInfo ? `` : 'loading..'}</div>
             <div className='flex flex-col text-center'>
-                <div className='flex justify-center bg-three w-36 mx-auto rounded-md mt-1'>
-                    <div className='font-semibold text-four'>
+                <div className='flex justify-center bg-three w-36 mx-auto rounded-md mt-1 lg:w-fit lg:p-1'>
+                    <div className='font-semibold text-four lg:text-2xl'>
                         Character List
                     </div>
                     <div>
-                        <svg className='h-4 w-4 bg-three rounded-md mt-1 ml-2'>
+                        <svg className='h-4 w-4 bg-three rounded-md mt-1 ml-2 lg:scale-125 lg:mt-2.5'>
                             <image href='/charactericon.svg'></image>
                         </svg>
                     </div>
                 </div>
                 {accountCharacters && allCharactersDiv()}
             </div>
-            <div id='new-character-buttons' className='mt-10 p-1 w-fit text-four bg-two rounded-lg mx-auto active:bg-three'>
+            <div id='new-character-buttons' className='mt-10 p-1 w-fit text-four bg-two rounded-lg mx-auto active:bg-three transition hover:bg-three hover:scale-110'>
                 <button onClick={() => setIsCreatingCharacter(true)}>
                     Create
                 </button>
@@ -198,7 +198,7 @@ const Characters = () => {
             <div id='create-character-overlay'>
                 {isCreatingCharacter && (
                     <div className='fixed flex justify-center left-0 top-0 w-full h-full bg-five z-50 bg-opacity-50'>
-                        <div className='bg-white mt-28 mb-2 mx-2 rounded-md shadow-lg w-2/3 h-1/2 outline-double outline-two'>
+                        <div className='bg-white mt-28 mb-2 mx-2 rounded-md shadow-lg w-2/3 h-1/2 outline-double outline-two lg:w-1/3 lg:h-1/3'>
                             <form className='flex flex-col justify-evenly align-middle h-5/6' onSubmit={handleSubmit}>
                                 <div className='text-center text-four w-fit p-1 bg-three mx-auto rounded-md pb-3 px-2'>
                                     <label>
@@ -206,14 +206,14 @@ const Characters = () => {
                                         <input className='outline outline-1 text-one mt-3' name='characterName' type='text' value={createCharacterForm.characterName} onChange={handleChange}/>
                                     </label>
                                 </div>
-                                <div className='w-fit p-1 mx-auto bg-three rounded-lg active:bg-two text-four'>
+                                <div className='w-fit p-1 mx-auto bg-three rounded-lg active:bg-two text-four transition hover:bg-two hover:scale-110'>
                                     <button type='submit'>Create!</button>
                                 </div>
                                 <div id='error-message' className='w-fit mx-auto p-1 bg-one text-four rounded-md' hidden>
                                     Character name too Short!
                                 </div>
                             </form>
-                            <div className='w-fit ml-2 bg-five text-one p-1 rounded-md'>
+                            <div className='w-fit ml-2 bg-five text-four p-1 rounded-md lg:mx-auto transition hover:bg-one'>
                                 <button onClick={() => setIsCreatingCharacter(false)}>exit</button>
                             </div>
                         </div>
