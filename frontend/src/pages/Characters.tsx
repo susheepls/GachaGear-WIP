@@ -81,7 +81,7 @@ const Characters = () => {
                 <div id={`character${character.id}-select-overlay`}>
                     {isCharacterSelected === character.id && (
                         <div className='absolute top-0 left-0 flex justify-center bg-pink-300 bg-opacity-70 z-50 w-full h-full'>
-                            <div className='bg-white h-fit mt-28 mb-2 mx-2 rounded shadow-lg w-full flex flex-col lg:w-1/2'>
+                            <div className='bg-white h-fit mt-28 mb-2 mx-2 rounded shadow-lg w-full flex flex-col lg:w-1/3'>
                                 <div className='w-fit p-1 mt-2 font-medium mx-auto border-b-2 border-one'>
                                     {character.characterName}
                                 </div>
@@ -91,7 +91,7 @@ const Characters = () => {
                                     </div>
                                     {character.equipment.length >= 1 && (
                                         character.equipment.map((item, index) => (
-                                            <div key={index} id={`character${character.id}-equipment${index}`} className='flex justify-center mt-1 outline outline-1 w-1/2 mx-auto mb-1 rounded-md lg:w-1/5'>
+                                            <div key={index} id={`character${character.id}-equipment${index}`} className='flex justify-center mt-1 outline outline-1 w-1/2 mx-auto mb-1 rounded-md lg:w-1/4'>
                                                 <div className='w-20'>
                                                     {item.name.name}
                                                 </div>
@@ -177,15 +177,15 @@ const Characters = () => {
             <div id='delete-character-div'>
                 {isDeletingChara && (
                 <div className='absolute top-0 left-0 flex justify-center bg-five bg-opacity-50 z-50 w-full h-full'>
-                    <div className='bg-four mt-28 mb-2 mx-2 rounded shadow-lg w-2/3 h-1/4 flex flex-col items-center outline-double outline-two'>
+                    <div className='bg-four mt-28 mb-2 mx-2 rounded shadow-lg w-2/3 h-1/4 flex flex-col items-center outline-double outline-two lg:w-1/4'>
                         <div className='mt-6 w-fit mx-auto bg-two text-four p-2 rounded-lg'>
                             Confirm?
                         </div>
-                        <div className='w-full flex mt-5'>
-                            <div className='mx-auto w-fit p-2 bg-three text-four rounded-md active:bg-one'>
+                        <div className='w-full flex mt-5 lg:mt-12'>
+                            <div className='mx-auto w-fit p-2 bg-three text-four rounded-md active:bg-one transition hover:bg-one hover:scale-110'>
                                 <button onClick={() => confirmDeleteCharacter()}>Yes</button>
                             </div>
-                            <div className='mx-auto w-fit p-2 bg-five text-four rounded-md active:bg-one'>
+                            <div className='mx-auto w-fit p-2 bg-five text-four rounded-md active:bg-one transition hover:bg-one hover:scale-110'>
                                 <button onClick={() => cancelDeleteCharacter()}>No</button>
                             </div>
                         </div>

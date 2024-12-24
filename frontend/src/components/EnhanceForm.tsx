@@ -91,7 +91,7 @@ const EnhanceForm: React.FC<Props> = (props) => {
     }
 
     return (
-        <div className='outline outline-2 outline-five rounded-full p-1 mt-3'>
+        <div className='outline outline-2 outline-five rounded-full p-1 mt-3 lg:w-1/3 lg:mx-auto'>
             <form>
                 <div id='form-input' className='flex flex-col'>
                     <label className='text-center'>
@@ -99,7 +99,7 @@ const EnhanceForm: React.FC<Props> = (props) => {
                     </label>
                     <input id='exp-input' type='range' name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
                 </div>
-                <div id='submit-button' className='flex flex-col justify-center outline outline-1 outline-four bg-five text-four w-24 mx-auto rounded-md active:bg-one'>
+                <div id='submit-button' className='flex flex-col justify-center outline outline-1 outline-four bg-five text-four w-24 mx-auto rounded-md active:bg-one transition hover:bg-one'>
                     <button type='submit' onClick={handleSubmit}>Enhance!</button>
                 </div>
             </form>

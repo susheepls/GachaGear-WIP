@@ -153,7 +153,7 @@ const UpgradeItem = () => {
                     Loading....
                 </div>
             ) : (
-                <div className='outline outline-2 outline-three m-1'>
+                <div className='outline outline-2 outline-three m-1 lg:w-1/3 lg:mx-auto'>
                     <div id='item-stats' className='flex flex-col text-center'>
                         <div className='px-1'>
                             {currentItem.result.name.name}
@@ -245,7 +245,7 @@ const UpgradeItem = () => {
                     </div>
                 </div>
             )}
-            <div id='upgrade-history' className='w-2/3 mx-auto outline outline-2 mt-6 rounded-md outline-two text-one'>
+            <div id='upgrade-history' className='w-2/3 mx-auto outline outline-2 mt-6 rounded-md outline-two text-one lg:w-1/4'>
                 <div className='mt-2 w-36 text-center mx-auto border-b-2 border-one '>
                     Upgrade History
                 </div>

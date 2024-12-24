@@ -130,7 +130,7 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
 
         return ( 
             <div className='px-2'>
-                <div className='w-fit bg-three text-four mx-auto p-1 rounded-md mt-4 flex' onClick={() => animateDropDown(itemType)}>
+                <div className='w-fit bg-three text-four mx-auto p-1 rounded-md mt-4 flex transition hover:bg-two cursor-pointer' onClick={() => animateDropDown(itemType)}>
                     <div>
                         {itemType} Skins
                     </div>
@@ -141,7 +141,7 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
                 <div id={itemType + '-skins-container'} className='hidden border-2 mt-1 rounded-md'>
                     {filteredSkins.map((skin, index) => 
                         <div key={index} className='flex mt-3'>
-                            <div className={`rounded-md flex flex-col ${borderPicker(skin)}`} onClick={()=> handleNewEquippedSkinsState(skin)}>
+                            <div className={`rounded-md flex flex-col ${borderPicker(skin)} cursor-pointer transition hover:outline hover:outline-2 hover:outline-two`} onClick={()=> handleNewEquippedSkinsState(skin)}>
                                 <div className='flex'>
                                     <div className='w-fit mx-auto'>
                                         {skin.name.substring(0, skin.name.length-1)}
@@ -168,7 +168,7 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
 
     return (
         <div className='absolute top-0 left-0 w-screen h-screen bg-five bg-opacity-30 z-50 flex justify-center overscroll-none'>
-            <div className='w-5/6 bg-four h-5/6 my-auto rounded-md overflow-scroll'>
+            <div className='w-5/6 bg-four h-5/6 my-auto rounded-md overflow-scroll lg:w-1/3'>
                 <div className='relative'>
                     <div className='absolute -top-1 text-four bg-two w-5 text-center rounded-md'>
                         <button onClick={() => props.setIsChangingSkins(false)}>X</button>
@@ -180,10 +180,10 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
                 {skinDivMaker('hat')}
                 {skinDivMaker('armor')}
                 {skinDivMaker('sword')}
-                <div className='bg-one p-1 w-fit mx-auto mt-3 text-four rounded-md active:bg-five text-xs'>
+                <div className='bg-one p-1 w-fit mx-auto mt-3 text-four rounded-md active:bg-five text-xs transition hover:bg-two'>
                     <button onClick={() => backToDefault()}>Go back to default</button>
                 </div>
-                <div className='bg-five p-1 w-fit mx-auto mt-3 text-four rounded-md active:bg-two'>
+                <div className='bg-five p-1 w-fit mx-auto mt-3 text-four rounded-md active:bg-two transition hover:bg-two'>
                     <button onClick={() => submitSkinChange()}>Submit</button>
                 </div>
             </div>
