@@ -126,21 +126,21 @@ const GachaRoll = () => {
     <div className='flex-col h-screen'>
       {!newItem ? (
         <div className='flex justify-center'>
-            <div className='mx-auto w-11 text-center mt-2 text-four bg-three rounded-lg'>
+            <div className='mx-auto w-11 text-center mt-2 text-four bg-three rounded-lg lg:text-3xl lg:w-fit lg:p-1 lg:mt-12 transition hover:bg-two'>
               <button onClick={() => handleRollRequest()}>Roll!</button>
             </div>
         </div>
       ) : (
         
         <div id='whole-item-div'>
-          <div id='item-card-back' className='w-[216] h-[236] mt-2' onClick={() => imageFlipFunction()}>
+          <div id='item-card-back' className='w-[216] h-[236] mt-2 cursor-pointer' onClick={() => imageFlipFunction()}>
               <div className='w-full h-full'>
                 <svg className='w-36 h-36 mx-auto'>
                   <image id='floating-image' className='w-36 h-36' href={itemTypeSvgChooser(newItem.name.name)}></image>
                 </svg>
               </div>
           </div>
-          <div id='newItem-container' className='hidden w-full absolute top-6'>
+          <div id='newItem-container' className='hidden w-full absolute top-6 lg:top-14'>
             <div id='newItem' className='flex flex-col mt-4 w-fit px-20 mx-auto'>
               <div className='w-14 flex flex-col mx-auto p-1 text-four bg-three rounded-lg'>
                 <div className='w-fit mx-auto'>
@@ -178,12 +178,12 @@ const GachaRoll = () => {
               </div>
             </div>
             <div id='roll-again-button' className='items-center'>
-              <div className='p-1 w-fit mx-auto bg-five text-four rounded-lg active:bg-two'>
+              <div className='p-1 w-fit mx-auto bg-five text-four rounded-lg active:bg-two transition hover:bg-two hover:scale-110'>
                 <button onClick={() => toItemEnhance(newItem.id)}>
                   Enhance Now!
                 </button>
               </div>
-              <div className='p-1 w-fit mx-auto bg-three text-four rounded-lg active:bg-two mt-2'>
+              <div className='p-1 w-fit mx-auto bg-three text-four rounded-lg active:bg-two mt-2 transition hover:bg-two hover:scale-110'>
                 <button onClick={() => handleRollRequest()}>
                   Roll Again!
                 </button>

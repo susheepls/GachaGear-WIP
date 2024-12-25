@@ -69,7 +69,7 @@ const Characters = () => {
         return accountCharacters[0].characters.map((character, index) =>
             <div key={index} className=''>
                 <div className='relative'>
-                    <div className='text-center bg-five w-fit mx-auto mt-2 text-four p-1 rounded-md lg:bg-white lg:text-one lg:border-b-2 lg:border-b-one lg:rounded-none cursor-pointer transition hover:border-2 hover:border-one hover:rounded-md duration-700' onClick={() => setIsCharacterSelected(character.id)}>
+                    <div className='text-center bg-five w-fit mx-auto mt-2 text-four p-1 rounded-md lg:bg-white lg:text-one lg:outline-none lg:rounded-none cursor-pointer transition hover:outline hover:outline-2 hover:outline-one hover:rounded-md duration-700' onClick={() => setIsCharacterSelected(character.id)}>
                         {character.characterName}
                     </div>
                     <div className='absolute right-1 top-2 text-one w-6 h-6 outline outline-1 outline-one rounded-lg lg:right-[40%] transition hover:bg-two hover:text-four'>

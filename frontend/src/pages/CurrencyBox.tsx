@@ -279,7 +279,7 @@ const CurrencyBox = () => {
                     >
                         Daily Free Currency!
                 </button>
-                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five' onClick={() => debounceCallCurrency()}>Gamble for Currency (50)</button>
+                <button id='pay-box-button' className='p-1 bg-three w-fit mx-auto mt-2 rounded-lg active:bg-five transition hover:bg-five hover:scale-110' onClick={() => debounceCallCurrency()}>Gamble for Currency (50)</button>
             </div>
             {isOpeningCase && <CaseOpeningAnimation setWinningAmount={setWinningAmount} setIsOpeningCase={setIsOpeningCase} />}
             <div className='text-center'>
@@ -300,7 +300,7 @@ const CurrencyBox = () => {
                         </div>
                     ) : (
                         <div onClick={() => viewAvailableSkins()}>
-                            <img className='' src={'/caseoutline.png'}></img>
+                            <img className='cursor-pointer' src={'/caseoutline.png'}></img>
                         </div>
                     )}
                 </div>
@@ -309,7 +309,7 @@ const CurrencyBox = () => {
             <div id='skin-viewer'>
                     {isViewingSkins && 
                     <div className='bg-five absolute top-0 left-0 w-screen h-screen z-50 flex justify-center bg-opacity-50'>
-                        <div className='bg-four w-3/4 h-3/4 my-4 flex flex-col rounded-md'>
+                        <div className='bg-four w-3/4 h-3/4 my-4 flex flex-col rounded-md lg:w-1/3'>
                             <div className='w-fit mx-auto border-b-2 border-b-one mt-3'>
                                 Available Patterns
                             </div>
@@ -330,7 +330,7 @@ const CurrencyBox = () => {
                                 </div>
                                 )}
                             </div>
-                            <div className='w-fit p-1 mx-auto my-1 bg-two text-four rounded-md active:bg-one'>
+                            <div className='w-fit p-1 mx-auto my-1 bg-two text-four rounded-md active:bg-one transition hover:bg-one'>
                                 <button onClick={() => viewAvailableSkins()}>Close</button>
                             </div>
                         </div>
@@ -338,7 +338,7 @@ const CurrencyBox = () => {
                     }
             </div>
 
-            <div className='w-fit h-fit p-1 bg-two text-four rounded-md mx-auto active:bg-one'>
+            <div className='w-fit h-fit p-1 bg-two text-four rounded-md mx-auto active:bg-one transition hover:bg-one hover:scale-110'>
                 <button id='skin-open-button' onClick={() => debounceCallSkins()}>Open for 200</button>
             </div>
             {isOpeningSkinCase && <SkinOpeningAnimation setSkinWon={setSkinWon} setIsOpeningSkinCase={setIsOpeningSkinCase} username={userInfo!.username}/>}
@@ -346,7 +346,7 @@ const CurrencyBox = () => {
                 {skinWon && 
                     <div>
                         <div className='bg-five absolute top-0 left-0 w-screen h-screen z-50 flex justify-center bg-opacity-50'>
-                            <div className='bg-four w-2/3 h-1/2 my-auto flex flex-col rounded-md'>
+                            <div className='bg-four w-2/3 h-1/2 my-auto flex flex-col rounded-md lg:w-1/3'>
                                 <div className='mt-5'>
                                     You won the <span className='font-bold'>{skinWon.name.substring(0, skinWon.name.length - 1)}</span> skin!
                                 </div>
@@ -362,7 +362,7 @@ const CurrencyBox = () => {
                                         </div>
                                     }
                                 </div>
-                                <div className='w-fit text-four bg-three rounded-md mx-auto mt-auto p-1 mb-3 active:bg-two'>
+                                <div className='w-fit text-four bg-three rounded-md mx-auto mt-auto p-1 mb-3 active:bg-two transition hover:bg-two'>
                                     <button onClick={() => setIsOpeningSkinCase(false)}>Close</button>
                                 </div>
                             </div>

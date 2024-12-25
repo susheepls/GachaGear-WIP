@@ -9,7 +9,7 @@ and supplement my fullstack capability, including aspects like DOCKER, useContex
 and GSAPS animations.
 
 ## 💬 Project Contents
-For now, it is only styled for **MOBILE ONLY**. <br>
+<s>For now, it is only styled for **MOBILE ONLY**. <br></s>
 As someone that loves gacha games, I aimed to emulate the fun (and misery) of rolling in notable games like Genshin Impact, Epic Seven, and
 Counter Strike. Users are able to sign up and start using the app. They can obtain gear, enhance the gear to get a random substat increase, equip
 them on a character, and display the character in the rankings page. Not only that, but they are able to search other character names in a search
