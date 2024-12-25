@@ -60,7 +60,7 @@ const NavBar = () => {
 
     return (
         <nav>
-            <div className="max-h-8 flex justify-between bg-three text-white">
+            <div className="max-h-8 flex justify-between bg-three text-white lg:hidden">
                 <a
                     className="p-1 text-four active:bg-two"
                     key={'home'}
@@ -72,7 +72,7 @@ const NavBar = () => {
                     <image height={30} width={20} xlinkHref="/burger-menu.svg"></image>
                 </svg>
             </div>
-            <div id='hamburger' className="h-{50vh} bg-three z-50 absolute top-7 right-0">
+            <div id='hamburger' className="h-{50vh} bg-three z-50 absolute top-7 right-0 lg:hidden">
                 <div className="w-screen flex flex-col">
                 {isHamburgerClicked && pages.map((page) => (
                         <a
@@ -84,6 +84,24 @@ const NavBar = () => {
                         </a>
                 ))}
                 </div>
+            </div>
+            <div className="hidden lg:flex justify-start bg-three text-four h-12 text-xl">
+                <a
+                    className="p-1 text-four active:bg-two my-auto hover:bg-two rounded-md"
+                    key={'home'}
+                    href={'/'}
+                >
+                    Home
+                </a>
+                {pages.map((page) => (
+                    <a
+                    className="p-1 text-four active:bg-two ml-4 rounded-md hover:bg-two my-auto"
+                    key={page.key}
+                    href={page.href}
+                    >   
+                        {page.name}
+                    </a>
+                ))}
             </div>
         </nav>
     )

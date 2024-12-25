@@ -175,7 +175,7 @@ const OneCharacter = () => {
                     </div>
                 </div>
                 <div>
-                    <div className='w-fit p-0.5 bg-two text-four rounded-md mx-auto mb-1' onClick={() => toEnhancePage(item.id)}>
+                    <div className='cursor-pointer transition hover:bg-one w-fit p-0.5 bg-two text-four rounded-md mx-auto mb-1' onClick={() => toEnhancePage(item.id)}>
                         Enhance
                     </div>
                 </div>
@@ -209,7 +209,7 @@ const OneCharacter = () => {
             </div>
             {["hat", "armor", "sword"].map((itemType, index) => (
                 <div key={itemType} className="flex flex-col">
-                    <div id={itemType} className="flex justify-between h-fit">
+                    <div id={itemType} className="flex justify-between h-fit lg:w-1/3 lg:mx-auto">
                         <div className='w-12 my-auto'>
                             <div className='w-fit mx-auto'>
                                 {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
@@ -234,7 +234,7 @@ const OneCharacter = () => {
                         )}
                     {activeForm === itemType && ( 
                         <div className='fixed top-0 left-0 flex justify-center z-50 bg-five bg-opacity-50 w-full max-h-full h-full'>
-                            <div className='bg-white p-6 mt-2 mb-2 mx-2 rounded shadow-lg w-full'>
+                            <div className='bg-white p-6 mt-2 mb-2 mx-2 rounded shadow-lg w-full lg:w-1/3'>
                                 <SwapEquipForm 
                                     username={userInfo && userInfo.username } 
                                     itemType={itemType} 
@@ -244,7 +244,7 @@ const OneCharacter = () => {
                                     setUpdatedItem={setUpdatedItem}
                                     updatedItem={updatedItem}
                                 />
-                                <div className='fixed bottom-2 left-3 w-7 rounded-md bg-five text-four p-0.5'>
+                                <div className='fixed bottom-2 left-3 w-7 rounded-md bg-five text-four p-0.5 lg:left-1/3 transition hover:bg-one'>
                                     <button onClick={() => toggleForm(itemType)}>Exit</button>
                                 </div>
                             </div>
@@ -253,7 +253,7 @@ const OneCharacter = () => {
                     </div>
                 </div>
             ))}
-            <div id='character-totals' className='flex flex-col outline outline-1 outline-three mx-1'>
+            <div id='character-totals' className='flex flex-col outline outline-1 outline-three mx-1 lg:w-1/3 lg:mx-auto'>
                 <div className='w-fit p-1 mx-auto bg-one text-white mt-3 rounded-md mb-3'>
                     Total Stats
                 </div>

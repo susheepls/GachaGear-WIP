@@ -55,7 +55,7 @@ const Rankings = () => {
         if(!characterArray) return <div className='text-four w-fit p-1 bg-slate-400 rounded-lg mx-auto animate-pulse'>Loading...</div>;
         
         return (
-            <div id={category + '-top-three'} className='flex m-1 flex-col outline outline-3 outline-three pt-1'>
+            <div id={category + '-top-three'} className='flex m-1 flex-col outline outline-3 outline-three pt-1 lg:w-1/3 lg:mx-auto'>
                 <div className='mx-auto'>
                     Top Ranking for {category}
                 </div>
@@ -65,12 +65,12 @@ const Rankings = () => {
                     </svg>
                 </div>
                 <div id='top3-totalsubstats' className='flex flex-col'>
-                    <div className='mx-auto' onClick={() => goToCharacterPage(characterArray[0].id)}>
+                    <div className='mx-auto hover:font-bold cursor-pointer' onClick={() => goToCharacterPage(characterArray[0].id)}>
                         {characterArray[0].characterName}
                     </div>
                     <div className='flex justify-evenly text-center'>
-                        <div className='w-24' onClick={() => goToCharacterPage(characterArray[1].id)}>{characterArray[1].characterName}</div>
-                        <div className='w-24' onClick={() => goToCharacterPage(characterArray[2].id)}>{characterArray[2].characterName}</div>
+                        <div className='w-24 hover:font-bold cursor-pointer' onClick={() => goToCharacterPage(characterArray[1].id)}>{characterArray[1].characterName}</div>
+                        <div className='w-24 hover:font-bold cursor-pointer' onClick={() => goToCharacterPage(characterArray[2].id)}>{characterArray[2].characterName}</div>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@ const Rankings = () => {
         if(accountCurrencyRankings.length < 3) return;
 
         return (
-            <div id={'account-currency-top-three'} className='flex m-1 flex-col outline outline-3 outline-three pt-1 pb-1'>
+            <div id={'account-currency-top-three'} className='flex m-1 flex-col outline outline-3 outline-three pt-1 pb-1 lg:w-1/3 lg:mx-auto'>
                 <div className='mx-auto flex-col justify-center'>
                     <div className='w-fit'>
                         <span className='italic'>Richest</span> Users
@@ -174,10 +174,10 @@ const Rankings = () => {
             
             return fourThroughTenCharacters.map((character, index) => 
                 <div key={index} className='flex justify-center'>
-                    <div className='absolute left-[30%] w-5'>
+                    <div className='absolute left-[30%] w-5 lg:left-[40%]'>
                         {index+4}.
                     </div>
-                    <div onClick={() => goToCharacterPage(character.id)}>
+                    <div className='hover:font-bold cursor-pointer' onClick={() => goToCharacterPage(character.id)}>
                         {character.characterName}
                     </div>
                 </div>
@@ -185,7 +185,7 @@ const Rankings = () => {
         }
 
         return (
-            <div id={category + '-top-ten'} className='flex flex-col m-1 mb-4 outline outline-1 outline-three'>
+            <div id={category + '-top-ten'} className='flex flex-col m-1 mb-4 outline outline-1 outline-three lg:w-1/3 lg:mx-auto'>
                 <div className='mx-auto border-b-2 border-b-one'>
                     Top 10
                 </div>

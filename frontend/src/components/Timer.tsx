@@ -62,7 +62,7 @@ const Timer: React.FC<Props> = (props) => {
     }
 
     return (
-        <div id='timer' className='flex justify-center bg-three rounded-md mt-1'>
+        <div id='timer' className='flex justify-center bg-three rounded-md mt-1 lg:w-1/3 lg:mx-auto'>
             <div id='days' className='p-1 bg-four m-1 rounded-lg'>
                 {days} Days
             </div>

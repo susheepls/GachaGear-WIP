@@ -191,20 +191,20 @@ const SwapEquipForm: React.FC<Props> = (props) => {
                     </div>
                     <div className='my-2 overflow-y-hidden'>
                         {item.character && item.characterId !== props.characterId ? 
-                            <div>
+                            <div className='lg:overflow-hidden'>
                                 <div className='w-5 h-5 mx-auto bg-five rounded-full'>
                                     <svg className='w-4 h-4 mx-auto my-auto pt-0.5'>
                                         <image href='/charactericon.svg'></image>
                                     </svg>
                                 </div>
-                                <div className='w-fit mx-auto overflow-scroll'>{item.character.characterName}</div>
+                                <div className='w-fit mx-auto overflow-scroll lg:overflow-hidden lg:text-xs'>{item.character.characterName}</div>
                             </div>
                             :
                             <div>
                             </div>
                         }
                     </div>
-                    <div className='mt-auto bg-three text-four rounded-lg text-center active:bg-two'>
+                    <div className='mt-auto bg-three text-four rounded-lg text-center active:bg-two transition hover:bg-two'>
                         { _.isEqual(item, props.itemData) ? 
                             <button onClick={() => removeItemFromCharacterSubmit(item.id)}>
                                 Remove
@@ -223,9 +223,9 @@ const SwapEquipForm: React.FC<Props> = (props) => {
     return (
         <div className='flex justify-evenly flex-wrap overflow-scroll max-h-full'>
             {makeDivForAccountItems()}
-            <div className='fixed bottom-3 right-[30px] h-11 w-11 ml-auto bg-transparent'>
+            <div className='fixed bottom-3 right-[30px] h-11 w-11 ml-auto bg-transparent lg:right-1/4'>
                     <div className='z-50 max-h-11 ml-auto'>
-                        <div id='filter-list' className='bg-three fixed bottom-[50px] right-0.5 text-four rounded-t-lg opacity-0 pointer-events-none'>
+                        <div id='filter-list' className='bg-three fixed bottom-[50px] right-0.5 text-four rounded-t-lg opacity-0 pointer-events-none lg:right-[23.5%]'>
                             <div className='p-2'>
                                 <button onClick={() => handleSortButtonClick(sortingType === 'idAsc' || sortingType === 'default' ? 'idDes' : 'idAsc')}>
                                     {sortingType === 'idAsc' || sortingType === 'default' ? 'New' : 'Old'}

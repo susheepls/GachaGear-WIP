@@ -199,7 +199,7 @@ const PublicCharacterProfile = () => {
                     </div>
                 </div>
             )}
-                <div className='flex flex-col m-3 mx-1 outline outline-1 outline-three rounded-md'>
+                <div className='flex flex-col m-3 mx-1 outline outline-1 outline-three rounded-md lg:w-1/4 lg:mx-auto'>
                     <div className='flex bg-three text-four w-28 justify-center mx-auto rounded-md mt-2'>
                         <div className='rounded-md w-16'>
                             Rankings
@@ -231,7 +231,7 @@ const PublicCharacterProfile = () => {
                         </div>
                     )}
                 </div>
-                <div className='bg-three w-8 h-8 rounded-full mx-auto'>
+                <div className='bg-three w-8 h-8 rounded-full mx-auto cursor-pointer transition hover:scale-110'>
                     <svg className='w-8 h-8' onClick={() => history.back()}>
                         <image href='/back-button.svg'></image>
                     </svg>

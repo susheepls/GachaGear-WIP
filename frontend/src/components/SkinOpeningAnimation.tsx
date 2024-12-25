@@ -155,7 +155,7 @@ const SkinOpeningAnimation: React.FC<Props> = (props) => {
     )
 
     return (
-        <div id='animation' className="relative w-[300px] h-[100px] mt-3">
+        <div id='animation' className="relative w-[300px] h-[100px] mt-3 lg:mx-auto">
             <div id='prize-line' className="absolute left-1/2 top-0 transform -translate-x-1/2 w-2 h-full bg-red-500 z-10"></div>
             <div id='roulette' ref={itemsContainerRef} className="flex gap-7 will-change-transform">
                 {itemspluh}
