@@ -7,7 +7,7 @@ const PublicCharacterProfile = () => {
     const { characterid } = useParams();
 
     const [characterDetails, setCharacterDetails] = useState<SearchedCharacterDetails | null>(null);
-    const [characterSkins, setCharacterSkins] = useState<(Skins | null)[]>([ null, null, null]);
+    const [characterSkins, setCharacterSkins] = useState<(Skins | null)[]>([ null, null, null, null]);
     const [totalSubstatsRankings, setTotalSubstatsRankings] = useState<number | null>(null);
     const [atkRankings, setAtkRankings] = useState<number | null>(null);
     const [hpRankings, setHpRankings] = useState<number | null>(null);
@@ -29,8 +29,8 @@ const PublicCharacterProfile = () => {
         if(!characterDetails) return;
         
         //sort the skins and put them in order of [hat, armor, sword];
-        const itemTypeOrder = ['hat', 'armor', 'sword'];
-        const skinPlaceholder: (Skins|null)[] = [null, null, null];
+        const itemTypeOrder = ['hat', 'armor', 'sword', 'secondary'];
+        const skinPlaceholder: (Skins|null)[] = [null, null, null, null];
 
         characterDetails.skins.sort((a,b) => itemTypeOrder.indexOf(a.itemName.name) - itemTypeOrder.indexOf(b.itemName.name));
         for(let skin of characterDetails.skins){
@@ -108,7 +108,7 @@ const PublicCharacterProfile = () => {
         const skin = characterSkins[skinArrayIndex];
 
         if(!skin) return defaultSkins[skinArrayIndex];
-        if(skin && skin.rarity.name !== 'epic') {
+        if(skin && skin.rarity.id < 3) {
             return `/skins/${skin.name}${skin.itemName.name}.png`;
         } else {
             return `/skins/${skin.name}${skin.itemName.name}.gif`;
@@ -187,6 +187,9 @@ const PublicCharacterProfile = () => {
                             <img className='h-fit absolute top-3 left-1/2 transform -translate-x-1/3' src={handleSkinsSource(0)}></img>
                             <img className='h-fit absolute top-1/2 left-1/2 transform -translate-x-[47%] translate-y-[12%]' src={handleSkinsSource(1)}></img>
                             <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src={handleSkinsSource(2)}></img>
+                            {characterSkins[3] && 
+                            <img className='h-fit w-fit absolute top-[55%] right-[28%] transform -translate-x-1/3 lg:translate-x-16 lg:right-1/2' src={handleSkinsSource(3)}></img>
+                            }
                         </div>
                     </div>
                     <div id='equipments' className='flex flex-col m-1'>

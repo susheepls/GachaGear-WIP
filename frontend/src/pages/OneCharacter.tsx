@@ -56,7 +56,7 @@ const OneCharacter = () => {
         setCharacterData(character);
 
         //sort the order of equipment for character
-        const itemTypeOrder = ['hat', 'armor', 'sword'];
+        const itemTypeOrder = ['hat', 'armor', 'sword', 'secondary'];
         const orderedItems: (Item|null)[] = [null, null, null];
 
         const characterItems = character.equipment;
@@ -134,7 +134,7 @@ const OneCharacter = () => {
         const skin = characterSkins[skinArrayIndex];
 
         if(!skin) return defaultSkins[skinArrayIndex];
-        if(skin && skin.rarity.name !== 'epic') {
+        if(skin && skin.rarity.id < 3) {
             return `/skins/${skin.name}${skin.itemName.name}.png`;
         } else {
             return `/skins/${skin.name}${skin.itemName.name}.gif`;
@@ -205,8 +205,8 @@ const OneCharacter = () => {
                     <img className='h-fit absolute top-3 left-1/2 transform -translate-x-1/3' src={handleSkinsSource(0)}></img>
                     <img className='h-fit absolute top-1/2 left-1/2 transform -translate-x-[47%] translate-y-[12%]' src={handleSkinsSource(1)}></img>
                     <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src={handleSkinsSource(2)}></img>
-                    {characterSkins.length === 4 && 
-                    <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src={handleSkinsSource(3)}></img>
+                    {characterSkins[3] && 
+                    <img className='h-fit w-fit absolute top-[55%] right-[28%] transform -translate-x-1/3 lg:translate-x-16 lg:right-1/2' src={handleSkinsSource(3)}></img>
                     }
                 </div>
             </div>

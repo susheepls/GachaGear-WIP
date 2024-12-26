@@ -242,6 +242,17 @@ async function main() {
             rarityId: 1,
         }
     })
+    const cube3dSkin0 = await prisma.itemSkin.upsert({
+        where: {
+            id: 13
+        },
+        update: {},
+        create: {
+            id: 13,
+            name: 'cube3d0',
+            rarityId: 4
+        }
+    })
 
 
 }

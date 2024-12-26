@@ -77,7 +77,7 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
 
     //get skin img source 
     const handleSkinsSource = (skin: FetchedSkinData) => {
-        if(skin && skin.rarity.name !== 'epic') {
+        if(skin && skin.rarity.id < 3) {
             return `/skins/${skin.name}${skin.itemName.name}.png`;
         } else {
             return `/skins/${skin.name}${skin.itemName.name}.gif`;
