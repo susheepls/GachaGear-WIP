@@ -331,7 +331,7 @@ const CurrencyBox = () => {
                                 )}
                             </div>
                             <div className='w-fit mx-auto'>
-                                or a rare <span className='italic font-bold'>special</span> secondary!
+                                or a rare <span className='italic font-bold animate-pulse text-yellow-500'>special</span> secondary!
                             </div>
                             <div className='w-fit p-1 mx-auto my-1 bg-two text-four rounded-md active:bg-one transition hover:bg-one'>
                                 <button onClick={() => viewAvailableSkins()}>Close</button>
