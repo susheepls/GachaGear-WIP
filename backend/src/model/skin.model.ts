@@ -40,11 +40,19 @@ const skinModel = {
 
         const chosenSkin = allSkinsOfRarity[chooseRandomSkinOfThatRarityIndex];
 
+        const legendaryRollSecondary = (rarityId: number) => {
+            if(rarityId === 4){
+                return 4;
+            } else {
+                return Math.floor(Math.random() * 3) + 1;
+            }
+        };
+
         const createSkinAndAddToAccount = await prisma.itemSkin.create({
             data: {
                 name: chosenSkin.name,
                 rarityId: chosenRarityId,
-                itemNameId: Math.floor(Math.random() * 3) + 1,
+                itemNameId: legendaryRollSecondary(chosenRarityId),
                 ownerId: accountId,
             },
             select: {

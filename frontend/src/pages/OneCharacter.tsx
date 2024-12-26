@@ -14,7 +14,7 @@ const OneCharacter = () => {
     const [characterItems, setCharacterItems] = useState<(Item | null)[]>([null, null, null]);
     const [activeForm, setActiveForm] = useState<string | null>(null);
     const [updatedItem, setUpdatedItem] = useState<boolean>(false);
-    const [characterSkins, setCharacterSkins] = useState<(Skins | null)[]>([null, null, null]);
+    const [characterSkins, setCharacterSkins] = useState<(Skins | null)[]>([null, null, null, null]);
     const [isChangingSkins, setIsChangingSkins] = useState<boolean>(false);
     const [accountSkins, setAccountSkins] = useState<FetchedSkinData[] | null>(null);
 
@@ -76,7 +76,7 @@ const OneCharacter = () => {
         });
 
         //sort the skins and put them in order of [hat, armor, sword];
-        const orderedSkins: (Skins | null)[] = [null, null, null];
+        const orderedSkins: (Skins | null)[] = [null, null, null, null];
         const characterSkins = character.skins;
         characterSkins.forEach((skin) => {
             const index = itemTypeOrder.indexOf(skin.itemName.name);
@@ -205,6 +205,9 @@ const OneCharacter = () => {
                     <img className='h-fit absolute top-3 left-1/2 transform -translate-x-1/3' src={handleSkinsSource(0)}></img>
                     <img className='h-fit absolute top-1/2 left-1/2 transform -translate-x-[47%] translate-y-[12%]' src={handleSkinsSource(1)}></img>
                     <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src={handleSkinsSource(2)}></img>
+                    {characterSkins.length === 4 && 
+                    <img className='h-fit w-fit absolute top-1/2 left-[31%] transform -translate-x-1/3 lg:left-1/2 lg:-translate-x-24' src={handleSkinsSource(3)}></img>
+                    }
                 </div>
             </div>
             {["hat", "armor", "sword"].map((itemType, index) => (

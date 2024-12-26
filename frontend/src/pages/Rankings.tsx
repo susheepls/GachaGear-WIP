@@ -149,7 +149,7 @@ const Rankings = () => {
         }
 
         return (
-            <div id={'account-currency-top-ten'} className='flex flex-col m-1 mb-4 outline outline-1 outline-three'>
+            <div id={'account-currency-top-ten'} className='flex flex-col m-1 mb-4 outline outline-1 outline-three lg:w-1/3 lg:mx-auto'>
                 <div className='mx-auto border-b-2 border-b-one'>
                     Top 10
                 </div>

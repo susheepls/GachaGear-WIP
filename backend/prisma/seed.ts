@@ -58,6 +58,16 @@ async function main() {
             name: 'armor'
         }
     });
+    const secondaryName = await prisma.itemName.upsert({
+        where: {
+            id: 4,
+        },
+        update: {},
+        create: {
+            id: 4,
+            name: 'secondary'
+        }
+    })
     //skin rarity
     const commonRarity = await prisma.skinRarity.upsert({
         where: {
