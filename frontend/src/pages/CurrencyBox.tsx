@@ -222,7 +222,7 @@ const CurrencyBox = () => {
             'rare': 'bg-blue-200',
             'epic': 'bg-purple-600',
         };
-        return rarityColors[rarity] || 'bg-yellow-400'
+        return rarityColors[rarity] || 'bg-yellow-400 animate-bounce animate-pulse text-one'
     }
 
     function skinImageSelector(skinName: string, equipmentType: string, rarity: string) {
@@ -313,7 +313,7 @@ const CurrencyBox = () => {
                             <div className='w-fit mx-auto border-b-2 border-b-one mt-3'>
                                 Available Patterns
                             </div>
-                            <div className='flex flex-col overflow-scroll'>
+                            <div className='flex flex-col overflow-y-scroll'>
                                 {case1PatternList.map((pattern) => 
                                 <div className='flex m-4 justify-evenly'>
                                     <div className='w-20 h-fit my-auto m-4'>
@@ -329,6 +329,9 @@ const CurrencyBox = () => {
                                     </div>
                                 </div>
                                 )}
+                            </div>
+                            <div className='w-fit mx-auto'>
+                                or a rare <span className='italic font-bold animate-pulse text-yellow-500'>special</span> secondary!
                             </div>
                             <div className='w-fit p-1 mx-auto my-1 bg-two text-four rounded-md active:bg-one transition hover:bg-one'>
                                 <button onClick={() => viewAvailableSkins()}>Close</button>

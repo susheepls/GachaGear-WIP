@@ -39,8 +39,10 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
             copyStateArr[0] = skin.id;
         } else if(skin.itemName.name === 'armor') {
             copyStateArr[1] = skin.id;
-        } else {
+        } else if(skin.itemName.name === 'sword'){
             copyStateArr[2] = skin.id;
+        } else {
+            copyStateArr[3] = skin.id;
         }
 
         setPropEquippedSkinIds(copyStateArr);
@@ -75,7 +77,7 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
 
     //get skin img source 
     const handleSkinsSource = (skin: FetchedSkinData) => {
-        if(skin && skin.rarity.name !== 'epic') {
+        if(skin && skin.rarity.id < 3) {
             return `/skins/${skin.name}${skin.itemName.name}.png`;
         } else {
             return `/skins/${skin.name}${skin.itemName.name}.gif`;
@@ -180,6 +182,7 @@ const CharacterSkinSwap: React.FC<Props> = (props) => {
                 {skinDivMaker('hat')}
                 {skinDivMaker('armor')}
                 {skinDivMaker('sword')}
+                {skinDivMaker('secondary')}
                 <div className='bg-one p-1 w-fit mx-auto mt-3 text-four rounded-md active:bg-five text-xs transition hover:bg-two'>
                     <button onClick={() => backToDefault()}>Go back to default</button>
                 </div>

@@ -130,7 +130,7 @@ const SkinOpeningAnimation: React.FC<Props> = (props) => {
             'rare': 'bg-blue-200',
             'epic': 'bg-purple-600',
         };
-        return rarityColors[rarity] || 'bg-yellow-400'
+        return rarityColors[rarity] || 'bg-yellow-400 animate-pulse'
     }
 
     const randomSVGChooser = (index: number) => {
