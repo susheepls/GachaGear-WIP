@@ -90,6 +90,25 @@ const EnhanceForm: React.FC<Props> = (props) => {
         };
     }
 
+    const increaseFormValue = (event: FormEvent) => {
+        event.preventDefault();
+        const breakPoints = [10, 30, 60, 100];
+
+        if(typeof props.remainingExp === 'string' || !props.remainingExp) return;
+
+        const remainingExpToMax = 100 - props.remainingExp;
+        let expForNextLvl = 0;
+        console.log(props.remainingExp)
+        for(let point of breakPoints) {
+            if (props.remainingExp === point){
+                expForNextLvl = point;
+                setExpAmount({ expIncrease: expForNextLvl });
+                break;
+            }
+        };
+        
+    }
+
     return (
         <div className='outline outline-2 outline-five rounded-full p-1 mt-3 lg:w-1/3 lg:mx-auto'>
             <form>
@@ -97,7 +116,8 @@ const EnhanceForm: React.FC<Props> = (props) => {
                     <label className='text-center'>
                         Enhance EXP Amount: {expAmount.expIncrease}
                     </label>
-                    <input id='exp-input' type='range' name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
+                    <input id='exp-input' type='number' disabled readOnly name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
+                    <button onClick={increaseFormValue}>increase</button>
                 </div>
                 <div id='submit-button' className='flex flex-col justify-center outline outline-1 outline-four bg-five text-four w-24 mx-auto rounded-md active:bg-one transition hover:bg-one'>
                     <button type='submit' onClick={handleSubmit}>Enhance!</button>
