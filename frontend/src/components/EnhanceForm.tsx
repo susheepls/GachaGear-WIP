@@ -18,13 +18,20 @@ interface Props{
 }
 
 const EnhanceForm: React.FC<Props> = (props) => {
-    const [expAmount, setExpAmount] = useState<EnhanceItemExp>({ expIncrease: 0 })
-    const [decreaseCurrencyAmount, setDecreaseCurrencyAmount] = useState<CurrencyDecreaseRequest>({ decreaseAmount: 0 })
+    const [expAmount, setExpAmount] = useState<EnhanceItemExp>({ expIncrease: 0 });
+    const [decreaseCurrencyAmount, setDecreaseCurrencyAmount] = useState<CurrencyDecreaseRequest>({ decreaseAmount: 0 });
+    const [expStatePlaceholder, setExpStatePlaceholder] = useState<number>(0);
 
     //use effect to change max scroll input amount
     useEffect(() => {
         maxExpForNextLevel();
     }, [props.currentItem])
+
+    //useEffect to set the placeholder for enhance button
+    useEffect(() => {
+        if(!props.remainingExp || typeof props.remainingExp === 'string') return;
+        setExpStatePlaceholder(props.remainingExp);
+    }, [props.remainingExp])
 
     const handleSubmit = async(event: FormEvent) => {
         event.preventDefault();
@@ -90,23 +97,21 @@ const EnhanceForm: React.FC<Props> = (props) => {
         };
     }
 
+    //revamped exp increase form to make it simpler (increase and decrease buttons only per level)
     const increaseFormValue = (event: FormEvent) => {
         event.preventDefault();
-        const breakPoints = [10, 30, 60, 100];
-
+        const breakPoints = [10, 20, 30, 40];
+    
         if(typeof props.remainingExp === 'string' || !props.remainingExp) return;
 
-        const remainingExpToMax = 100 - props.remainingExp;
-        let expForNextLvl = 0;
-        console.log(props.remainingExp)
-        for(let point of breakPoints) {
-            if (props.remainingExp === point){
-                expForNextLvl = point;
-                setExpAmount({ expIncrease: expForNextLvl });
-                break;
+        let index = breakPoints.indexOf(expStatePlaceholder);
+
+        for(let point of breakPoints){
+            if(expStatePlaceholder === point){
+                setExpStatePlaceholder(breakPoints[index+1]);
+                setExpAmount({ expIncrease: expAmount.expIncrease + point });
             }
-        };
-        
+        }
     }
 
     return (
