@@ -55,6 +55,8 @@ const Home = () => {
         <div>
             {!token ? (
                 <div className='flex flex-col'>
+                    <div id='logo'>
+                    </div>
                     <div>
                         <div className='text-center w-40 mx-auto bg-three text-four rounded-md my-2 active:bg-two lg:hidden'>
                             <button onClick={() => toLoginPage()}>Click Here to Login!</button>

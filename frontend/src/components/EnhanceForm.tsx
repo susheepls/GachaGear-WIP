@@ -18,13 +18,20 @@ interface Props{
 }
 
 const EnhanceForm: React.FC<Props> = (props) => {
-    const [expAmount, setExpAmount] = useState<EnhanceItemExp>({ expIncrease: 0 })
-    const [decreaseCurrencyAmount, setDecreaseCurrencyAmount] = useState<CurrencyDecreaseRequest>({ decreaseAmount: 0 })
+    const [expAmount, setExpAmount] = useState<EnhanceItemExp>({ expIncrease: 0 });
+    const [decreaseCurrencyAmount, setDecreaseCurrencyAmount] = useState<CurrencyDecreaseRequest>({ decreaseAmount: 0 });
+    const [expStatePlaceholder, setExpStatePlaceholder] = useState<number>(0);
 
     //use effect to change max scroll input amount
     useEffect(() => {
         maxExpForNextLevel();
     }, [props.currentItem])
+
+    //useEffect to set the placeholder for enhance button
+    useEffect(() => {
+        if(!props.remainingExp || typeof props.remainingExp === 'string') return;
+        setExpStatePlaceholder(props.remainingExp);
+    }, [props.remainingExp])
 
     const handleSubmit = async(event: FormEvent) => {
         event.preventDefault();
@@ -90,6 +97,23 @@ const EnhanceForm: React.FC<Props> = (props) => {
         };
     }
 
+    //revamped exp increase form to make it simpler (increase and decrease buttons only per level)
+    const increaseFormValue = (event: FormEvent) => {
+        event.preventDefault();
+        const breakPoints = [10, 20, 30, 40];
+    
+        if(typeof props.remainingExp === 'string' || !props.remainingExp) return;
+
+        let index = breakPoints.indexOf(expStatePlaceholder);
+
+        for(let point of breakPoints){
+            if(expStatePlaceholder === point){
+                setExpStatePlaceholder(breakPoints[index+1]);
+                setExpAmount({ expIncrease: expAmount.expIncrease + point });
+            }
+        }
+    }
+
     return (
         <div className='outline outline-2 outline-five rounded-full p-1 mt-3 lg:w-1/3 lg:mx-auto'>
             <form>
@@ -97,7 +121,8 @@ const EnhanceForm: React.FC<Props> = (props) => {
                     <label className='text-center'>
                         Enhance EXP Amount: {expAmount.expIncrease}
                     </label>
-                    <input id='exp-input' type='range' name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
+                    <input id='exp-input' type='number' disabled readOnly name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
+                    <button onClick={increaseFormValue}>increase</button>
                 </div>
                 <div id='submit-button' className='flex flex-col justify-center outline outline-1 outline-four bg-five text-four w-24 mx-auto rounded-md active:bg-one transition hover:bg-one'>
                     <button type='submit' onClick={handleSubmit}>Enhance!</button>
