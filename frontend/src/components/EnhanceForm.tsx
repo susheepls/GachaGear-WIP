@@ -100,6 +100,7 @@ const EnhanceForm: React.FC<Props> = (props) => {
     //revamped exp increase form to make it simpler (increase and decrease buttons only per level)
     const increaseFormValue = (event: FormEvent) => {
         event.preventDefault();
+        //required exp for next level
         const breakPoints = [10, 20, 30, 40];
     
         if(typeof props.remainingExp === 'string' || !props.remainingExp) return;
@@ -110,6 +111,27 @@ const EnhanceForm: React.FC<Props> = (props) => {
             if(expStatePlaceholder === point){
                 setExpStatePlaceholder(breakPoints[index+1]);
                 setExpAmount({ expIncrease: expAmount.expIncrease + point });
+                return;
+            }       
+        }
+    }
+
+    const decreaseFormValue = (event: FormEvent) => {
+        event.preventDefault();
+        const breakPoints = [10, 20, 30, 40];
+    
+        if(typeof props.remainingExp === 'string' || !props.remainingExp) return;
+
+        let index = breakPoints.indexOf(expStatePlaceholder);
+
+        for(let point of breakPoints){
+            if(expStatePlaceholder === point && expStatePlaceholder !== 10){
+                setExpStatePlaceholder(breakPoints[index-1]);
+                setExpAmount({ expIncrease: expAmount.expIncrease - breakPoints[index-1] });
+                return
+            } else if(!expStatePlaceholder) {
+                setExpStatePlaceholder(breakPoints[3]);
+                setExpAmount({ expIncrease: expAmount.expIncrease - breakPoints[3] });   
             }
         }
     }
@@ -122,7 +144,14 @@ const EnhanceForm: React.FC<Props> = (props) => {
                         Enhance EXP Amount: {expAmount.expIncrease}
                     </label>
                     <input id='exp-input' type='number' disabled readOnly name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
-                    <button onClick={increaseFormValue}>increase</button>
+                    <div>
+                        <div>
+                            <button onClick={increaseFormValue}>Increase</button>
+                        </div>
+                        <div>
+                            <button onClick={decreaseFormValue}>Decrease</button>
+                        </div>
+                    </div>
                 </div>
                 <div id='submit-button' className='flex flex-col justify-center outline outline-1 outline-four bg-five text-four w-24 mx-auto rounded-md active:bg-one transition hover:bg-one'>
                     <button type='submit' onClick={handleSubmit}>Enhance!</button>
