@@ -144,11 +144,11 @@ const EnhanceForm: React.FC<Props> = (props) => {
                         Enhance EXP Amount: {expAmount.expIncrease}
                     </label>
                     <input id='exp-input' type='number' disabled readOnly name='expIncrease' min={0} max={maxExpForNextLevel()} step={1} onChange={handleChange}></input>
-                    <div>
-                        <div>
+                    <div className='flex justify-evenly'>
+                        <div className='w-auto p-1 rounded-md'>
                             <button onClick={increaseFormValue}>Increase</button>
                         </div>
-                        <div>
+                        <div className='w-auto p-1 rounded-md'>
                             <button onClick={decreaseFormValue}>Decrease</button>
                         </div>
                     </div>
