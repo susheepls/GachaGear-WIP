@@ -215,12 +215,12 @@ const UpgradeItem = () => {
                         </div>
                     </div>
                     <div className='exp-bar text-center mt-2'>
-                        <div>
+                        {/* <div>
                             Current EXP = {currentItem.result.exp}
                         </div>
                         <div className='exp-til-next'>
                             EXP for next substat upgrade = {remainingExp}
-                        </div>
+                        </div> */}
                     </div>
                     <EnhanceForm
                         remainingExp = {remainingExp}
