@@ -23,7 +23,7 @@ const Characters = () => {
 
     useEffect(() => {
         fetchAccountCharacters();
-    }, [userInfo, accountCharacters]);
+    }, [userInfo, isCreatingCharacter, isDeletingChara]);
 
     const fetchAccountCharacters = async() => {
         const substatOrder = ['atk', 'hp', 'def'];
