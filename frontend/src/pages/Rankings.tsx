@@ -138,7 +138,7 @@ const Rankings = () => {
             
             return fourThroughTenCharacters.map((account, index) => 
                 <div key={index} className='flex justify-center'>
-                    <div className='absolute left-[30%] w-5 lg:left-[40%]'>
+                    <div className='absolute left-[10%] w-5 lg:left-[40%]'>
                         {index+4}.
                     </div>
                     <div>

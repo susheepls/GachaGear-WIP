@@ -55,13 +55,14 @@ const Home = () => {
         <div>
             {!token ? (
                 <div className='flex flex-col'>
-                    <div id='logo'>
+                    <div id='logo' className='w-fit h-fit mx-auto'>
+                        <img src='/logo.png'></img>
                     </div>
                     <div>
                         <div className='text-center w-40 mx-auto bg-three text-four rounded-md my-2 active:bg-two lg:hidden'>
                             <button onClick={() => toLoginPage()}>Click Here to Login!</button>
                         </div>
-                        <div className='text-center text-lg font-bold w-40 bg-three text-four rounded-md mt-28 hover:bg-one active:bg-two hidden lg:block mx-auto'>
+                        <div className='text-center text-lg font-bold w-40 bg-three text-four rounded-md mt-3 hover:bg-one active:bg-two hidden lg:block mx-auto cursor-pointer'>
                             <button onClick={() => toLoginPage()}>Login</button>
                         </div>
                     </div>
