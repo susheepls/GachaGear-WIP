@@ -253,6 +253,28 @@ async function main() {
             rarityId: 4
         }
     })
+    const fallingdustSkin0 = await prisma.itemSkin.upsert({
+        where: {
+            id: 14
+        },
+        update: {},
+        create: {
+            id: 14,
+            name: 'fallingdust0',
+            rarityId: 4
+        }
+    })
+    const jpegkakashiSkin0 = await prisma.itemSkin.upsert({
+        where: {
+            id: 15
+        },
+        update: {},
+        create: {
+            id: 15,
+            name: 'jpegkakashi0',
+            rarityId: 4
+        }
+    })
 
 
 }
